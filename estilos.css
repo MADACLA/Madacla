@@ -262,16 +262,12 @@ a { color: var(--cacao); }
 }
 .pieza:hover img { transform: scale(1.02); }
 
+/* Debajo de cada foto va SOLO el nombre.
+   Ni precio ni categoría: los precios se preguntan por WhatsApp, y la
+   categoría ya la dicen los filtros de arriba. */
 .pieza h3 {
   font-size: 1.25rem; font-weight: 400;
-  margin: 1rem 0 .15rem;
-}
-
-/* En el catálogo NO van precios: se preguntan por WhatsApp. */
-.pieza__cat {
-  margin: 0;
-  font-size: .66rem; text-transform: uppercase; letter-spacing: .16em;
-  color: var(--taupe);
+  margin: 1rem 0 0;
 }
 
 /* ============ AVISO DE PEDIDO ============ */
