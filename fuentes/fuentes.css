@@ -1,0 +1,51 @@
+/* ==========================================================================
+   MADACLA — las letras, alojadas en la propia web
+   Antes se cargaban desde Google; ahora viven en esta carpeta (fuentes/).
+   Solo el alfabeto latino y solo los pesos que se usan: 6 ficheros, ~174 KB.
+   ========================================================================== */
+
+/* Cormorant Garamond — el nombre, los titulares */
+@font-face {
+  font-family: "Cormorant Garamond";
+  font-style: normal;
+  font-weight: 400;
+  font-display: swap;
+  src: url("cormorant-garamond-400.woff2") format("woff2");
+}
+@font-face {
+  font-family: "Cormorant Garamond";
+  font-style: normal;
+  font-weight: 500;
+  font-display: swap;
+  src: url("cormorant-garamond-500.woff2") format("woff2");
+}
+@font-face {
+  font-family: "Cormorant Garamond";
+  font-style: italic;
+  font-weight: 400;
+  font-display: swap;
+  src: url("cormorant-garamond-400-italic.woff2") format("woff2");
+}
+
+/* Jost — todo lo demás: textos, menú, etiquetas, botones */
+@font-face {
+  font-family: "Jost";
+  font-style: normal;
+  font-weight: 300;
+  font-display: swap;
+  src: url("jost-300.woff2") format("woff2");
+}
+@font-face {
+  font-family: "Jost";
+  font-style: normal;
+  font-weight: 400;
+  font-display: swap;
+  src: url("jost-400.woff2") format("woff2");
+}
+@font-face {
+  font-family: "Jost";
+  font-style: normal;
+  font-weight: 500;
+  font-display: swap;
+  src: url("jost-500.woff2") format("woff2");
+}
