@@ -4,6 +4,8 @@
    Los colores de la marca están todos aquí abajo, en el bloque :root.
    Si cambias un color ahí, cambia en TODA la web de golpe.
    Los mismos códigos están explicados en identidad.html (ábrelo con doble clic).
+
+   Las letras viven en fuentes/ (ya no se piden a Google).
    ========================================================================== */
 
 :root {
@@ -13,23 +15,41 @@
   --lino:    #E3D6C4;   /* líneas y bordes finos */
 
   /* --- EL TOQUE DULCE --- */
-  --nude:    #E8D3CB;   /* rosa empolvado muy suave: etiquetas y detalles */
+  --nude:    #E8D3CB;   /* rosa empolvado muy suave: solo detalles pequeños */
 
   /* --- TEXTO --- */
-  --cacao:     #453931; /* marrón café: el texto principal y los botones */
-  --taupe:     #8C7A6B; /* topo: textos secundarios */
+  --cacao:     #2B211B; /* marrón café MUY oscuro: el texto principal (no es negro) */
+  --cacao-700: #4A3A30; /* un punto más claro: botones rellenos */
+  --taupe:     #6E5F52; /* topo: textos secundarios (se lee bien sobre crema) */
+  --taupe-400: #9C8B79; /* topo claro: solo etiquetas grandes o decorativo */
 
   /* --- EL PESO --- */
   --chocolate: #3B2E26; /* chocolate oscuro: las franjas que sostienen la página */
 
   /* --- DORADO --- */
-  --oro:     #C0A06A;   /* dorado claro: líneas y adornos (NO para letras) */
-  --oro-txt: #8A6A3A;   /* dorado oscuro: sí se puede leer (rotulitos, enlaces) */
+  --oro:     #C0A06A;   /* dorado claro: líneas y adornos (NUNCA para letras) */
+  --oro-txt: #8A6A3A;   /* dorado oscuro: solo en rotulitos y títulos grandes */
+
+  /* --- ESCALA DE LETRA (crece suave con la pantalla) --- */
+  --t--1: clamp(0.94rem, 0.92rem + 0.10vw, 1.00rem);   /* 15-16: etiquetas, pie */
+  --t-0:  clamp(1.06rem, 1.03rem + 0.15vw, 1.125rem);  /* 17-18: cuerpo */
+  --t-1:  clamp(1.25rem, 1.18rem + 0.35vw, 1.50rem);   /* subtítulos */
+  --t-2:  clamp(1.50rem, 1.35rem + 0.75vw, 2.00rem);   /* h3 */
+  --t-3:  clamp(1.85rem, 1.55rem + 1.40vw, 2.75rem);   /* h2 */
+  --t-4:  clamp(2.25rem, 1.75rem + 2.40vw, 3.75rem);   /* h1 normal */
+  --t-5:  clamp(2.75rem, 1.95rem + 3.80vw, 5.00rem);   /* titular editorial */
+  --t-6:  clamp(3.60rem, 1.80rem + 9.00vw, 7.50rem);   /* el rótulo MADACLA */
+
+  /* --- ESCALA DE ESPACIO (siempre múltiplos de 4) --- */
+  --e-1: 4px;  --e-2: 8px;  --e-3: 12px; --e-4: 16px; --e-5: 24px;
+  --e-6: 32px; --e-7: 48px; --e-8: 64px; --e-9: 96px; --e-10: 128px;
+  /* aire entre secciones: 72 px en móvil → 128 px en pantalla grande */
+  --aire: clamp(4.5rem, 3rem + 5vw, 8rem);
 
   /* --- MEDIDAS --- */
-  --ancho:   1140px;
+  --ancho:   1200px;
   --radio:   14px;
-  --sombra:  0 10px 34px rgba(69, 57, 49, .09);
+  --margen:  clamp(1.25rem, 4vw, 2.5rem);   /* margen lateral de la página */
 
   /* --- LETRAS --- */
   --serif: "Cormorant Garamond", "Iowan Old Style", "Palatino Linotype", Palatino, Georgia, serif;
@@ -46,9 +66,9 @@ body {
   background: var(--crema);
   color: var(--cacao);
   font-family: var(--sans);
-  font-size: 17px;
+  font-size: var(--t-0);
   font-weight: 300;
-  line-height: 1.7;
+  line-height: 1.6;
   -webkit-font-smoothing: antialiased;
 }
 
@@ -56,29 +76,50 @@ img { max-width: 100%; display: block; }
 
 h1, h2, h3 {
   font-family: var(--serif);
-  font-weight: 400;
-  line-height: 1.15;
+  font-weight: 500;
+  line-height: 1.1;
+  letter-spacing: -.01em;
   margin: 0 0 .5em;
 }
 
+p { max-width: 65ch; }
+
 a { color: var(--cacao); }
+
+/* Etiqueta pequeña en mayúsculas: la forma de Jost que se repite por toda la web */
+.etq,
+.sobretitulo,
+.menu a,
+.dato h3,
+.rotulo__casa,
+.marca__antes,
+.pie__casa,
+.filtro,
+.boton,
+.etiquetas li {
+  font-family: var(--sans);
+  text-transform: uppercase;
+  letter-spacing: .14em;
+  font-weight: 400;
+}
 
 /* Enlace de accesibilidad: solo se ve al navegar con el teclado */
 .saltar {
   position: absolute; left: -9999px;
-  background: var(--cacao); color: var(--crema); padding: .7rem 1.1rem; z-index: 99;
+  background: var(--cacao); color: var(--crema); padding: var(--e-3) var(--e-4); z-index: 99;
 }
-.saltar:focus { left: 1rem; top: 1rem; }
+.saltar:focus { left: var(--e-4); top: var(--e-4); }
 
-:focus-visible { outline: 2px solid var(--oro-txt); outline-offset: 3px; }
+:focus-visible { outline: 2px solid var(--cacao-700); outline-offset: 3px; }
 
 /* ============ BARRA DE ARRIBA ============ */
 
 .barra {
   position: sticky; top: 0; z-index: 50;
   display: flex; align-items: center; justify-content: space-between;
-  gap: 1rem; flex-wrap: wrap;
-  padding: .9rem 1.3rem;
+  gap: var(--e-4); flex-wrap: wrap;
+  min-height: 68px;
+  padding: var(--e-3) var(--margen);
   background: rgba(250, 246, 240, .92);
   backdrop-filter: blur(10px);
   border-bottom: 1px solid var(--lino);
@@ -88,46 +129,45 @@ a { color: var(--cacao); }
 .marca__nombre {
   display: block;
   font-family: var(--serif);
-  font-size: 1.9rem; font-weight: 400;
+  font-size: var(--t-2); font-weight: 500;
   color: var(--cacao);
   letter-spacing: .04em;
 }
 .marca__antes {
   display: block;
-  font-size: .62rem; text-transform: uppercase; letter-spacing: .3em;
+  font-size: .62rem; letter-spacing: .3em;
   color: var(--taupe);
 }
 
-.menu { display: flex; gap: 1.6rem; flex-wrap: wrap; }
+.menu { display: flex; gap: var(--e-5); flex-wrap: wrap; }
 .menu a {
   color: var(--cacao); text-decoration: none;
-  font-size: .82rem; text-transform: uppercase; letter-spacing: .14em;
-  padding-bottom: 3px;
+  font-size: .8rem;
+  padding: var(--e-2) 0;
   border-bottom: 1px solid transparent;
+  transition: color .2s, border-color .2s;
 }
 .menu a:hover { color: var(--oro-txt); border-bottom-color: var(--oro); }
 
 /* ============ BOTONES ============ */
 
-.botones { display: flex; gap: .8rem; flex-wrap: wrap; margin-top: 2rem; }
+.botones { display: flex; gap: var(--e-3); flex-wrap: wrap; margin-top: var(--e-6); }
 
 .boton {
-  display: inline-block;
-  padding: .85rem 1.7rem;
+  display: inline-flex; align-items: center; justify-content: center;
+  min-height: 48px;
+  padding: 0 var(--e-6);
   border: 1px solid var(--cacao);
   border-radius: 999px;
   color: var(--cacao);
   text-decoration: none;
-  font-size: .8rem; font-weight: 400;
-  text-transform: uppercase; letter-spacing: .14em;
+  font-size: .8rem; font-weight: 500;
   transition: background .2s, color .2s, border-color .2s, transform .2s;
 }
-.boton:hover { background: var(--nude); border-color: var(--nude); transform: translateY(-1px); }
+.boton:hover { background: var(--arena); transform: translateY(-1px); }
 
-.boton--fuerte { background: var(--cacao); color: var(--crema); }
-.boton--fuerte:hover {
-  background: var(--oro-txt); border-color: var(--oro-txt); color: var(--crema);
-}
+.boton--fuerte { background: var(--cacao-700); border-color: var(--cacao-700); color: var(--crema); }
+.boton--fuerte:hover { background: var(--cacao); border-color: var(--cacao); color: var(--crema); }
 
 /* ============ PORTADA ============ */
 
@@ -135,13 +175,13 @@ a { color: var(--cacao); }
   display: grid;
   gap: 0;
   align-items: center;
-  padding: 0 0 3.5rem;
+  padding: 0 0 var(--e-8);
 }
 
 .portada__texto {
   max-width: var(--ancho);
   margin: 0 auto;
-  padding: 3rem 1.3rem 0;
+  padding: var(--e-7) var(--margen) 0;
 }
 
 .portada__foto img {
@@ -151,41 +191,40 @@ a { color: var(--cacao); }
 }
 
 .sobretitulo {
-  margin: 0 0 1.1rem;
-  font-size: .7rem; text-transform: uppercase; letter-spacing: .32em;
-  color: var(--oro-txt); font-weight: 400;
+  margin: 0 0 var(--e-4);
+  font-size: .72rem; letter-spacing: .32em;
+  color: var(--oro-txt);
 }
 
 /* El rótulo grande: MADACLA arriba, Casa Rosendo pequeñito debajo */
-.rotulo { margin: 0 0 1.5rem; }
+.rotulo { margin: 0 0 var(--e-5); }
 
 .rotulo__nombre {
   display: block;
-  font-size: clamp(3.6rem, 14vw, 7rem);
-  font-weight: 300;
+  font-size: var(--t-6);
+  font-weight: 400;
   line-height: .92;
   color: var(--cacao);
-  letter-spacing: .02em;
+  letter-spacing: .01em;
 }
 
 .rotulo__casa {
   display: block;
-  margin-top: .9rem;
-  padding-top: .9rem;
+  margin-top: var(--e-4);
+  padding-top: var(--e-4);
   border-top: 1px solid var(--oro);
   max-width: 15em;
-  font-family: var(--sans);
   font-size: clamp(.68rem, 2vw, .8rem);
-  font-weight: 400;
-  text-transform: uppercase;
   letter-spacing: .38em;
   color: var(--taupe);
 }
 
 .entradilla {
-  font-size: 1.08rem;
+  font-size: var(--t-1);
+  font-weight: 300;
+  line-height: 1.5;
   color: var(--taupe);
-  max-width: 44ch;
+  max-width: 40ch;
   margin: 0;
 }
 
@@ -194,19 +233,20 @@ a { color: var(--cacao); }
 .seccion {
   max-width: var(--ancho);
   margin: 0 auto;
-  padding: 4.5rem 1.3rem;
+  padding: var(--aire) var(--margen);
 }
 
-/* Bloque de fondo arena, a todo lo ancho pero con el texto alineado */
+/* Bloque de fondo arena, a todo lo ancho pero con el texto alineado.
+   (100% y no 100vw: el vw cuenta la barra de scroll y en móvil desbordaba.) */
 .seccion--arena {
   max-width: none;
   background: var(--arena);
-  padding-left:  max(1.3rem, calc((100vw - var(--ancho)) / 2));
-  padding-right: max(1.3rem, calc((100vw - var(--ancho)) / 2));
+  padding-left:  max(var(--margen), calc((100% - var(--ancho)) / 2 + var(--margen)));
+  padding-right: max(var(--margen), calc((100% - var(--ancho)) / 2 + var(--margen)));
 }
 
-.seccion__cabecera { max-width: 58ch; margin-bottom: 2.4rem; }
-.seccion__cabecera h2 { font-size: clamp(2rem, 5vw, 3rem); }
+.seccion__cabecera { max-width: 58ch; margin-bottom: var(--e-7); }
+.seccion__cabecera h2 { font-size: var(--t-3); }
 .seccion__cabecera p { color: var(--taupe); margin: 0; }
 
 /* Rayita dorada bajo los titulares: el hilo que cose toda la página */
@@ -215,23 +255,23 @@ a { color: var(--cacao); }
   content: ""; display: block;
   width: 54px; height: 1px;
   background: var(--oro);
-  margin: 1.1rem 0 1.4rem;
+  margin: var(--e-4) 0 var(--e-5);
 }
 .siempre h2::after {
   content: ""; display: block;
   width: 54px; height: 1px;
   background: var(--oro);
-  margin: 1.3rem auto 1.6rem;
+  margin: var(--e-5) auto var(--e-5);
 }
 
 /* ============ FILTROS DEL CATÁLOGO ============ */
 
-.filtros { display: flex; flex-wrap: wrap; gap: .6rem; margin-bottom: 2.4rem; }
+.filtros { display: flex; flex-wrap: wrap; gap: var(--e-2); margin-bottom: var(--e-7); }
 
 .filtro {
-  font: inherit; font-size: .74rem;
-  text-transform: uppercase; letter-spacing: .13em;
-  padding: .55rem 1.2rem;
+  font-size: .74rem;
+  min-height: 44px;
+  padding: 0 var(--e-5);
   border: 1px solid var(--lino);
   border-radius: 999px;
   background: transparent;
@@ -241,44 +281,49 @@ a { color: var(--cacao); }
 }
 .filtro:hover { border-color: var(--oro); color: var(--oro-txt); }
 .filtro.is-activo {
-  background: var(--cacao); border-color: var(--cacao); color: var(--crema);
+  background: var(--cacao-700); border-color: var(--cacao-700); color: var(--crema);
 }
 
 /* ============ REJILLA DE PRODUCTOS ============ */
 
 .rejilla {
   display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(230px, 1fr));
-  gap: 2rem 1.6rem;
+  grid-template-columns: repeat(2, 1fr);
+  gap: var(--e-6) var(--e-4);
 }
 
+/* La tarjeta no tiene borde, ni sombra, ni fondo: la definen la foto y el aire */
 .pieza img {
   width: 100%;
-  aspect-ratio: 3 / 4;
+  aspect-ratio: 4 / 5;
   object-fit: cover;
   border-radius: var(--radio);
   background: var(--lino);
-  transition: transform .35s ease;
+  transition: transform .6s cubic-bezier(.16, 1, .3, 1);
 }
-.pieza:hover img { transform: scale(1.02); }
+@media (hover: hover) and (pointer: fine) {
+  .pieza:hover img { transform: scale(1.03); }
+}
 
 /* Debajo de cada foto va SOLO el nombre.
    Ni precio ni categoría: los precios se preguntan por WhatsApp, y la
    categoría ya la dicen los filtros de arriba. */
 .pieza h3 {
-  font-size: 1.25rem; font-weight: 400;
-  margin: 1rem 0 0;
+  font-family: var(--sans);
+  font-size: var(--t--1); font-weight: 400;
+  letter-spacing: 0;
+  margin: var(--e-3) 0 0;
 }
 
 /* ============ AVISO DE PEDIDO ============ */
 
 .aviso-pedido {
-  margin-top: 3.5rem;
-  padding: 2rem;
-  background: var(--nude);
-  border: 0;
-  border-radius: var(--radio);
-  display: grid; gap: 1.3rem; align-items: center;
+  margin-top: var(--e-8);
+  padding: var(--e-6) var(--e-6) var(--e-6) calc(var(--e-6) + 3px);
+  background: var(--crema);
+  border-left: 1px solid var(--oro);
+  border-radius: 0 var(--radio) var(--radio) 0;
+  display: grid; gap: var(--e-5); align-items: center;
 }
 .aviso-pedido p { margin: 0; color: var(--taupe); }
 .aviso-pedido strong { color: var(--cacao); font-weight: 500; }
@@ -289,10 +334,10 @@ a { color: var(--cacao); }
 .siempre {
   background: var(--chocolate);
   color: var(--crema);
-  padding: 5rem 1.3rem;
+  padding: var(--aire) var(--margen);
   text-align: center;
 }
-.siempre h2 { font-size: clamp(1.9rem, 5vw, 2.6rem); color: var(--crema); }
+.siempre h2 { font-size: var(--t-3); color: var(--crema); }
 .siempre p {
   max-width: 54ch; margin: 0 auto;
   color: rgba(250, 246, 240, .78);
@@ -300,46 +345,45 @@ a { color: var(--cacao); }
 
 .etiquetas {
   list-style: none; display: flex; flex-wrap: wrap; justify-content: center;
-  gap: .6rem; padding: 0; margin: 2.2rem 0 0;
+  gap: var(--e-2); padding: 0; margin: var(--e-6) 0 0;
 }
 .etiquetas li {
   border: 1px solid rgba(192, 160, 106, .55);
   border-radius: 999px;
-  padding: .4rem 1.15rem;
-  font-size: .74rem; text-transform: uppercase; letter-spacing: .13em;
+  padding: var(--e-2) var(--e-4);
+  font-size: .72rem;
   color: var(--crema);
 }
 
 /* ============ VISÍTANOS ============ */
 
-.visitanos { display: grid; gap: 2.8rem; }
-.visitanos h2 { font-size: clamp(2rem, 5vw, 3rem); }
+.visitanos { display: grid; gap: var(--e-7); }
+.visitanos h2 { font-size: var(--t-3); }
 
-.dato { padding: 1.4rem 0; border-top: 1px solid var(--lino); }
+.dato { padding: var(--e-5) 0; border-top: 1px solid var(--lino); }
 .dato h3 {
-  font-family: var(--sans); font-size: .68rem; font-weight: 400;
-  text-transform: uppercase; letter-spacing: .22em; color: var(--oro-txt);
-  margin-bottom: .6rem;
+  font-size: .68rem; letter-spacing: .22em; color: var(--oro-txt);
+  margin-bottom: var(--e-2);
 }
-.dato p { margin: 0 0 .5rem; }
-.dato .boton { margin-top: .4rem; }
+.dato p { margin: 0 0 var(--e-2); }
+.dato .boton { margin-top: var(--e-2); }
 
-.enlace { border-bottom: 1px solid var(--oro); text-decoration: none; }
+.enlace { border-bottom: 1px solid var(--oro); text-decoration: none; transition: color .2s; }
 .enlace:hover { color: var(--oro-txt); }
 
 .enlace--tel {
-  font-family: var(--serif); font-size: 1.7rem;
+  font-family: var(--serif); font-size: var(--t-2);
+  font-variant-numeric: lining-nums tabular-nums;
   border-bottom: 0; letter-spacing: .02em;
 }
-.enlace--tel:hover { color: var(--oro-txt); }
 
-.botones--juntos { margin-top: 1rem; }
+.botones--juntos { margin-top: var(--e-4); }
 
 /* Cuadro de horarios */
-.horario { list-style: none; margin: 0; padding: 0; }
+.horario { list-style: none; margin: 0; padding: 0; font-variant-numeric: lining-nums tabular-nums; }
 .horario li {
-  display: flex; flex-wrap: wrap; justify-content: space-between; gap: .3rem 1rem;
-  padding: .5rem 0;
+  display: flex; flex-wrap: wrap; justify-content: space-between; gap: var(--e-1) var(--e-4);
+  padding: var(--e-2) 0;
   border-bottom: 1px dotted var(--lino);
 }
 .horario li:last-child { border-bottom: 0; }
@@ -350,7 +394,7 @@ a { color: var(--cacao); }
 .visitanos__mapa iframe {
   width: 100%;
   min-height: 360px;
-  border: 1px solid var(--lino);
+  border: 0;
   border-radius: var(--radio);
   filter: saturate(.75);
 }
@@ -359,21 +403,21 @@ a { color: var(--cacao); }
 
 .pie {
   background: var(--chocolate);
-  padding: 3.5rem 1.3rem;
+  padding: var(--e-8) var(--margen);
   text-align: center;
   color: rgba(250, 246, 240, .6);
-  font-size: .86rem;
+  font-size: var(--t--1);
 }
-.pie p { margin: .2rem 0; }
+.pie p { margin: var(--e-1) auto; }
 .pie a { color: rgba(250, 246, 240, .85); }
 .pie__marca {
-  font-family: var(--serif); font-size: 2.4rem; font-weight: 300;
+  font-family: var(--serif); font-size: var(--t-3); font-weight: 400;
   color: var(--crema); line-height: 1; letter-spacing: .04em;
 }
 .pie__casa {
-  font-size: .62rem; text-transform: uppercase; letter-spacing: .34em;
+  font-size: .62rem; letter-spacing: .34em;
   color: var(--oro);
-  margin: .8rem 0 1.6rem !important;
+  margin: var(--e-3) auto var(--e-5) !important;
 }
 
 /* ==========================================================================
@@ -381,6 +425,7 @@ a { color: var(--cacao); }
    ========================================================================== */
 
 @media (min-width: 720px) {
+  .rejilla { grid-template-columns: repeat(3, 1fr); gap: var(--e-7) var(--e-5); }
   .aviso-pedido { grid-template-columns: 1fr auto; }
   .aviso-pedido .boton { justify-self: end; }
 }
@@ -395,15 +440,134 @@ a { color: var(--cacao); }
   }
   .portada__foto { order: 2; }
   .portada__foto img {
-    height: 100%; min-height: 600px;
+    height: 100%; min-height: 640px;
     aspect-ratio: auto;
     border-radius: var(--radio) 0 0 var(--radio);
   }
   .portada__texto {
     display: flex; flex-direction: column; justify-content: center;
     max-width: none; margin: 0;
-    padding: 5.5rem 3.5rem 5.5rem max(1.3rem, calc((100vw - var(--ancho)) / 2));
+    padding: var(--e-9) var(--e-8) var(--e-9) max(var(--margen), calc((100vw - var(--ancho)) / 2 + var(--margen)));
+    min-width: 0;
   }
 
-  .visitanos { grid-template-columns: 1fr 1.1fr; align-items: start; }
+  .visitanos { grid-template-columns: 1fr 1.1fr; align-items: start; gap: var(--e-8); }
+}
+
+@media (min-width: 1100px) {
+  .rejilla { grid-template-columns: repeat(4, 1fr); }
+}
+
+/* ==========================================================================
+   MOVIMIENTO (lote E)
+   Regla de oro: sin JS la web se ve entera. Solo cuando <html> lleva la
+   clase "js" se esconden las cosas para que entren con suavidad.
+   Solo se animan transform y opacity (van por la tarjeta gráfica).
+   ========================================================================== */
+
+:root {
+  --suave: cubic-bezier(.16, 1, .3, 1);   /* ease-out expo: el "lujo" */
+}
+
+/* --- 1. La portada entra escalonada (--i = orden de cada pieza) --- */
+.js .entra {
+  opacity: 0;
+  transform: translateY(24px);
+  animation: entrar .8s var(--suave) forwards;
+  animation-delay: calc(120ms * var(--i, 0) + 80ms);
+}
+@keyframes entrar {
+  to { opacity: 1; transform: none; }
+}
+
+/* La foto de portada: aparece y crece lentísimo (Ken Burns sutil) */
+.portada__foto { overflow: hidden; }
+.js .portada__foto img {
+  opacity: 0;
+  animation: foto-entra 1.2s ease-out forwards, foto-crece 8s ease-out forwards;
+}
+@keyframes foto-entra { to { opacity: 1; } }
+@keyframes foto-crece { from { scale: 1; } to { scale: 1.04; } }
+
+/* --- 2. Revelado al bajar: .revela → .is-visible (lo pone el JS) --- */
+.js .revela {
+  opacity: 0;
+  transform: translateY(28px);
+  transition: opacity .7s var(--suave), transform .7s var(--suave);
+  transition-delay: calc(70ms * var(--i, 0));
+}
+.js .revela.is-visible { opacity: 1; transform: none; }
+
+/* --- 3. La cinta de texto lenta --- */
+.cinta {
+  overflow: hidden;
+  border-top: 1px solid var(--lino);
+  border-bottom: 1px solid var(--lino);
+  background: var(--crema);
+  padding: var(--e-3) 0;
+  white-space: nowrap;
+}
+.cinta__pista {
+  display: inline-flex;
+  animation: cinta 38s linear infinite;
+  will-change: transform;
+}
+.cinta__texto {
+  font-family: var(--sans);
+  font-size: .72rem; font-weight: 400;
+  text-transform: uppercase; letter-spacing: .24em;
+  color: var(--taupe);
+  padding-right: var(--e-6);
+}
+@keyframes cinta { to { transform: translateX(-50%); } }
+
+/* --- 4. Parallax suave (CSS nativo; quien no lo soporte lo ve quieto) --- */
+.siempre { position: relative; overflow: hidden; isolation: isolate; }
+.siempre__fondo {
+  position: absolute; inset: -12% 0; z-index: -1;
+  background: linear-gradient(180deg, #3B2E26 0%, #463830 50%, #3B2E26 100%);
+}
+.siempre > :not(.siempre__fondo) { position: relative; }
+
+@supports (animation-timeline: view()) {
+  .portada__foto img {
+    animation-name: foto-entra, foto-crece, foto-parallax;
+    animation-duration: 1.2s, 8s, auto;
+    animation-timing-function: ease-out, ease-out, linear;
+    animation-fill-mode: forwards, forwards, both;
+    animation-timeline: auto, auto, view();
+    animation-range: normal, normal, exit 0% exit 100%;
+  }
+  .siempre__fondo {
+    animation: fondo-parallax linear both;
+    animation-timeline: view();
+    animation-range: entry 0% exit 100%;
+  }
+}
+@keyframes foto-parallax  { from { translate: 0 0; } to { translate: 0 -6%; } }
+@keyframes fondo-parallax { from { translate: 0 -8%; } to { translate: 0 8%; } }
+
+/* --- 5. Segunda foto al pasar el ratón (solo si existe el hueco -b) --- */
+.pieza { position: relative; }
+.pieza__b {
+  position: absolute; top: 0; left: 0;
+  width: 100%; aspect-ratio: 4 / 5; object-fit: cover;
+  border-radius: var(--radio);
+  opacity: 0;
+  transition: opacity .45s ease;
+  pointer-events: none;
+}
+@media (hover: hover) and (pointer: fine) {
+  .pieza.tiene-b:hover .pieza__b { opacity: 1; }
+  .pieza.tiene-b:hover img:first-of-type { transform: none; }
+}
+
+/* --- 6. Movimiento reducido: solo fades cortos, nada que se mueva --- */
+@media (prefers-reduced-motion: reduce) {
+  .js .entra { transform: none; animation-duration: .2s; animation-delay: 0s; }
+  .js .portada__foto img { animation: foto-entra .2s ease-out forwards; }
+  .js .revela { transform: none; transition-duration: .2s; transition-delay: 0s; }
+  .cinta__pista { animation: none; }
+  .siempre__fondo, .portada__foto img { animation-timeline: auto; translate: 0; }
+  .pieza img { transition: none; }
 }

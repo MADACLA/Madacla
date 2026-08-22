@@ -1,13 +1,14 @@
 <!doctype html>
-<html lang="es">
+<html lang="es" class="no-js">
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Madacla · Casa Rosendo — ropa, bolsos, zapatos y bisutería en Santomera</title>
 <meta name="description" content="Madacla, Casa Rosendo: tienda en Santomera (Murcia). Ropa, bolsos, zapatos, bisutería y muchas cosas más. Calle San Rosendo, 5. Tel. 679 16 83 46.">
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@300;400;500&family=Jost:wght@300;400;500&display=swap">
+<script>document.documentElement.className = document.documentElement.className.replace("no-js", "js");</script>
+<link rel="preload" href="fuentes/cormorant-garamond-400.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="preload" href="fuentes/jost-300.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="stylesheet" href="fuentes/fuentes.css">
 <link rel="stylesheet" href="estilos.css">
 </head>
 <body>
@@ -34,31 +35,39 @@
       <img data-foto="portada" src="fotos/portada.svg" alt="Escaparate de la tienda Madacla en Santomera">
     </div>
     <div class="portada__texto">
-      <p class="sobretitulo">Santomera · Murcia</p>
-      <h1 class="rotulo">
+      <p class="sobretitulo entra" style="--i:0">Santomera · Murcia</p>
+      <h1 class="rotulo entra" style="--i:1">
         <span class="rotulo__nombre">Madacla</span>
         <span class="rotulo__casa">Casa Rosendo</span>
       </h1>
-      <p class="entradilla">
+      <p class="entradilla entra" style="--i:2">
         Ropa, bolsos, zapatos, bisutería y muchas cosas más. Te atendemos nosotras,
         te decimos la verdad de cómo te queda y te lo guardamos si tienes que pensarlo.
       </p>
-      <div class="botones">
+      <div class="botones entra" style="--i:3">
         <a class="boton boton--fuerte" href="#catalogo">Ver el catálogo</a>
         <a class="boton" href="https://wa.me/34679168346" target="_blank" rel="noopener">Escríbenos por WhatsApp</a>
       </div>
     </div>
   </section>
 
+  <!-- ============ CINTA ============ -->
+  <div class="cinta" aria-label="Ropa, bolsos, zapatos, bisutería. Santomera. Te lo apartamos por WhatsApp.">
+    <div class="cinta__pista">
+      <span class="cinta__texto">Ropa · Bolsos · Zapatos · Bisutería · Santomera · Te lo apartamos por WhatsApp ·&nbsp;</span>
+      <span class="cinta__texto" aria-hidden="true">Ropa · Bolsos · Zapatos · Bisutería · Santomera · Te lo apartamos por WhatsApp ·&nbsp;</span>
+    </div>
+  </div>
+
   <!-- ============ CATÁLOGO ============ -->
   <section id="catalogo" class="seccion seccion--arena">
-    <header class="seccion__cabecera">
+    <header class="seccion__cabecera revela">
       <h2>Catálogo</h2>
       <p>Una muestra de lo que tenemos. Va cambiando cada temporada, así que si buscas
          algo en concreto, pregúntanos por WhatsApp y te decimos si lo tenemos.</p>
     </header>
 
-    <div class="filtros" role="group" aria-label="Filtrar catálogo por categoría">
+    <div class="filtros revela" role="group" aria-label="Filtrar catálogo por categoría">
       <button class="filtro is-activo" data-cat="todo">Todo</button>
       <button class="filtro" data-cat="ropa">Ropa</button>
       <button class="filtro" data-cat="bolsos">Bolsos y complementos</button>
@@ -68,69 +77,81 @@
 
     <div class="rejilla" id="rejilla">
 
-      <article class="pieza" data-cat="ropa">
+      <article class="pieza revela" style="--i:0" data-cat="ropa">
         <img data-foto="ropa-1" src="fotos/ropa-1.svg" alt="Blusa estampada">
+        <img class="pieza__b" data-foto-b="ropa-1-b" alt="" aria-hidden="true" loading="lazy" decoding="async" hidden>
         <h3>Blusa estampada</h3>
       </article>
 
-      <article class="pieza" data-cat="ropa">
+      <article class="pieza revela" style="--i:1" data-cat="ropa">
         <img data-foto="ropa-2" src="fotos/ropa-2.svg" alt="Pantalón de vestir">
+        <img class="pieza__b" data-foto-b="ropa-2-b" alt="" aria-hidden="true" loading="lazy" decoding="async" hidden>
         <h3>Pantalón de vestir</h3>
       </article>
 
-      <article class="pieza" data-cat="ropa">
+      <article class="pieza revela" style="--i:2" data-cat="ropa">
         <img data-foto="ropa-3" src="fotos/ropa-3.svg" alt="Vestido de verano">
+        <img class="pieza__b" data-foto-b="ropa-3-b" alt="" aria-hidden="true" loading="lazy" decoding="async" hidden>
         <h3>Vestido de verano</h3>
       </article>
 
-      <article class="pieza" data-cat="bolsos">
+      <article class="pieza revela" style="--i:3" data-cat="bolsos">
         <img data-foto="bolsos-1" src="fotos/bolsos-1.svg" alt="Bolso de mano">
+        <img class="pieza__b" data-foto-b="bolsos-1-b" alt="" aria-hidden="true" loading="lazy" decoding="async" hidden>
         <h3>Bolso de mano</h3>
       </article>
 
-      <article class="pieza" data-cat="bolsos">
+      <article class="pieza revela" style="--i:0" data-cat="bolsos">
         <img data-foto="bolsos-2" src="fotos/bolsos-2.svg" alt="Pañuelo de seda">
+        <img class="pieza__b" data-foto-b="bolsos-2-b" alt="" aria-hidden="true" loading="lazy" decoding="async" hidden>
         <h3>Pañuelo de seda</h3>
       </article>
 
-      <article class="pieza" data-cat="bolsos">
+      <article class="pieza revela" style="--i:1" data-cat="bolsos">
         <img data-foto="bolsos-3" src="fotos/bolsos-3.svg" alt="Bolso bandolera">
+        <img class="pieza__b" data-foto-b="bolsos-3-b" alt="" aria-hidden="true" loading="lazy" decoding="async" hidden>
         <h3>Bolso bandolera</h3>
       </article>
 
-      <article class="pieza" data-cat="zapatos">
+      <article class="pieza revela" style="--i:2" data-cat="zapatos">
         <img data-foto="zapatos-1" src="fotos/zapatos-1.svg" alt="Sandalia de tacón">
+        <img class="pieza__b" data-foto-b="zapatos-1-b" alt="" aria-hidden="true" loading="lazy" decoding="async" hidden>
         <h3>Sandalia de tacón</h3>
       </article>
 
-      <article class="pieza" data-cat="zapatos">
+      <article class="pieza revela" style="--i:3" data-cat="zapatos">
         <img data-foto="zapatos-2" src="fotos/zapatos-2.svg" alt="Zapato plano de piel">
+        <img class="pieza__b" data-foto-b="zapatos-2-b" alt="" aria-hidden="true" loading="lazy" decoding="async" hidden>
         <h3>Zapato plano de piel</h3>
       </article>
 
-      <article class="pieza" data-cat="zapatos">
+      <article class="pieza revela" style="--i:0" data-cat="zapatos">
         <img data-foto="zapatos-3" src="fotos/zapatos-3.svg" alt="Botín de otoño">
+        <img class="pieza__b" data-foto-b="zapatos-3-b" alt="" aria-hidden="true" loading="lazy" decoding="async" hidden>
         <h3>Botín de otoño</h3>
       </article>
 
-      <article class="pieza" data-cat="bisuteria">
+      <article class="pieza revela" style="--i:1" data-cat="bisuteria">
         <img data-foto="bisuteria-1" src="fotos/bisuteria-1.svg" alt="Pendientes dorados">
+        <img class="pieza__b" data-foto-b="bisuteria-1-b" alt="" aria-hidden="true" loading="lazy" decoding="async" hidden>
         <h3>Pendientes dorados</h3>
       </article>
 
-      <article class="pieza" data-cat="bisuteria">
+      <article class="pieza revela" style="--i:2" data-cat="bisuteria">
         <img data-foto="bisuteria-2" src="fotos/bisuteria-2.svg" alt="Collar de perlas">
+        <img class="pieza__b" data-foto-b="bisuteria-2-b" alt="" aria-hidden="true" loading="lazy" decoding="async" hidden>
         <h3>Collar de perlas</h3>
       </article>
 
-      <article class="pieza" data-cat="bisuteria">
+      <article class="pieza revela" style="--i:3" data-cat="bisuteria">
         <img data-foto="bisuteria-3" src="fotos/bisuteria-3.svg" alt="Pulsera de plata">
+        <img class="pieza__b" data-foto-b="bisuteria-3-b" alt="" aria-hidden="true" loading="lazy" decoding="async" hidden>
         <h3>Pulsera de plata</h3>
       </article>
 
     </div>
 
-    <div class="aviso-pedido">
+    <div class="aviso-pedido revela">
       <p><strong>¿Te gusta algo?</strong> Aquí no se compra por internet: nos escribes,
          te lo apartamos y lo recoges en la tienda.</p>
       <a class="boton boton--fuerte" href="https://wa.me/34679168346" target="_blank" rel="noopener">Preguntar por WhatsApp</a>
@@ -139,7 +160,8 @@
 
   <!-- ============ Y MUCHAS COSAS MÁS ============ -->
   <section class="siempre">
-    <h2>Y muchas cosas más</h2>
+    <div class="siempre__fondo" aria-hidden="true"></div>
+    <h2 class="revela">Y muchas cosas más</h2>
     <p>En la tienda hay bastante más de lo que cabe en esta página. Si buscas algo
        en concreto, pregúntanos: casi siempre lo tenemos.</p>
     <ul class="etiquetas">
@@ -149,7 +171,7 @@
 
   <!-- ============ VISÍTANOS ============ -->
   <section id="visitanos" class="seccion visitanos">
-    <div class="visitanos__datos">
+    <div class="visitanos__datos revela">
       <h2>Dónde estamos</h2>
 
       <div class="dato">
@@ -177,7 +199,7 @@
       </div>
     </div>
 
-    <div class="visitanos__mapa">
+    <div class="visitanos__mapa revela">
       <iframe
         title="Mapa de la tienda en Calle San Rosendo 5, Santomera"
         src="https://www.google.com/maps?q=Calle+San+Rosendo+5,+Santomera,+Murcia&amp;output=embed"
@@ -216,6 +238,55 @@
       prueba.src = url;
     })();
   });
+
+  // ---------------------------------------------------------------
+  // SEGUNDA FOTO (hueco "-b"): si existe ropa-1-b.jpg, la tarjeta la
+  // ensena al pasar el raton. Si no existe, no pasa nada.
+  // ---------------------------------------------------------------
+  document.querySelectorAll("img[data-foto-b]").forEach(function (hueco) {
+    var nombre = hueco.dataset.fotoB;
+    var i = 0;
+    (function probarSiguiente() {
+      if (i >= EXTENSIONES.length) return;
+      var url = "fotos/" + nombre + "." + EXTENSIONES[i++];
+      var prueba = new Image();
+      prueba.onload = function () {
+        hueco.src = url;
+        hueco.hidden = false;
+        hueco.closest(".pieza").classList.add("tiene-b");
+      };
+      prueba.onerror = probarSiguiente;
+      prueba.src = url;
+    })();
+  });
+
+  // ---------------------------------------------------------------
+  // REVELADO AL BAJAR: cuando un bloque .revela entra en pantalla,
+  // se le pone .is-visible (una sola vez) y el CSS lo hace aparecer.
+  // Si el navegador no sabe de IntersectionObserver, se ve todo.
+  // ---------------------------------------------------------------
+  (function () {
+    var bloques = document.querySelectorAll(".revela");
+    if (!("IntersectionObserver" in window)) {
+      bloques.forEach(function (b) { b.classList.add("is-visible"); });
+      return;
+    }
+    var vigia = new IntersectionObserver(function (entradas) {
+      entradas.forEach(function (e) {
+        if (!e.isIntersecting) return;
+        e.target.classList.add("is-visible");
+        vigia.unobserve(e.target);
+      });
+    }, { threshold: 0.12, rootMargin: "0px 0px -8% 0px" });
+
+    // Red de seguridad: lo que ya esta a la vista al cargar se ensena
+    // sin esperar al vigia. El resto se revela al bajar.
+    var alto = window.innerHeight || document.documentElement.clientHeight;
+    bloques.forEach(function (b) {
+      if (b.getBoundingClientRect().top < alto * 0.92) b.classList.add("is-visible");
+      else vigia.observe(b);
+    });
+  })();
 
   // Filtrar el catalogo al pulsar una categoria.
   var botones = document.querySelectorAll(".filtro");
