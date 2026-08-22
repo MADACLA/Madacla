@@ -1,0 +1,260 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Madacla · Casa Rosendo — ropa, bolsos, zapatos y bisutería en Santomera</title>
+<meta name="description" content="Madacla, Casa Rosendo: tienda en Santomera (Murcia). Ropa, bolsos, zapatos, bisutería y muchas cosas más. Calle San Rosendo, 5. Tel. 679 16 83 46.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@300;400;500&family=Jost:wght@300;400;500&display=swap">
+<link rel="stylesheet" href="estilos.css">
+</head>
+<body>
+
+<a class="saltar" href="#catalogo">Saltar al catálogo</a>
+
+<header class="barra">
+  <a class="marca" href="#">
+    <span class="marca__nombre">Madacla</span>
+    <span class="marca__antes">Casa Rosendo</span>
+  </a>
+  <nav class="menu">
+    <a href="#catalogo">Catálogo</a>
+    <a href="#visitanos">Dónde estamos</a>
+    <a href="https://instagram.com/maricarmennortes_" target="_blank" rel="noopener">Instagram</a>
+  </nav>
+</header>
+
+<main>
+
+  <!-- ============ PORTADA ============ -->
+  <section class="portada">
+    <div class="portada__foto">
+      <img data-foto="portada" src="fotos/portada.svg" alt="Escaparate de la tienda Madacla en Santomera">
+    </div>
+    <div class="portada__texto">
+      <p class="sobretitulo">Santomera · Murcia</p>
+      <h1 class="rotulo">
+        <span class="rotulo__nombre">Madacla</span>
+        <span class="rotulo__casa">Casa Rosendo</span>
+      </h1>
+      <p class="entradilla">
+        Ropa, bolsos, zapatos, bisutería y muchas cosas más. Te atendemos nosotras,
+        te decimos la verdad de cómo te queda y te lo guardamos si tienes que pensarlo.
+      </p>
+      <div class="botones">
+        <a class="boton boton--fuerte" href="#catalogo">Ver el catálogo</a>
+        <a class="boton" href="https://wa.me/34679168346" target="_blank" rel="noopener">Escríbenos por WhatsApp</a>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ CATÁLOGO ============ -->
+  <section id="catalogo" class="seccion seccion--arena">
+    <header class="seccion__cabecera">
+      <h2>Catálogo</h2>
+      <p>Una muestra de lo que tenemos. Va cambiando cada temporada, así que si buscas
+         algo en concreto, pregúntanos por WhatsApp y te decimos si lo tenemos.</p>
+    </header>
+
+    <div class="filtros" role="group" aria-label="Filtrar catálogo por categoría">
+      <button class="filtro is-activo" data-cat="todo">Todo</button>
+      <button class="filtro" data-cat="ropa">Ropa</button>
+      <button class="filtro" data-cat="bolsos">Bolsos y complementos</button>
+      <button class="filtro" data-cat="zapatos">Zapatos</button>
+      <button class="filtro" data-cat="bisuteria">Bisutería</button>
+    </div>
+
+    <div class="rejilla" id="rejilla">
+
+      <article class="pieza" data-cat="ropa">
+        <img data-foto="ropa-1" src="fotos/ropa-1.svg" alt="Blusa estampada">
+        <h3>Blusa estampada</h3>
+        <p class="pieza__cat">Ropa</p>
+        <p class="pieza__precio">24,90 €</p>
+      </article>
+
+      <article class="pieza" data-cat="ropa">
+        <img data-foto="ropa-2" src="fotos/ropa-2.svg" alt="Pantalón de vestir">
+        <h3>Pantalón de vestir</h3>
+        <p class="pieza__cat">Ropa</p>
+        <p class="pieza__precio">32,00 €</p>
+      </article>
+
+      <article class="pieza" data-cat="ropa">
+        <img data-foto="ropa-3" src="fotos/ropa-3.svg" alt="Vestido de verano">
+        <h3>Vestido de verano</h3>
+        <p class="pieza__cat">Ropa</p>
+        <p class="pieza__precio">39,90 €</p>
+      </article>
+
+      <article class="pieza" data-cat="bolsos">
+        <img data-foto="bolsos-1" src="fotos/bolsos-1.svg" alt="Bolso de mano">
+        <h3>Bolso de mano</h3>
+        <p class="pieza__cat">Bolsos y complementos</p>
+        <p class="pieza__precio">29,90 €</p>
+      </article>
+
+      <article class="pieza" data-cat="bolsos">
+        <img data-foto="bolsos-2" src="fotos/bolsos-2.svg" alt="Pañuelo de seda">
+        <h3>Pañuelo de seda</h3>
+        <p class="pieza__cat">Bolsos y complementos</p>
+        <p class="pieza__precio">12,50 €</p>
+      </article>
+
+      <article class="pieza" data-cat="bolsos">
+        <img data-foto="bolsos-3" src="fotos/bolsos-3.svg" alt="Bolso bandolera">
+        <h3>Bolso bandolera</h3>
+        <p class="pieza__cat">Bolsos y complementos</p>
+        <p class="pieza__precio">34,00 €</p>
+      </article>
+
+      <article class="pieza" data-cat="zapatos">
+        <img data-foto="zapatos-1" src="fotos/zapatos-1.svg" alt="Sandalia de tacón">
+        <h3>Sandalia de tacón</h3>
+        <p class="pieza__cat">Zapatos</p>
+        <p class="pieza__precio">45,00 €</p>
+      </article>
+
+      <article class="pieza" data-cat="zapatos">
+        <img data-foto="zapatos-2" src="fotos/zapatos-2.svg" alt="Zapato plano de piel">
+        <h3>Zapato plano de piel</h3>
+        <p class="pieza__cat">Zapatos</p>
+        <p class="pieza__precio">39,00 €</p>
+      </article>
+
+      <article class="pieza" data-cat="zapatos">
+        <img data-foto="zapatos-3" src="fotos/zapatos-3.svg" alt="Botín de otoño">
+        <h3>Botín de otoño</h3>
+        <p class="pieza__cat">Zapatos</p>
+        <p class="pieza__precio">52,00 €</p>
+      </article>
+
+      <article class="pieza" data-cat="bisuteria">
+        <img data-foto="bisuteria-1" src="fotos/bisuteria-1.svg" alt="Pendientes dorados">
+        <h3>Pendientes dorados</h3>
+        <p class="pieza__cat">Bisutería</p>
+        <p class="pieza__precio">9,90 €</p>
+      </article>
+
+      <article class="pieza" data-cat="bisuteria">
+        <img data-foto="bisuteria-2" src="fotos/bisuteria-2.svg" alt="Collar de perlas">
+        <h3>Collar de perlas</h3>
+        <p class="pieza__cat">Bisutería</p>
+        <p class="pieza__precio">14,90 €</p>
+      </article>
+
+      <article class="pieza" data-cat="bisuteria">
+        <img data-foto="bisuteria-3" src="fotos/bisuteria-3.svg" alt="Pulsera de plata">
+        <h3>Pulsera de plata</h3>
+        <p class="pieza__cat">Bisutería</p>
+        <p class="pieza__precio">18,00 €</p>
+      </article>
+
+    </div>
+
+    <div class="aviso-pedido">
+      <p><strong>¿Te gusta algo?</strong> Aquí no se compra por internet: nos escribes,
+         te lo apartamos y lo recoges en la tienda.</p>
+      <a class="boton boton--fuerte" href="https://wa.me/34679168346" target="_blank" rel="noopener">Preguntar por WhatsApp</a>
+    </div>
+  </section>
+
+  <!-- ============ Y MUCHAS COSAS MÁS ============ -->
+  <section class="siempre">
+    <h2>Y muchas cosas más</h2>
+    <p>En la tienda hay bastante más de lo que cabe en esta página. Si buscas algo
+       en concreto, pregúntanos: casi siempre lo tenemos.</p>
+    <ul class="etiquetas">
+      <li>Ropa</li><li>Bolsos y complementos</li><li>Zapatos</li><li>Bisutería</li><li>Y más cosas</li>
+    </ul>
+  </section>
+
+  <!-- ============ VISÍTANOS ============ -->
+  <section id="visitanos" class="seccion visitanos">
+    <div class="visitanos__datos">
+      <h2>Dónde estamos</h2>
+
+      <div class="dato">
+        <h3>Dirección</h3>
+        <p>Calle San Rosendo, 5<br>30140 Santomera (Murcia)</p>
+        <a class="enlace" href="https://www.google.com/maps/search/?api=1&amp;query=Calle+San+Rosendo+5+Santomera+Murcia" target="_blank" rel="noopener">Cómo llegar &rarr;</a>
+      </div>
+
+      <div class="dato">
+        <h3>Horario</h3>
+        <ul class="horario">
+          <li><span>Lunes a viernes</span><span>9:30 – 13:30 &nbsp;y&nbsp; 17:30 – 20:30</span></li>
+          <li><span>Sábados</span><span>10:00 – 13:30</span></li>
+          <li class="horario__cerrado"><span>Domingos</span><span>Cerrado</span></li>
+        </ul>
+      </div>
+
+      <div class="dato">
+        <h3>Teléfono y WhatsApp</h3>
+        <p><a class="enlace enlace--tel" href="tel:+34679168346">679 16 83 46</a></p>
+        <div class="botones botones--juntos">
+          <a class="boton boton--fuerte" href="https://wa.me/34679168346" target="_blank" rel="noopener">Abrir WhatsApp</a>
+          <a class="boton" href="https://instagram.com/maricarmennortes_" target="_blank" rel="noopener">Ver el Instagram</a>
+        </div>
+      </div>
+    </div>
+
+    <div class="visitanos__mapa">
+      <iframe
+        title="Mapa de la tienda en Calle San Rosendo 5, Santomera"
+        src="https://www.google.com/maps?q=Calle+San+Rosendo+5,+Santomera,+Murcia&amp;output=embed"
+        loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
+    </div>
+  </section>
+
+</main>
+
+<footer class="pie">
+  <p class="pie__marca">Madacla</p>
+  <p class="pie__casa">Casa Rosendo</p>
+  <p>Calle San Rosendo, 5 · Santomera (Murcia) · <a href="tel:+34679168346">679 16 83 46</a></p>
+</footer>
+
+<script>
+  // ---------------------------------------------------------------
+  // FOTOS DE VERDAD
+  // Cada hueco tiene un nombre (data-foto). Si en la carpeta fotos/
+  // hay un fichero con ese nombre -- ropa-1.jpg, ropa-1.png... -- se
+  // pone solo. Si no lo hay, se queda el dibujo de muestra.
+  // No hay que tocar nada de este fichero para cambiar una foto.
+  // ---------------------------------------------------------------
+  var EXTENSIONES = ["jpg", "jpeg", "png", "webp", "avif"];
+
+  document.querySelectorAll("img[data-foto]").forEach(function (hueco) {
+    var nombre = hueco.dataset.foto;
+    var i = 0;
+
+    (function probarSiguiente() {
+      if (i >= EXTENSIONES.length) return;          // no hay foto: se queda la muestra
+      var url = "fotos/" + nombre + "." + EXTENSIONES[i++];
+      var prueba = new Image();
+      prueba.onload  = function () { hueco.src = url; };
+      prueba.onerror = probarSiguiente;
+      prueba.src = url;
+    })();
+  });
+
+  // Filtrar el catalogo al pulsar una categoria.
+  var botones = document.querySelectorAll(".filtro");
+  var piezas  = document.querySelectorAll(".pieza");
+
+  botones.forEach(function (boton) {
+    boton.addEventListener("click", function () {
+      var cat = boton.dataset.cat;
+      botones.forEach(function (b) { b.classList.toggle("is-activo", b === boton); });
+      piezas.forEach(function (pieza) {
+        pieza.hidden = !(cat === "todo" || pieza.dataset.cat === cat);
+      });
+    });
+  });
+</script>
+
+</body>
+</html>
