@@ -74,21 +74,25 @@
       <p>Lo último que ha entrado en la tienda. Si te gusta algo, escríbenos y te lo apartamos.</p>
     </header>
     <div class="rejilla rejilla--novedades">
-      <article class="pieza revela" style="--i:0">
+      <article class="pieza revela" style="--i:0" data-id="ropa-1">
         <img data-foto="ropa-1" src="fotos/ropa-1.svg" alt="Blusa estampada">
         <h3>Blusa estampada</h3>
+        <button class="pieza__ver" type="button">Ver de cerca</button>
       </article>
-      <article class="pieza revela" style="--i:1">
+      <article class="pieza revela" style="--i:1" data-id="ropa-2">
         <img data-foto="ropa-2" src="fotos/ropa-2.svg" alt="Pantalón de vestir">
         <h3>Pantalón de vestir</h3>
+        <button class="pieza__ver" type="button">Ver de cerca</button>
       </article>
-      <article class="pieza revela" style="--i:2">
+      <article class="pieza revela" style="--i:2" data-id="ropa-3">
         <img data-foto="ropa-3" src="fotos/ropa-3.svg" alt="Vestido de verano">
         <h3>Vestido de verano</h3>
+        <button class="pieza__ver" type="button">Ver de cerca</button>
       </article>
-      <article class="pieza revela" style="--i:3">
+      <article class="pieza revela" style="--i:3" data-id="bolsos-1">
         <img data-foto="bolsos-1" src="fotos/bolsos-1.svg" alt="Bolso de mano">
         <h3>Bolso de mano</h3>
+        <button class="pieza__ver" type="button">Ver de cerca</button>
       </article>
     </div>
   </section>
@@ -136,76 +140,88 @@
 
     <div class="rejilla" id="rejilla">
 
-      <article class="pieza revela" style="--i:0" data-cat="ropa">
+      <article class="pieza revela" style="--i:0" data-cat="ropa" data-desc="Viscosa fresquita, manga francesa, estampado pequeño. Tallas S a XL." data-id="ropa-1">
         <img data-foto="ropa-1" src="fotos/ropa-1.svg" alt="Blusa estampada">
         <img class="pieza__b" data-foto-b="ropa-1-b" alt="" aria-hidden="true" loading="lazy" decoding="async" hidden>
         <h3>Blusa estampada</h3>
+        <button class="pieza__ver" type="button">Ver de cerca</button>
       </article>
 
-      <article class="pieza revela" style="--i:1" data-cat="ropa">
+      <article class="pieza revela" style="--i:1" data-cat="ropa" data-desc="Tiro alto y pernera recta, cae muy bien. Tallas 36 a 46." data-id="ropa-2">
         <img data-foto="ropa-2" src="fotos/ropa-2.svg" alt="Pantalón de vestir">
         <img class="pieza__b" data-foto-b="ropa-2-b" alt="" aria-hidden="true" loading="lazy" decoding="async" hidden>
         <h3>Pantalón de vestir</h3>
+        <button class="pieza__ver" type="button">Ver de cerca</button>
       </article>
 
-      <article class="pieza revela" style="--i:2" data-cat="ropa">
+      <article class="pieza revela" style="--i:2" data-cat="ropa" data-desc="Tirante ancho y espalda descubierta, largo midi. Tallas S a L." data-id="ropa-3">
         <img data-foto="ropa-3" src="fotos/ropa-3.svg" alt="Vestido de verano">
         <img class="pieza__b" data-foto-b="ropa-3-b" alt="" aria-hidden="true" loading="lazy" decoding="async" hidden>
         <h3>Vestido de verano</h3>
+        <button class="pieza__ver" type="button">Ver de cerca</button>
       </article>
 
-      <article class="pieza revela" style="--i:3" data-cat="bolsos">
+      <article class="pieza revela" style="--i:3" data-cat="bolsos" data-desc="Piel sintética suave, cierre de imán, asa corta. En arena y en negro." data-id="bolsos-1">
         <img data-foto="bolsos-1" src="fotos/bolsos-1.svg" alt="Bolso de mano">
         <img class="pieza__b" data-foto-b="bolsos-1-b" alt="" aria-hidden="true" loading="lazy" decoding="async" hidden>
         <h3>Bolso de mano</h3>
+        <button class="pieza__ver" type="button">Ver de cerca</button>
       </article>
 
-      <article class="pieza revela" style="--i:0" data-cat="bolsos">
+      <article class="pieza revela" style="--i:0" data-cat="bolsos" data-desc="90 × 90 cm, estampado clásico. Para el cuello, el pelo o el bolso." data-id="bolsos-2">
         <img data-foto="bolsos-2" src="fotos/bolsos-2.svg" alt="Pañuelo de seda">
         <img class="pieza__b" data-foto-b="bolsos-2-b" alt="" aria-hidden="true" loading="lazy" decoding="async" hidden>
         <h3>Pañuelo de seda</h3>
+        <button class="pieza__ver" type="button">Ver de cerca</button>
       </article>
 
-      <article class="pieza revela" style="--i:1" data-cat="bolsos">
+      <article class="pieza revela" style="--i:1" data-cat="bolsos" data-desc="Mediano, tira ajustable y bolsillo interior. En cacao y en crema." data-id="bolsos-3">
         <img data-foto="bolsos-3" src="fotos/bolsos-3.svg" alt="Bolso bandolera">
         <img class="pieza__b" data-foto-b="bolsos-3-b" alt="" aria-hidden="true" loading="lazy" decoding="async" hidden>
         <h3>Bolso bandolera</h3>
+        <button class="pieza__ver" type="button">Ver de cerca</button>
       </article>
 
-      <article class="pieza revela" style="--i:2" data-cat="zapatos">
+      <article class="pieza revela" style="--i:2" data-cat="zapatos" data-desc="Tacón cómodo de 6 cm y tiras finas. Números 36 a 41." data-id="zapatos-1">
         <img data-foto="zapatos-1" src="fotos/zapatos-1.svg" alt="Sandalia de tacón">
         <img class="pieza__b" data-foto-b="zapatos-1-b" alt="" aria-hidden="true" loading="lazy" decoding="async" hidden>
         <h3>Sandalia de tacón</h3>
+        <button class="pieza__ver" type="button">Ver de cerca</button>
       </article>
 
-      <article class="pieza revela" style="--i:3" data-cat="zapatos">
+      <article class="pieza revela" style="--i:3" data-cat="zapatos" data-desc="Piel blandita y plantilla acolchada. Números 36 a 41." data-id="zapatos-2">
         <img data-foto="zapatos-2" src="fotos/zapatos-2.svg" alt="Zapato plano de piel">
         <img class="pieza__b" data-foto-b="zapatos-2-b" alt="" aria-hidden="true" loading="lazy" decoding="async" hidden>
         <h3>Zapato plano de piel</h3>
+        <button class="pieza__ver" type="button">Ver de cerca</button>
       </article>
 
-      <article class="pieza revela" style="--i:0" data-cat="zapatos">
+      <article class="pieza revela" style="--i:0" data-cat="zapatos" data-desc="Punta redonda, cremallera lateral, tacón bajo. Números 36 a 41." data-id="zapatos-3">
         <img data-foto="zapatos-3" src="fotos/zapatos-3.svg" alt="Botín de otoño">
         <img class="pieza__b" data-foto-b="zapatos-3-b" alt="" aria-hidden="true" loading="lazy" decoding="async" hidden>
         <h3>Botín de otoño</h3>
+        <button class="pieza__ver" type="button">Ver de cerca</button>
       </article>
 
-      <article class="pieza revela" style="--i:1" data-cat="bisuteria">
+      <article class="pieza revela" style="--i:1" data-cat="bisuteria" data-desc="Aro mediano bañado en oro, muy ligero. Hipoalergénico." data-id="bisuteria-1">
         <img data-foto="bisuteria-1" src="fotos/bisuteria-1.svg" alt="Pendientes dorados">
         <img class="pieza__b" data-foto-b="bisuteria-1-b" alt="" aria-hidden="true" loading="lazy" decoding="async" hidden>
         <h3>Pendientes dorados</h3>
+        <button class="pieza__ver" type="button">Ver de cerca</button>
       </article>
 
-      <article class="pieza revela" style="--i:2" data-cat="bisuteria">
+      <article class="pieza revela" style="--i:2" data-cat="bisuteria" data-desc="Perla de imitación, largo corto, cierre de mosquetón." data-id="bisuteria-2">
         <img data-foto="bisuteria-2" src="fotos/bisuteria-2.svg" alt="Collar de perlas">
         <img class="pieza__b" data-foto-b="bisuteria-2-b" alt="" aria-hidden="true" loading="lazy" decoding="async" hidden>
         <h3>Collar de perlas</h3>
+        <button class="pieza__ver" type="button">Ver de cerca</button>
       </article>
 
-      <article class="pieza revela" style="--i:3" data-cat="bisuteria">
+      <article class="pieza revela" style="--i:3" data-cat="bisuteria" data-desc="Plata de ley fina, ajustable. Para llevar sola o con varias." data-id="bisuteria-3">
         <img data-foto="bisuteria-3" src="fotos/bisuteria-3.svg" alt="Pulsera de plata">
         <img class="pieza__b" data-foto-b="bisuteria-3-b" alt="" aria-hidden="true" loading="lazy" decoding="async" hidden>
         <h3>Pulsera de plata</h3>
+        <button class="pieza__ver" type="button">Ver de cerca</button>
       </article>
 
     </div>
@@ -348,6 +364,29 @@
   </svg>
 </a>
 
+<!-- La ficha de producto: se rellena por JS al pinchar una tarjeta -->
+<dialog class="ficha" id="ficha" aria-labelledby="ficha-nombre">
+  <div class="ficha__cuerpo">
+    <button class="ficha__cerrar" type="button" aria-label="Cerrar">&times;</button>
+    <div class="ficha__galeria">
+      <div class="ficha__visor">
+        <img class="ficha__foto" src="" alt="">
+        <button class="ficha__flecha ficha__flecha--ant" type="button" aria-label="Foto anterior">&lsaquo;</button>
+        <button class="ficha__flecha ficha__flecha--sig" type="button" aria-label="Foto siguiente">&rsaquo;</button>
+        <span class="ficha__contador" aria-live="polite"></span>
+      </div>
+      <ul class="ficha__minis" aria-label="Más fotos"></ul>
+    </div>
+    <div class="ficha__texto">
+      <p class="sobretitulo ficha__cat"></p>
+      <h2 class="ficha__nombre" id="ficha-nombre"></h2>
+      <p class="ficha__desc"></p>
+      <a class="boton boton--fuerte ficha__wa" href="https://wa.me/34679168346" target="_blank" rel="noopener">Pregúntame por esta prenda</a>
+      <p class="ficha__nota">Te contestamos nosotras, en horario de tienda. Sin compromiso.</p>
+    </div>
+  </div>
+</dialog>
+
 <script>
   // ---------------------------------------------------------------
   // FOTOS DE VERDAD
@@ -419,6 +458,125 @@
       if (b.getBoundingClientRect().top < alto * 0.92) b.classList.add("is-visible");
       else vigia.observe(b);
     });
+  })();
+
+  // ---------------------------------------------------------------
+  // FICHA DE PRODUCTO: pinchar una tarjeta abre la prenda a lo grande
+  // con todas sus fotos (id, id-b, id-c, id-d, id-e), la descripcion
+  // y un boton de WhatsApp con el nombre ya escrito.
+  // ---------------------------------------------------------------
+  (function () {
+    var ficha = document.getElementById("ficha");
+    if (!ficha || !ficha.showModal) return;   // navegador muy viejo: sin ficha
+
+    var fotoEl   = ficha.querySelector(".ficha__foto");
+    var minisEl  = ficha.querySelector(".ficha__minis");
+    var contEl   = ficha.querySelector(".ficha__contador");
+    var antEl    = ficha.querySelector(".ficha__flecha--ant");
+    var sigEl    = ficha.querySelector(".ficha__flecha--sig");
+    var catEl    = ficha.querySelector(".ficha__cat");
+    var nombreEl = ficha.querySelector(".ficha__nombre");
+    var descEl   = ficha.querySelector(".ficha__desc");
+    var waEl     = ficha.querySelector(".ficha__wa");
+    var cerrarEl = ficha.querySelector(".ficha__cerrar");
+
+    var NOMBRES_CAT = { ropa: "Ropa", bolsos: "Bolsos y complementos", zapatos: "Zapatos", bisuteria: "Bisutería" };
+    var fotos = [], actual = 0, apertura = 0;
+
+    // Los datos viven en el catalogo (#rejilla): ahi estan la categoria y la descripcion.
+    function datosDe(id) {
+      var art = document.querySelector('#rejilla .pieza[data-id="' + id + '"]');
+      if (!art) return null;
+      var img = art.querySelector("img[data-foto]");
+      return {
+        nombre: art.querySelector("h3").textContent.trim(),
+        cat: NOMBRES_CAT[art.dataset.cat] || "",
+        desc: art.dataset.desc || "",
+        principal: img.currentSrc || img.src
+      };
+    }
+
+    // Busca las fotos extra (-b, -c, -d, -e) una detras de otra; para en la primera que falte.
+    function buscarExtras(id, cb) {
+      var letras = ["b", "c", "d", "e"], encontradas = [];
+      (function siguienteLetra(li) {
+        if (li >= letras.length) return cb(encontradas);
+        var base = id + "-" + letras[li], ei = 0;
+        (function siguienteExt() {
+          if (ei >= EXTENSIONES.length) return cb(encontradas);  // esta letra no existe: se para
+          var url = "fotos/" + base + "." + EXTENSIONES[ei++];
+          var img = new Image();
+          img.onload  = function () { encontradas.push(url); siguienteLetra(li + 1); };
+          img.onerror = siguienteExt;
+          img.src = url;
+        })();
+      })(0);
+    }
+
+    function pintarMinis() {
+      minisEl.innerHTML = "";
+      minisEl.hidden = fotos.length < 2;
+      fotos.forEach(function (url, i) {
+        var b = document.createElement("button");
+        b.type = "button";
+        b.setAttribute("aria-label", "Foto " + (i + 1));
+        b.innerHTML = '<img src="' + url + '" alt="">';
+        b.addEventListener("click", function () { ir(i); });
+        minisEl.appendChild(b);
+      });
+    }
+
+    function ir(i) {
+      if (i < 0 || i >= fotos.length) return;
+      actual = i;
+      fotoEl.classList.add("cambiando");
+      setTimeout(function () { fotoEl.src = fotos[i]; fotoEl.classList.remove("cambiando"); }, 120);
+      contEl.textContent = (i + 1) + " / " + fotos.length;
+      contEl.hidden = antEl.hidden = sigEl.hidden = fotos.length < 2;
+      antEl.disabled = (i === 0);
+      sigEl.disabled = (i === fotos.length - 1);
+      minisEl.querySelectorAll("button").forEach(function (b, j) { b.classList.toggle("is-activa", j === i); });
+    }
+
+    function abrir(id) {
+      var d = datosDe(id);
+      if (!d) return;
+      var miApertura = ++apertura;
+      fotos = [d.principal]; actual = 0;
+      nombreEl.textContent = d.nombre;
+      catEl.textContent = d.cat;
+      descEl.textContent = d.desc; descEl.hidden = !d.desc;
+      fotoEl.alt = d.nombre;
+      waEl.href = "https://wa.me/34679168346?text=" +
+        encodeURIComponent("Hola, me interesa \"" + d.nombre + "\" que he visto en la web. ¿Lo tenéis en mi talla?");
+      pintarMinis(); ir(0);
+      ficha.showModal();
+      buscarExtras(id, function (extras) {
+        if (miApertura !== apertura) return;   // se abrio otra prenda mientras tanto
+        fotos = [d.principal].concat(extras);
+        pintarMinis(); ir(actual);
+      });
+    }
+
+    document.querySelectorAll(".pieza[data-id]").forEach(function (p) {
+      p.addEventListener("click", function () { abrir(p.dataset.id); });
+    });
+    cerrarEl.addEventListener("click", function () { ficha.close(); });
+    antEl.addEventListener("click", function () { ir(actual - 1); });
+    sigEl.addEventListener("click", function () { ir(actual + 1); });
+    ficha.addEventListener("click", function (e) { if (e.target === ficha) ficha.close(); });  // fuera = cerrar
+    ficha.addEventListener("keydown", function (e) {
+      if (e.key === "ArrowLeft")  ir(actual - 1);
+      if (e.key === "ArrowRight") ir(actual + 1);
+    });
+    // Deslizar con el dedo en el movil
+    var x0 = null;
+    fotoEl.addEventListener("touchstart", function (e) { x0 = e.touches[0].clientX; }, { passive: true });
+    fotoEl.addEventListener("touchend", function (e) {
+      if (x0 === null) return;
+      var dx = e.changedTouches[0].clientX - x0; x0 = null;
+      if (Math.abs(dx) > 40) ir(actual + (dx < 0 ? 1 : -1));
+    }, { passive: true });
   })();
 
   // Filtrar el catalogo al pulsar una categoria (solo las piezas del

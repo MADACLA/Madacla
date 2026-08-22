@@ -738,3 +738,147 @@ a { color: var(--cacao); }
 @media (min-width: 900px) {
   .maricarmen { grid-template-columns: 1fr 1.2fr; gap: var(--e-8); }
 }
+
+/* ==========================================================================
+   LOTE C1 — la ficha de producto (ventana encima, «como en Zara»)
+   ========================================================================== */
+
+/* La tarjeta entera se puede pinchar; el botón «Ver de cerca» es el acceso
+   con teclado y el aviso visual. */
+.pieza { cursor: pointer; }
+.pieza__ver {
+  font: inherit; font-size: .7rem; text-transform: uppercase; letter-spacing: .14em;
+  background: none; border: 0; padding: var(--e-1) 0 0; cursor: pointer;
+  color: var(--oro-txt);
+  border-bottom: 1px solid var(--oro);
+  transition: color .2s, border-color .2s;
+}
+.pieza__ver:hover { color: var(--cacao); border-color: var(--cacao); }
+
+/* --- La ventana --- */
+.ficha {
+  border: 0; padding: 0; margin: auto;
+  width: min(1040px, calc(100vw - 2 * var(--e-4)));
+  max-height: calc(100dvh - 2 * var(--e-4));
+  background: var(--crema); color: var(--cacao);
+  border-radius: var(--radio);
+  box-shadow: 0 2px 6px rgba(43,33,27,.08), 0 24px 64px rgba(43,33,27,.28);
+  overflow: hidden;
+}
+.ficha::backdrop { background: rgba(43, 33, 27, .55); backdrop-filter: blur(3px); }
+
+/* entrada suave: desde un poco más abajo y transparente */
+.ficha[open] { animation: ficha-entra .5s var(--suave); }
+@keyframes ficha-entra { from { opacity: 0; transform: translateY(18px); } }
+.ficha[open]::backdrop { animation: fondo-entra .35s ease-out; }
+@keyframes fondo-entra { from { opacity: 0; } }
+
+.ficha__cuerpo {
+  display: grid; grid-template-rows: auto auto;
+  max-height: calc(100dvh - 2 * var(--e-4));
+  overflow: auto;
+}
+
+.ficha__cerrar {
+  position: absolute; top: var(--e-3); right: var(--e-3); z-index: 3;
+  width: 44px; height: 44px; border-radius: 50%;
+  border: 0; background: rgba(250,246,240,.9); color: var(--cacao);
+  font-size: 1.4rem; line-height: 1; cursor: pointer;
+  display: flex; align-items: center; justify-content: center;
+}
+.ficha__cerrar:hover { background: var(--crema); }
+
+/* la galería */
+.ficha__galeria { position: relative; background: var(--arena); }
+.ficha__foto {
+  width: 100%; aspect-ratio: 4 / 5; object-fit: cover; display: block;
+  max-height: 62dvh;
+  transition: opacity .3s ease;
+  touch-action: pan-y;
+}
+.ficha__foto.cambiando { opacity: 0; }
+
+.ficha__flecha {
+  position: absolute; top: 50%; transform: translateY(-50%); z-index: 2;
+  width: 44px; height: 44px; border-radius: 50%;
+  border: 0; background: rgba(250,246,240,.9); color: var(--cacao);
+  font-size: 1.2rem; cursor: pointer;
+  display: flex; align-items: center; justify-content: center;
+  transition: background .2s, opacity .2s;
+}
+.ficha__flecha:hover { background: var(--crema); }
+.ficha__flecha--ant { left: var(--e-3); }
+.ficha__flecha--sig { right: var(--e-3); }
+.ficha__flecha[disabled] { opacity: .35; cursor: default; }
+
+.ficha__contador {
+  position: absolute; left: var(--e-4); bottom: var(--e-3); z-index: 2;
+  font-size: .7rem; letter-spacing: .18em; text-transform: uppercase;
+  color: var(--crema); text-shadow: 0 1px 8px rgba(43,33,27,.6);
+  font-variant-numeric: tabular-nums;
+}
+
+.ficha__minis {
+  display: flex; gap: var(--e-2); padding: var(--e-3); margin: 0;
+  list-style: none; overflow-x: auto;
+  background: var(--arena);
+}
+.ficha__minis button {
+  width: 56px; height: 70px; padding: 0; border: 0; cursor: pointer;
+  border-radius: 4px; overflow: hidden; opacity: .55; flex: none;
+  outline-offset: 2px;
+  transition: opacity .2s;
+}
+.ficha__minis button img { width: 100%; height: 100%; object-fit: cover; display: block; }
+.ficha__minis button.is-activa, .ficha__minis button:hover { opacity: 1; }
+
+/* el texto */
+.ficha__texto { padding: var(--e-6) var(--e-5) var(--e-6); }
+.ficha__texto .sobretitulo { margin-bottom: var(--e-2); }
+.ficha__nombre { font-size: var(--t-3); margin-bottom: var(--e-3); }
+.ficha__desc { color: var(--taupe); margin: 0 0 var(--e-5); }
+.ficha__nota { font-size: .8rem; color: var(--taupe); margin: var(--e-3) 0 0; }
+
+@media (min-width: 820px) {
+  .ficha__cuerpo { grid-template-columns: 1.1fr 1fr; grid-template-rows: none; }
+  .ficha__galeria { display: grid; grid-template-rows: 1fr auto; }
+  .ficha__foto { max-height: none; height: 100%; min-height: 520px; }
+  .ficha__texto {
+    padding: var(--e-8) var(--e-7);
+    display: flex; flex-direction: column; justify-content: center;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .ficha[open], .ficha[open]::backdrop { animation: none; }
+  .ficha__foto { transition: none; }
+}
+
+/* El visor: la foto con sus flechas y su contador (las miniaturas van aparte,
+   así el contador ya no se monta sobre ellas). */
+.ficha__visor { position: relative; }
+@media (min-width: 820px) {
+  .ficha__galeria { grid-template-rows: 1fr auto; }
+  .ficha__visor { display: flex; min-height: 0; }
+}
+
+/* En móvil: foto un poco menos alta y texto más prieto, para que el botón de
+   WhatsApp se vea sin tener que bajar dentro de la ficha. */
+@media (max-width: 819px) {
+  .ficha__foto { max-height: 52dvh; }
+  .ficha__texto { padding: var(--e-5) var(--e-5) var(--e-6); }
+  .ficha__nombre { font-size: var(--t-2); }
+}
+@media (min-width: 820px) {
+  /* El visor ocupa toda la fila y la foto lo llena (sin flex, que la dejaba sin altura). */
+  .ficha__visor { display: block; height: 100%; min-height: 520px; }
+}
+@media (min-width: 820px) {
+  /* A prueba de bombas: el visor marca la altura y la foto lo llena entero. */
+  .ficha__visor { position: relative; display: block; height: auto; min-height: 520px; }
+  .ficha__foto {
+    position: absolute; inset: 0;
+    width: 100%; height: 100%; max-height: none; min-height: 0;
+    aspect-ratio: auto;
+  }
+}
