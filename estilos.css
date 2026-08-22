@@ -571,3 +571,111 @@ a { color: var(--cacao); }
   .siempre__fondo, .portada__foto img { animation-timeline: auto; translate: 0; }
   .pieza img { transition: none; }
 }
+
+/* ==========================================================================
+   LOTE B1 — la home en el orden que vende
+   ========================================================================== */
+
+/* --- Franja de confianza: tres datos, sin cajas, separados por aire --- */
+.confianza {
+  list-style: none; margin: 0; padding: var(--e-5) var(--margen);
+  display: grid; gap: var(--e-3);
+  max-width: var(--ancho); margin-inline: auto;
+  border-top: 1px solid var(--lino);
+}
+.confianza li {
+  display: flex; align-items: baseline; gap: var(--e-3);
+  font-size: var(--t--1); color: var(--taupe);
+}
+.confianza__num {
+  font-family: var(--serif); font-style: italic; font-size: var(--t-1);
+  color: var(--oro-txt); line-height: 1;
+}
+
+/* --- "Acaba de llegar": mismas tarjetas que el catálogo, 2 → 4 columnas --- */
+.rejilla--novedades { grid-template-columns: repeat(2, 1fr); }
+
+/* --- Categorías con foto: el nombre encima de la imagen --- */
+.categorias { padding-top: 0; }
+.categorias__rejilla {
+  display: grid; grid-template-columns: repeat(2, 1fr); gap: var(--e-4);
+}
+.categoria {
+  position: relative; display: block; overflow: hidden;
+  border-radius: var(--radio);
+  text-decoration: none; color: var(--crema);
+  isolation: isolate;
+}
+.categoria img {
+  width: 100%; aspect-ratio: 4 / 5; object-fit: cover;
+  transition: transform .8s var(--suave);
+}
+.categoria::after {   /* velo suave para que el nombre se lea sobre cualquier foto */
+  content: ""; position: absolute; inset: 0;
+  background: linear-gradient(180deg, rgba(43,33,27,0) 45%, rgba(43,33,27,.55) 100%);
+}
+.categoria__nombre {
+  position: absolute; left: var(--e-5); right: var(--e-5); bottom: var(--e-5); z-index: 1;
+  font-family: var(--serif); font-size: var(--t-2); font-weight: 500;
+  letter-spacing: .01em; line-height: 1.1;
+  text-shadow: 0 1px 12px rgba(43,33,27,.35);
+}
+.categoria__nombre::after {   /* rayita dorada que crece al pasar el ratón */
+  content: ""; display: block; width: 32px; height: 1px;
+  background: var(--oro); margin-top: var(--e-2);
+  transition: width .5s var(--suave);
+}
+@media (hover: hover) and (pointer: fine) {
+  .categoria:hover img { transform: scale(1.04); }
+  .categoria:hover .categoria__nombre::after { width: 64px; }
+}
+
+/* --- Cómo comprar en 3 pasos --- */
+.pasos__lista {
+  list-style: none; margin: 0; padding: 0;
+  display: grid; gap: var(--e-6);
+  counter-reset: paso;
+}
+.paso {
+  padding-top: var(--e-5);
+  border-top: 1px solid var(--oro);
+}
+.paso__num {
+  display: block;
+  font-family: var(--serif); font-style: italic; font-size: var(--t-4);
+  color: var(--oro-txt); line-height: 1; margin-bottom: var(--e-3);
+}
+.paso h3 { font-size: var(--t-1); margin-bottom: var(--e-2); }
+.paso p { margin: 0; color: var(--taupe); font-size: var(--t--1); }
+.pasos__boton { margin-top: var(--e-7); }
+
+/* --- Botón flotante de WhatsApp (verde oficial, logo sin recolorear) --- */
+.flotante {
+  position: fixed; right: var(--e-5); bottom: var(--e-5); z-index: 60;
+  width: 56px; height: 56px; border-radius: 50%;
+  display: flex; align-items: center; justify-content: center;
+  background: #25D366;
+  box-shadow: 0 1px 2px rgba(43,33,27,.08), 0 8px 24px rgba(43,33,27,.18);
+  transition: transform .2s, box-shadow .2s;
+}
+.flotante:hover { transform: translateY(-2px); box-shadow: 0 2px 4px rgba(43,33,27,.1), 0 12px 28px rgba(43,33,27,.22); }
+.flotante:focus-visible { outline: 2px solid var(--cacao); outline-offset: 3px; }
+
+@media (min-width: 720px) {
+  .confianza { grid-template-columns: repeat(3, 1fr); gap: var(--e-6); padding-block: var(--e-6); }
+  .confianza li { justify-content: center; }
+  .rejilla--novedades { grid-template-columns: repeat(4, 1fr); }
+  .categorias__rejilla { grid-template-columns: repeat(4, 1fr); gap: var(--e-5); }
+  .pasos__lista { grid-template-columns: repeat(3, 1fr); gap: var(--e-7); }
+}
+@media (min-width: 900px) {
+  .flotante { right: var(--e-6); bottom: var(--e-6); }
+}
+
+/* En móvil el menú no cabe con 4 entradas: «Novedades» se esconde (la portada
+   ya tiene el botón «Ver novedades») y las otras tres caben en una línea. */
+@media (max-width: 719px) {
+  .menu { gap: var(--e-4); }
+  .menu a { font-size: .74rem; }
+  .menu a[href="#novedades"] { display: none; }
+}

@@ -21,6 +21,7 @@
     <span class="marca__antes">Casa Rosendo</span>
   </a>
   <nav class="menu">
+    <a href="#novedades">Novedades</a>
     <a href="#catalogo">Catálogo</a>
     <a href="#visitanos">Dónde estamos</a>
     <a href="https://instagram.com/maricarmennortes_" target="_blank" rel="noopener">Instagram</a>
@@ -45,11 +46,17 @@
         te decimos la verdad de cómo te queda y te lo guardamos si tienes que pensarlo.
       </p>
       <div class="botones entra" style="--i:3">
-        <a class="boton boton--fuerte" href="#catalogo">Ver el catálogo</a>
-        <a class="boton" href="https://wa.me/34679168346" target="_blank" rel="noopener">Escríbenos por WhatsApp</a>
+        <a class="boton boton--fuerte" href="#novedades">Ver novedades</a>
       </div>
     </div>
   </section>
+
+  <!-- ============ CONFIANZA ============ -->
+  <ul class="confianza revela" aria-label="Por qué comprar aquí">
+    <li><span class="confianza__num">01</span>Tienda en Santomera, calle San Rosendo 5</li>
+    <li><span class="confianza__num">02</span>Te atiende Maricarmen</li>
+    <li><span class="confianza__num">03</span>Te lo apartamos por WhatsApp</li>
+  </ul>
 
   <!-- ============ CINTA ============ -->
   <div class="cinta" aria-label="Ropa, bolsos, zapatos, bisutería. Santomera. Te lo apartamos por WhatsApp.">
@@ -58,6 +65,58 @@
       <span class="cinta__texto" aria-hidden="true">Ropa · Bolsos · Zapatos · Bisutería · Santomera · Te lo apartamos por WhatsApp ·&nbsp;</span>
     </div>
   </div>
+
+  <!-- ============ ACABA DE LLEGAR ============ -->
+  <section id="novedades" class="seccion">
+    <header class="seccion__cabecera revela">
+      <p class="sobretitulo">Novedades</p>
+      <h2>Acaba de llegar</h2>
+      <p>Lo último que ha entrado en la tienda. Si te gusta algo, escríbenos y te lo apartamos.</p>
+    </header>
+    <div class="rejilla rejilla--novedades">
+      <article class="pieza revela" style="--i:0">
+        <img data-foto="ropa-1" src="fotos/ropa-1.svg" alt="Blusa estampada">
+        <h3>Blusa estampada</h3>
+      </article>
+      <article class="pieza revela" style="--i:1">
+        <img data-foto="ropa-2" src="fotos/ropa-2.svg" alt="Pantalón de vestir">
+        <h3>Pantalón de vestir</h3>
+      </article>
+      <article class="pieza revela" style="--i:2">
+        <img data-foto="ropa-3" src="fotos/ropa-3.svg" alt="Vestido de verano">
+        <h3>Vestido de verano</h3>
+      </article>
+      <article class="pieza revela" style="--i:3">
+        <img data-foto="bolsos-1" src="fotos/bolsos-1.svg" alt="Bolso de mano">
+        <h3>Bolso de mano</h3>
+      </article>
+    </div>
+  </section>
+
+  <!-- ============ CATEGORÍAS CON FOTO ============ -->
+  <section class="seccion categorias">
+    <header class="seccion__cabecera revela">
+      <h2>¿Qué buscas?</h2>
+    </header>
+    <div class="categorias__rejilla">
+      <a class="categoria revela" style="--i:0" href="#catalogo" data-filtro="ropa">
+        <img data-foto="cat-ropa" src="fotos/cat-ropa.svg" alt="">
+        <span class="categoria__nombre">Ropa</span>
+      </a>
+      <a class="categoria revela" style="--i:1" href="#catalogo" data-filtro="bolsos">
+        <img data-foto="cat-bolsos" src="fotos/cat-bolsos.svg" alt="">
+        <span class="categoria__nombre">Bolsos y complementos</span>
+      </a>
+      <a class="categoria revela" style="--i:2" href="#catalogo" data-filtro="zapatos">
+        <img data-foto="cat-zapatos" src="fotos/cat-zapatos.svg" alt="">
+        <span class="categoria__nombre">Zapatos</span>
+      </a>
+      <a class="categoria revela" style="--i:3" href="#catalogo" data-filtro="bisuteria">
+        <img data-foto="cat-bisuteria" src="fotos/cat-bisuteria.svg" alt="">
+        <span class="categoria__nombre">Bisutería</span>
+      </a>
+    </div>
+  </section>
 
   <!-- ============ CATÁLOGO ============ -->
   <section id="catalogo" class="seccion seccion--arena">
@@ -158,6 +217,34 @@
     </div>
   </section>
 
+  <!-- ============ CÓMO COMPRAR ============ -->
+  <section class="seccion pasos">
+    <header class="seccion__cabecera revela">
+      <h2>Cómo comprar</h2>
+      <p>Sin carrito ni registros. Como en la tienda, pero por el móvil.</p>
+    </header>
+    <ol class="pasos__lista">
+      <li class="paso revela" style="--i:0">
+        <span class="paso__num">1</span>
+        <h3>Ves algo que te gusta</h3>
+        <p>Aquí, en el Instagram o en el escaparate.</p>
+      </li>
+      <li class="paso revela" style="--i:1">
+        <span class="paso__num">2</span>
+        <h3>Nos escribes por WhatsApp</h3>
+        <p>Nos dices qué es y tu talla. Te contestamos nosotras, en horario de tienda.</p>
+      </li>
+      <li class="paso revela" style="--i:2">
+        <span class="paso__num">3</span>
+        <h3>Te lo apartamos</h3>
+        <p>Lo tienes guardado en la tienda hasta que vengas a probártelo.</p>
+      </li>
+    </ol>
+    <div class="pasos__boton revela">
+      <a class="boton boton--fuerte" href="https://wa.me/34679168346?text=Hola%2C%20he%20visto%20algo%20en%20la%20web%20y%20me%20gustar%C3%ADa%20preguntaros" target="_blank" rel="noopener">Escribir por WhatsApp</a>
+    </div>
+  </section>
+
   <!-- ============ Y MUCHAS COSAS MÁS ============ -->
   <section class="siempre">
     <div class="siempre__fondo" aria-hidden="true"></div>
@@ -214,6 +301,13 @@
   <p class="pie__casa">Casa Rosendo</p>
   <p>Calle San Rosendo, 5 · Santomera (Murcia) · <a href="tel:+34679168346">679 16 83 46</a></p>
 </footer>
+
+<!-- Botón flotante de WhatsApp: siempre a mano del pulgar. Logo oficial, sin recolorear. -->
+<a class="flotante" href="https://wa.me/34679168346" target="_blank" rel="noopener" aria-label="Escríbenos por WhatsApp">
+  <svg viewBox="0 0 32 32" width="28" height="28" aria-hidden="true" focusable="false">
+    <path fill="#fff" d="M16 3C8.8 3 3 8.7 3 15.8c0 2.5.7 4.9 2 7L3 29l6.4-1.9c2 1.1 4.3 1.7 6.6 1.7 7.2 0 13-5.7 13-12.8S23.2 3 16 3zm0 23.3c-2.1 0-4.1-.6-5.9-1.6l-.4-.2-3.8 1.1 1.1-3.6-.3-.4A10.4 10.4 0 0 1 5.6 15.8C5.6 10.2 10.3 5.6 16 5.6s10.4 4.6 10.4 10.2S21.7 26.3 16 26.3zm5.7-7.6c-.3-.2-1.8-.9-2.1-1-.3-.1-.5-.2-.7.2l-1 1.2c-.2.2-.4.2-.7.1-.3-.2-1.3-.5-2.5-1.5-.9-.8-1.5-1.8-1.7-2.1-.2-.3 0-.5.1-.6l.5-.5c.2-.2.2-.3.3-.5.1-.2 0-.4 0-.5l-1-2.3c-.2-.6-.5-.5-.7-.5h-.6c-.2 0-.5.1-.8.4-.3.3-1 1-1 2.5s1.1 2.9 1.2 3.1c.2.2 2.1 3.2 5.1 4.5.7.3 1.3.5 1.7.6.7.2 1.4.2 1.9.1.6-.1 1.8-.7 2-1.4.3-.7.3-1.3.2-1.4-.1-.2-.3-.3-.6-.4z"/>
+  </svg>
+</a>
 
 <script>
   // ---------------------------------------------------------------
@@ -288,18 +382,24 @@
     });
   })();
 
-  // Filtrar el catalogo al pulsar una categoria.
+  // Filtrar el catalogo al pulsar una categoria (solo las piezas del
+  // catalogo: las de "Acaba de llegar" no se tocan).
   var botones = document.querySelectorAll(".filtro");
-  var piezas  = document.querySelectorAll(".pieza");
+  var piezas  = document.querySelectorAll("#rejilla .pieza");
 
-  botones.forEach(function (boton) {
-    boton.addEventListener("click", function () {
-      var cat = boton.dataset.cat;
-      botones.forEach(function (b) { b.classList.toggle("is-activo", b === boton); });
-      piezas.forEach(function (pieza) {
-        pieza.hidden = !(cat === "todo" || pieza.dataset.cat === cat);
-      });
+  function filtrar(cat) {
+    botones.forEach(function (b) { b.classList.toggle("is-activo", b.dataset.cat === cat); });
+    piezas.forEach(function (pieza) {
+      pieza.hidden = !(cat === "todo" || pieza.dataset.cat === cat);
     });
+  }
+  botones.forEach(function (boton) {
+    boton.addEventListener("click", function () { filtrar(boton.dataset.cat); });
+  });
+
+  // Los bloques de "Que buscas?" llevan al catalogo ya filtrado.
+  document.querySelectorAll(".categoria[data-filtro]").forEach(function (enlace) {
+    enlace.addEventListener("click", function () { filtrar(enlace.dataset.filtro); });
   });
 </script>
 
