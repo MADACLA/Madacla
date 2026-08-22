@@ -24,7 +24,7 @@
 
   /* --- DORADO --- */
   --oro:     #C0A06A;   /* dorado claro: líneas y adornos (NO para letras) */
-  --oro-txt: #8A6A3A;   /* dorado oscuro: sí se puede leer (precios, rótulos) */
+  --oro-txt: #8A6A3A;   /* dorado oscuro: sí se puede leer (rotulitos, enlaces) */
 
   /* --- MEDIDAS --- */
   --ancho:   1140px;
@@ -267,15 +267,11 @@ a { color: var(--cacao); }
   margin: 1rem 0 .15rem;
 }
 
+/* En el catálogo NO van precios: se preguntan por WhatsApp. */
 .pieza__cat {
   margin: 0;
   font-size: .66rem; text-transform: uppercase; letter-spacing: .16em;
   color: var(--taupe);
-}
-.pieza__precio {
-  margin: .45rem 0 0;
-  font-family: var(--serif); font-size: 1.3rem;
-  color: var(--oro-txt);
 }
 
 /* ============ AVISO DE PEDIDO ============ */
