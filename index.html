@@ -256,6 +256,43 @@
     </ul>
   </section>
 
+  <!-- ============ INSTAGRAM ============ -->
+  <section class="seccion instagram">
+    <header class="seccion__cabecera revela">
+      <p class="sobretitulo">@maricarmennortes_</p>
+      <h2>En el Instagram</h2>
+      <p>Lo que va entrando, los looks y el día a día de la tienda.</p>
+    </header>
+    <div class="instagram__rejilla">
+      <a class="ig revela" style="--i:0" href="https://instagram.com/maricarmennortes_" target="_blank" rel="noopener" aria-label="Ver en Instagram"><img data-foto="ig-1" src="fotos/ig-1.svg" alt="" loading="lazy" decoding="async"></a>
+      <a class="ig revela" style="--i:1" href="https://instagram.com/maricarmennortes_" target="_blank" rel="noopener" aria-label="Ver en Instagram"><img data-foto="ig-2" src="fotos/ig-2.svg" alt="" loading="lazy" decoding="async"></a>
+      <a class="ig revela" style="--i:2" href="https://instagram.com/maricarmennortes_" target="_blank" rel="noopener" aria-label="Ver en Instagram"><img data-foto="ig-3" src="fotos/ig-3.svg" alt="" loading="lazy" decoding="async"></a>
+      <a class="ig revela" style="--i:3" href="https://instagram.com/maricarmennortes_" target="_blank" rel="noopener" aria-label="Ver en Instagram"><img data-foto="ig-4" src="fotos/ig-4.svg" alt="" loading="lazy" decoding="async"></a>
+      <a class="ig revela" style="--i:4" href="https://instagram.com/maricarmennortes_" target="_blank" rel="noopener" aria-label="Ver en Instagram"><img data-foto="ig-5" src="fotos/ig-5.svg" alt="" loading="lazy" decoding="async"></a>
+      <a class="ig revela" style="--i:5" href="https://instagram.com/maricarmennortes_" target="_blank" rel="noopener" aria-label="Ver en Instagram"><img data-foto="ig-6" src="fotos/ig-6.svg" alt="" loading="lazy" decoding="async"></a>
+    </div>
+    <div class="instagram__boton revela">
+      <a class="boton" href="https://instagram.com/maricarmennortes_" target="_blank" rel="noopener">Síguenos en Instagram</a>
+    </div>
+  </section>
+
+  <!-- ============ TE ATIENDE MARICARMEN ============ -->
+  <!-- Texto de BORRADOR (2026-08-22): Claudia lo cambiará. Sin historia ni años. -->
+  <section class="seccion maricarmen">
+    <div class="maricarmen__foto revela">
+      <img data-foto="maricarmen" src="fotos/maricarmen.svg" alt="Maricarmen, en la tienda" loading="lazy" decoding="async">
+    </div>
+    <div class="maricarmen__texto revela">
+      <p class="sobretitulo">Quién te atiende</p>
+      <h2>Soy Maricarmen</h2>
+      <p>Aquí me vas a encontrar casi siempre: colocando, mirando cómo cae una tela,
+         buscándote la talla. Me gusta decirte la verdad de cómo te queda, aunque no
+         sea lo que quieres oír, y guardarte lo que te has quedado pensando.</p>
+      <p>Si no sabes qué ponerte para algo, ven y lo vemos juntas.</p>
+      <p class="maricarmen__firma">Maricarmen</p>
+    </div>
+  </section>
+
   <!-- ============ VISÍTANOS ============ -->
   <section id="visitanos" class="seccion visitanos">
     <div class="visitanos__datos revela">
@@ -286,11 +323,13 @@
       </div>
     </div>
 
+    <!-- El mapa de Google solo se carga si alguien lo pide (sin cookies hasta entonces) -->
     <div class="visitanos__mapa revela">
-      <iframe
-        title="Mapa de la tienda en Calle San Rosendo 5, Santomera"
-        src="https://www.google.com/maps?q=Calle+San+Rosendo+5,+Santomera,+Murcia&amp;output=embed"
-        loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
+      <div class="mapa" id="mapa">
+        <p class="mapa__texto">Calle San Rosendo, 5<br>Santomera (Murcia)</p>
+        <button class="boton boton--fuerte" type="button" id="ver-mapa">Ver el mapa</button>
+        <p class="mapa__nota">Al pulsar se carga un mapa de Google.</p>
+      </div>
     </div>
   </section>
 
@@ -396,6 +435,22 @@
   botones.forEach(function (boton) {
     boton.addEventListener("click", function () { filtrar(boton.dataset.cat); });
   });
+
+  // El mapa de Google solo se carga al pulsar "Ver el mapa".
+  var botonMapa = document.getElementById("ver-mapa");
+  if (botonMapa) {
+    botonMapa.addEventListener("click", function () {
+      var caja = document.getElementById("mapa");
+      var mapa = document.createElement("iframe");
+      mapa.title = "Mapa de la tienda en Calle San Rosendo 5, Santomera";
+      mapa.src = "https://www.google.com/maps?q=Calle+San+Rosendo+5,+Santomera,+Murcia&output=embed";
+      mapa.setAttribute("referrerpolicy", "no-referrer-when-downgrade");
+      mapa.setAttribute("loading", "lazy");
+      caja.innerHTML = "";
+      caja.classList.add("mapa--cargado");
+      caja.appendChild(mapa);
+    });
+  }
 
   // Los bloques de "Que buscas?" llevan al catalogo ya filtrado.
   document.querySelectorAll(".categoria[data-filtro]").forEach(function (enlace) {

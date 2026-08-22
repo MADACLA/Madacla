@@ -679,3 +679,62 @@ a { color: var(--cacao); }
   .menu a { font-size: .74rem; }
   .menu a[href="#novedades"] { display: none; }
 }
+
+/* ==========================================================================
+   LOTE B2 — Instagram, Maricarmen y mapa al pulsar
+   ========================================================================== */
+
+/* --- Instagram: 6 cuadrados --- */
+.instagram { padding-bottom: 0; }
+.instagram__rejilla {
+  display: grid; grid-template-columns: repeat(3, 1fr); gap: var(--e-2);
+}
+.ig { display: block; overflow: hidden; border-radius: calc(var(--radio) / 2); }
+.ig img {
+  width: 100%; aspect-ratio: 1; object-fit: cover;
+  transition: transform .8s var(--suave), opacity .3s;
+}
+@media (hover: hover) and (pointer: fine) {
+  .ig:hover img { transform: scale(1.04); opacity: .92; }
+}
+.instagram__boton { margin-top: var(--e-6); }
+
+/* --- Te atiende Maricarmen: foto + texto en 1.ª persona --- */
+.maricarmen { display: grid; gap: var(--e-6); align-items: center; }
+.maricarmen__foto img {
+  width: 100%; aspect-ratio: 4 / 5; object-fit: cover;
+  border-radius: var(--radio);
+}
+.maricarmen__texto h2 { font-size: var(--t-3); }
+.maricarmen__texto h2::after {
+  content: ""; display: block; width: 54px; height: 1px;
+  background: var(--oro); margin: var(--e-4) 0 var(--e-5);
+}
+.maricarmen__texto p { color: var(--taupe); }
+.maricarmen__firma {
+  font-family: var(--serif); font-style: italic; font-size: var(--t-2);
+  color: var(--cacao) !important; margin-top: var(--e-5);
+}
+
+/* --- Mapa que solo carga al pulsar --- */
+.mapa {
+  min-height: 360px; height: 100%;
+  display: flex; flex-direction: column; align-items: center; justify-content: center;
+  gap: var(--e-4); text-align: center;
+  background: var(--arena); border-radius: var(--radio);
+  padding: var(--e-6);
+}
+.mapa__texto { font-family: var(--serif); font-size: var(--t-1); margin: 0; }
+.mapa__nota { font-size: .78rem; color: var(--taupe); margin: 0; }
+.mapa--cargado { padding: 0; display: block; }
+.mapa--cargado iframe {
+  width: 100%; height: 100%; min-height: 360px; border: 0;
+  border-radius: var(--radio); filter: saturate(.75);
+}
+
+@media (min-width: 720px) {
+  .instagram__rejilla { grid-template-columns: repeat(6, 1fr); gap: var(--e-3); }
+}
+@media (min-width: 900px) {
+  .maricarmen { grid-template-columns: 1fr 1.2fr; gap: var(--e-8); }
+}
