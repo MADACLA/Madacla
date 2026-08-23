@@ -32,8 +32,6 @@
 
   <!-- ============ PORTADA ============ -->
   <section class="portada">
-    <!-- El nombre gigante de fondo, solo contorno, deslizándose despacio -->
-    <div class="fondo-marca" aria-hidden="true"><span>Madacla&nbsp;&nbsp;Madacla&nbsp;&nbsp;Madacla&nbsp;&nbsp;Madacla&nbsp;&nbsp;</span></div>
     <div class="portada__foto">
       <img data-foto="portada" src="fotos/portada.svg" alt="Escaparate de la tienda Madacla en Santomera">
     </div>
@@ -45,8 +43,7 @@
         <span class="rotulo__casa entra" style="--i:2">Casa Rosendo</span>
       </h1>
       <p class="entradilla entra" style="--i:3">
-        <span class="rota" aria-label="Ropa, bolsos, zapatos y bisutería"><span class="rota__palabra is-activa">Ropa</span><span class="rota__palabra">Bolsos</span><span class="rota__palabra">Zapatos</span><span class="rota__palabra">Bisutería</span></span>
-        y muchas cosas más. Te atendemos nosotras
+        Ropa, complementos y muchas cosas más. Te atendemos nosotras
         y te lo guardamos si tienes que pensarlo.
       </p>
       <div class="botones entra" style="--i:4">
@@ -578,29 +575,6 @@
       var dx = e.changedTouches[0].clientX - x0; x0 = null;
       if (Math.abs(dx) > 40) ir(actual + (dx < 0 ? 1 : -1));
     }, { passive: true });
-  })();
-
-  // ---------------------------------------------------------------
-  // LA PALABRA QUE CAMBIA: en la portada, "Ropa / Bolsos / Zapatos /
-  // Bisuteria" va rotando cada 2,2 s con un fundido. Si el movil pide
-  // movimiento reducido, se queda quieta en la primera.
-  // ---------------------------------------------------------------
-  (function () {
-    var palabras = document.querySelectorAll(".rota__palabra");
-    if (palabras.length < 2) return;
-    var caja = palabras[0].parentNode;
-    // el hueco mide lo que mide la palabra activa (y no la mas larga)
-    function ajustar(p) { caja.style.width = p.offsetWidth + "px"; }
-    ajustar(palabras[0]);
-    if (document.fonts && document.fonts.ready) document.fonts.ready.then(function () { ajustar(palabras[0]); });
-    if (window.matchMedia && window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
-    var actual = 0;
-    setInterval(function () {
-      palabras[actual].classList.remove("is-activa");
-      actual = (actual + 1) % palabras.length;
-      palabras[actual].classList.add("is-activa");
-      ajustar(palabras[actual]);
-    }, 2200);
   })();
 
   // Filtrar el catalogo al pulsar una categoria (solo las piezas del

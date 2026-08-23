@@ -903,44 +903,44 @@ a { color: var(--cacao); }
   to   { translate: 0 0;    opacity: 1; }
 }
 
-/* --- 2. MADACLA gigante de fondo, solo contorno, deslizándose --- */
-.portada { position: relative; overflow: hidden; }
-.portada__foto, .portada__texto { position: relative; z-index: 1; }
-.fondo-marca {
-  position: absolute; left: 0; right: 0; top: 50%; z-index: 0;
-  transform: translateY(-50%);
-  white-space: nowrap; pointer-events: none; user-select: none;
-  font-family: var(--serif); font-weight: 400;
-  font-size: clamp(9rem, 26vw, 22rem); line-height: 1;
-  color: transparent;
-  -webkit-text-stroke: 1px var(--lino);
-  opacity: .9;
-}
-.fondo-marca span { display: inline-block; animation: fondo-marca 70s linear infinite; }
-@keyframes fondo-marca { to { transform: translateX(-50%); } }
+/* (Claudia, 2026-08-22: fuera el nombre gigante de fondo y la palabra que
+   cambia. Se quedan solo las letras una a una.) */
 
-/* --- 3. La palabra que cambia: las cuatro apiladas en la misma celda --- */
-/* El hueco se ajusta a la palabra activa (el JS le pone el ancho) y el resto
-   de la frase se desliza suavemente cuando cambia. */
-.rota {
-  display: inline-grid; vertical-align: baseline; text-align: left;
-  transition: width .45s var(--suave);
+/* --- 2. Efecto espejo en las letras del nombre: un degradado metálico
+   (cacao → taupe → dorado → cacao) recortado a la forma de cada letra, con
+   un brillo que las recorre una vez al entrar y otra al pasar el ratón --- */
+.letra {
+  /* La parte izquierda del degradado es el brillo dorado que pasa al entrar;
+     la parte derecha (donde se queda) es un metal suave: cacao con un reflejo. */
+  background: linear-gradient(112deg,
+    var(--cacao) 0%, var(--cacao-700) 14%, var(--oro-txt) 22%, var(--cacao-700) 30%,
+    var(--cacao) 42%, #5A4A3E 62%, var(--cacao) 82%, #4E4036 92%, var(--cacao) 100%);
+  background-size: 260% 100%;
+  background-position: 0% 0;
+  -webkit-background-clip: text; background-clip: text;
+  color: transparent; -webkit-text-fill-color: transparent;
 }
-.rota__palabra {
-  grid-area: 1 / 1; justify-self: start; white-space: nowrap;
-  opacity: 0; translate: 0 .25em;
-  transition: opacity .5s ease, translate .5s var(--suave);
-  color: var(--cacao); font-weight: 400;
+.js .letra {
+  animation:
+    letra-sube .9s var(--suave) both,
+    brillo 2.8s cubic-bezier(.4, 0, .2, 1) both;
+  animation-delay:
+    calc(60ms * var(--l, 0) + 120ms),
+    calc(70ms * var(--l, 0) + 1400ms);
 }
-.rota__palabra.is-activa { opacity: 1; translate: 0 0; }
+/* En pantalla partida (texto a la izquierda, foto a la derecha) el nombre
+   tiene media pantalla: que no se salga de su columna. */
+@media (min-width: 900px) {
+  .rotulo__nombre { font-size: clamp(3.6rem, 7.2vw, 7.5rem); }
+}
+@keyframes brillo {
+  from { background-position: 0% 0; }
+  to   { background-position: 100% 0; }
+}
+/* Sin JS o con movimiento reducido: el metal suave fijo */
+.no-js .letra { background-position: 100% 0; }
 
-/* --- movimiento reducido: letras sin subir, fondo quieto, palabra fija --- */
+/* --- movimiento reducido: letras quietas, con el degradado fijo --- */
 @media (prefers-reduced-motion: reduce) {
-  .js .letra { animation: none; opacity: 1; translate: 0 0; }
-  .fondo-marca span { animation: none; }
-  .rota__palabra { transition: none; }
-}
-/* En móvil el nombre de fondo va más pequeño y más suave, para no pisar el título. */
-@media (max-width: 899px) {
-  .fondo-marca { font-size: 6.5rem; opacity: .55; top: 66%; }
+  .js .letra { animation: none; opacity: 1; translate: 0 0; background-position: 100% 0; }
 }
