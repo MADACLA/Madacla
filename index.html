@@ -76,22 +76,7 @@
     </header>
     <!-- NOVEDADES:INICIO (lo escribe solo servidor.py: no tocar a mano) -->
     <div class="rejilla rejilla--novedades">
-      <article class="pieza revela" style="--i:0" data-cat="bolsos" data-desc="Bolso acolchado con pespuntes en zigzag. Asas de cinta y bandolera larga, bolsillo delantero con cremallera. Lleva colgante de flor de tela." data-id="bolsos-3">
-        <img data-foto="bolsos-3" src="fotos/bolsos-3.jpg" alt="Bolso">
-        <button class="pieza__ver" type="button">Ver de cerca</button>
-      </article>
-      <article class="pieza revela" style="--i:1" data-cat="bolsos" data-desc="Mochila acolchada con pespuntes en zigzag. Asa de piel marrón arriba, tirantes anchos regulables y cierre de cremallera. Lleva colgante de flor de tela." data-id="bolsos-2">
-        <img data-foto="bolsos-2" src="fotos/bolsos-2.jpg" alt="Bolso">
-        <button class="pieza__ver" type="button">Ver de cerca</button>
-      </article>
-      <article class="pieza revela" style="--i:2" data-cat="bolsos" data-desc="Bandolera pequeña acolchada con pespuntes en zigzag. Cremallera arriba, correa ancha regulable y colgante de flor de tela." data-id="bolsos-4">
-        <img data-foto="bolsos-4" src="fotos/bolsos-4.jpg" alt="Bolso">
-        <button class="pieza__ver" type="button">Ver de cerca</button>
-      </article>
-      <article class="pieza revela" style="--i:3" data-cat="bolsos" data-desc="Dos tonos, crema y taupe. Cierres dorados y colgante de llave con cordón. Asas cortas y forma recta." data-id="bolsos-1">
-        <img data-foto="bolsos-1" src="fotos/bolsos-1.jpg" alt="Dos tonos, crema y taupe. Cierres dorados y colgante de llave con cordón. Asas cortas y forma recta.">
-        <button class="pieza__ver" type="button">Ver de cerca</button>
-      </article>
+
     </div>
     <!-- NOVEDADES:FIN -->
   </section>
@@ -140,29 +125,7 @@
     <!-- CATALOGO:INICIO (lo escribe solo servidor.py: no tocar a mano) -->
     <div class="rejilla" id="rejilla">
 
-      <article class="pieza revela" style="--i:0" data-cat="bolsos" data-desc="Dos tonos, crema y taupe. Cierres dorados y colgante de llave con cordón. Asas cortas y forma recta." data-id="bolsos-1">
-        <img data-foto="bolsos-1" src="fotos/bolsos-1.jpg" alt="Dos tonos, crema y taupe. Cierres dorados y colgante de llave con cordón. Asas cortas y forma recta.">
-        <img class="pieza__b" data-foto-b="bolsos-1-b" alt="" aria-hidden="true" loading="lazy" decoding="async" hidden>
-        <button class="pieza__ver" type="button">Ver de cerca</button>
-      </article>
 
-      <article class="pieza revela" style="--i:1" data-cat="bolsos" data-desc="Mochila acolchada con pespuntes en zigzag. Asa de piel marrón arriba, tirantes anchos regulables y cierre de cremallera. Lleva colgante de flor de tela." data-id="bolsos-2">
-        <img data-foto="bolsos-2" src="fotos/bolsos-2.jpg" alt="Bolso">
-        <img class="pieza__b" data-foto-b="bolsos-2-b" alt="" aria-hidden="true" loading="lazy" decoding="async" hidden>
-        <button class="pieza__ver" type="button">Ver de cerca</button>
-      </article>
-
-      <article class="pieza revela" style="--i:2" data-cat="bolsos" data-desc="Bolso acolchado con pespuntes en zigzag. Asas de cinta y bandolera larga, bolsillo delantero con cremallera. Lleva colgante de flor de tela." data-id="bolsos-3">
-        <img data-foto="bolsos-3" src="fotos/bolsos-3.jpg" alt="Bolso">
-        <img class="pieza__b" data-foto-b="bolsos-3-b" alt="" aria-hidden="true" loading="lazy" decoding="async" hidden>
-        <button class="pieza__ver" type="button">Ver de cerca</button>
-      </article>
-
-      <article class="pieza revela" style="--i:3" data-cat="bolsos" data-desc="Bandolera pequeña acolchada con pespuntes en zigzag. Cremallera arriba, correa ancha regulable y colgante de flor de tela." data-id="bolsos-4">
-        <img data-foto="bolsos-4" src="fotos/bolsos-4.jpg" alt="Bolso">
-        <img class="pieza__b" data-foto-b="bolsos-4-b" alt="" aria-hidden="true" loading="lazy" decoding="async" hidden>
-        <button class="pieza__ver" type="button">Ver de cerca</button>
-      </article>
 
     </div>
     <!-- CATALOGO:FIN -->
@@ -556,6 +519,12 @@
   botones.forEach(function (boton) {
     boton.addEventListener("click", function () { filtrar(boton.dataset.cat); });
   });
+  filtrar("todo");   // al abrir: si no hay nada, que ya se vea el aviso
+
+  // "Acaba de llegar" sin nada dentro no se enseña: mejor no tener la
+  // sección que tenerla vacía.
+  var novedades = document.getElementById("novedades");
+  if (novedades && !novedades.querySelector(".pieza")) novedades.hidden = true;
 
   // El mapa de Google solo se carga al pulsar "Ver el mapa".
   var botonMapa = document.getElementById("ver-mapa");
