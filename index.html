@@ -76,12 +76,12 @@
     </header>
     <!-- NOVEDADES:INICIO (lo escribe solo servidor.py: no tocar a mano) -->
     <div class="rejilla rejilla--novedades">
-      <article class="pieza revela" style="--i:0" data-cat="bolsos" data-desc="" data-id="bolsos-10">
-        <img data-foto="bolsos-10" src="fotos/bolsos-10.jpg" alt="Bolso">
+      <article class="pieza revela" style="--i:0" data-cat="bolsos" data-desc="Bolso de mano tipo nube, de tejido calado en rayas anchas marrón chocolate y beige, con boquilla fruncida y sin asa." data-id="bolsos-10">
+        <img data-foto="bolsos-10" src="fotos/bolsos-10.jpg" alt="Bolso de mano tipo nube, de tejido calado en rayas anchas marrón chocolate y beige, con boquilla fruncida y sin asa.">
         <button class="pieza__ver" type="button">Ver de cerca</button>
       </article>
-      <article class="pieza revela" style="--i:1" data-cat="bolsos" data-desc="" data-id="bolsos-11">
-        <img data-foto="bolsos-11" src="fotos/bolsos-11.jpg" alt="Bolso">
+      <article class="pieza revela" style="--i:1" data-cat="bolsos" data-desc="Bandolera alargada en ante color topo, con tachuelas doradas a los lados, cierre de cremallera y asa de argollas doradas." data-id="bolsos-11">
+        <img data-foto="bolsos-11" src="fotos/bolsos-11.jpg" alt="Bandolera alargada en ante color topo, con tachuelas doradas a los lados, cierre de cremallera y asa de argollas doradas.">
         <button class="pieza__ver" type="button">Ver de cerca</button>
       </article>
       <article class="pieza revela" style="--i:2" data-cat="bolsos" data-desc="Bolso de hombro en ante color topo, con tachuelas doradas bordeando la solapa, cierre de giro y asa ancha regulable." data-id="bolsos-13">
@@ -140,14 +140,14 @@
     <!-- CATALOGO:INICIO (lo escribe solo servidor.py: no tocar a mano) -->
     <div class="rejilla" id="rejilla">
 
-      <article class="pieza revela" style="--i:0" data-cat="bolsos" data-desc="" data-id="bolsos-10">
-        <img data-foto="bolsos-10" src="fotos/bolsos-10.jpg" alt="Bolso">
+      <article class="pieza revela" style="--i:0" data-cat="bolsos" data-desc="Bolso de mano tipo nube, de tejido calado en rayas anchas marrón chocolate y beige, con boquilla fruncida y sin asa." data-id="bolsos-10">
+        <img data-foto="bolsos-10" src="fotos/bolsos-10.jpg" alt="Bolso de mano tipo nube, de tejido calado en rayas anchas marrón chocolate y beige, con boquilla fruncida y sin asa.">
         <img class="pieza__b" data-foto-b="bolsos-10-b" alt="" aria-hidden="true" loading="lazy" decoding="async" hidden>
         <button class="pieza__ver" type="button">Ver de cerca</button>
       </article>
 
-      <article class="pieza revela" style="--i:1" data-cat="bolsos" data-desc="" data-id="bolsos-11">
-        <img data-foto="bolsos-11" src="fotos/bolsos-11.jpg" alt="Bolso">
+      <article class="pieza revela" style="--i:1" data-cat="bolsos" data-desc="Bandolera alargada en ante color topo, con tachuelas doradas a los lados, cierre de cremallera y asa de argollas doradas." data-id="bolsos-11">
+        <img data-foto="bolsos-11" src="fotos/bolsos-11.jpg" alt="Bandolera alargada en ante color topo, con tachuelas doradas a los lados, cierre de cremallera y asa de argollas doradas.">
         <img class="pieza__b" data-foto-b="bolsos-11-b" alt="" aria-hidden="true" loading="lazy" decoding="async" hidden>
         <button class="pieza__ver" type="button">Ver de cerca</button>
       </article>
@@ -579,6 +579,20 @@
     document.querySelectorAll(".pieza[data-id]").forEach(function (p) {
       p.addEventListener("click", function () { abrir(p.dataset.id); });
     });
+
+    // Enlace directo a una prenda: .../madacla/#bolsos-4 abre su ficha.
+    // Es lo que se pone en el Instagram para llevar a la clienta a esa prenda.
+    function porElEnlace() {
+      var id = (location.hash || "").replace("#", "");
+      if (!id) return;
+      var pieza = document.querySelector('#rejilla .pieza[data-id="' + id + '"]');
+      if (!pieza) return;
+      pieza.scrollIntoView({ block: "center" });
+      abrir(id);
+    }
+    window.addEventListener("hashchange", porElEnlace);
+    // Al abrir la pagina se espera un poco: las fotos tardan en aparecer.
+    setTimeout(porElEnlace, 400);
     cerrarEl.addEventListener("click", function () { ficha.close(); });
     antEl.addEventListener("click", function () { ir(actual - 1); });
     sigEl.addEventListener("click", function () { ir(actual + 1); });
