@@ -133,10 +133,13 @@ a { color: var(--cacao); }
   color: var(--cacao);
   letter-spacing: .04em;
 }
+/* «Casa Rosendo» es el nombre de toda la vida en Santomera: tiene que
+   leerse, no ser un susurro. Se sube de tamaño y se oscurece, pero sin
+   acercarse a Madacla (pedido por Claudia el 2026-08-25). */
 .marca__antes {
   display: block;
-  font-size: .62rem; letter-spacing: .3em;
-  color: var(--taupe);
+  font-size: .74rem; letter-spacing: .24em;
+  color: var(--cacao-700);
 }
 
 .menu { display: flex; gap: var(--e-5); flex-wrap: wrap; }
@@ -218,9 +221,9 @@ a { color: var(--cacao); }
   padding-top: var(--e-4);
   border-top: 1px solid var(--oro);
   max-width: 15em;
-  font-size: clamp(.68rem, 2vw, .8rem);
-  letter-spacing: .38em;
-  color: var(--taupe);
+  font-size: clamp(.86rem, 2.6vw, 1.05rem);
+  letter-spacing: .3em;
+  color: var(--cacao-700);
 }
 
 .entradilla {
@@ -421,8 +424,8 @@ a { color: var(--cacao); }
   color: var(--crema); line-height: 1; letter-spacing: .04em;
 }
 .pie__casa {
-  font-size: .62rem; letter-spacing: .34em;
-  color: var(--oro);
+  font-size: .72rem; letter-spacing: .3em;
+  color: var(--oro-txt);
   margin: var(--e-3) auto var(--e-5) !important;
 }
 
