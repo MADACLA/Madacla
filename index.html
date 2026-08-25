@@ -74,24 +74,26 @@
       <h2>Acaba de llegar</h2>
       <p>Lo último que ha entrado en la tienda. Si te gusta algo, escríbenos y te lo apartamos.</p>
     </header>
+    <!-- NOVEDADES:INICIO (lo escribe solo servidor.py: no tocar a mano) -->
     <div class="rejilla rejilla--novedades">
-      <article class="pieza revela" style="--i:0" data-id="ropa-1">
-        <img data-foto="ropa-1" src="fotos/ropa-1.svg" alt="Blusa estampada">
+      <article class="pieza revela" style="--i:0" data-cat="bolsos" data-desc="Bolso acolchado con pespuntes en zigzag. Asas de cinta y bandolera larga, bolsillo delantero con cremallera. Lleva colgante de flor de tela." data-id="bolsos-3">
+        <img data-foto="bolsos-3" src="fotos/bolsos-3.jpg" alt="Bolso">
         <button class="pieza__ver" type="button">Ver de cerca</button>
       </article>
-      <article class="pieza revela" style="--i:1" data-id="ropa-2">
-        <img data-foto="ropa-2" src="fotos/ropa-2.svg" alt="Pantalón de vestir">
+      <article class="pieza revela" style="--i:1" data-cat="bolsos" data-desc="Mochila acolchada con pespuntes en zigzag. Asa de piel marrón arriba, tirantes anchos regulables y cierre de cremallera. Lleva colgante de flor de tela." data-id="bolsos-2">
+        <img data-foto="bolsos-2" src="fotos/bolsos-2.jpg" alt="Bolso">
         <button class="pieza__ver" type="button">Ver de cerca</button>
       </article>
-      <article class="pieza revela" style="--i:2" data-id="ropa-3">
-        <img data-foto="ropa-3" src="fotos/ropa-3.svg" alt="Vestido de verano">
+      <article class="pieza revela" style="--i:2" data-cat="bolsos" data-desc="Bandolera pequeña acolchada con pespuntes en zigzag. Cremallera arriba, correa ancha regulable y colgante de flor de tela." data-id="bolsos-4">
+        <img data-foto="bolsos-4" src="fotos/bolsos-4.jpg" alt="Bolso">
         <button class="pieza__ver" type="button">Ver de cerca</button>
       </article>
-      <article class="pieza revela" style="--i:3" data-id="bolsos-1">
-        <img data-foto="bolsos-1" src="fotos/bolsos-1.svg" alt="Bolso de dos tonos, crema y taupe, con herrajes dorados">
+      <article class="pieza revela" style="--i:3" data-cat="bolsos" data-desc="Dos tonos, crema y taupe. Cierres dorados y colgante de llave con cordón. Asas cortas y forma recta." data-id="bolsos-1">
+        <img data-foto="bolsos-1" src="fotos/bolsos-1.jpg" alt="Dos tonos, crema y taupe. Cierres dorados y colgante de llave con cordón. Asas cortas y forma recta.">
         <button class="pieza__ver" type="button">Ver de cerca</button>
       </article>
     </div>
+    <!-- NOVEDADES:FIN -->
   </section>
 
   <!-- ============ CATEGORÍAS CON FOTO ============ -->
@@ -135,81 +137,35 @@
       <button class="filtro" data-cat="bisuteria">Bisutería</button>
     </div>
 
+    <!-- CATALOGO:INICIO (lo escribe solo servidor.py: no tocar a mano) -->
     <div class="rejilla" id="rejilla">
 
-      <article class="pieza revela" style="--i:0" data-cat="ropa" data-desc="" data-id="ropa-1">
-        <img data-foto="ropa-1" src="fotos/ropa-1.svg" alt="Blusa estampada">
-        <img class="pieza__b" data-foto-b="ropa-1-b" alt="" aria-hidden="true" loading="lazy" decoding="async" hidden>
-        <button class="pieza__ver" type="button">Ver de cerca</button>
-      </article>
-
-      <article class="pieza revela" style="--i:1" data-cat="ropa" data-desc="" data-id="ropa-2">
-        <img data-foto="ropa-2" src="fotos/ropa-2.svg" alt="Pantalón de vestir">
-        <img class="pieza__b" data-foto-b="ropa-2-b" alt="" aria-hidden="true" loading="lazy" decoding="async" hidden>
-        <button class="pieza__ver" type="button">Ver de cerca</button>
-      </article>
-
-      <article class="pieza revela" style="--i:2" data-cat="ropa" data-desc="" data-id="ropa-3">
-        <img data-foto="ropa-3" src="fotos/ropa-3.svg" alt="Vestido de verano">
-        <img class="pieza__b" data-foto-b="ropa-3-b" alt="" aria-hidden="true" loading="lazy" decoding="async" hidden>
-        <button class="pieza__ver" type="button">Ver de cerca</button>
-      </article>
-
-      <article class="pieza revela" style="--i:3" data-cat="bolsos" data-desc="Dos tonos, crema y taupe. Cierres dorados y colgante de llave con cordón. Asas cortas y forma recta." data-id="bolsos-1">
-        <img data-foto="bolsos-1" src="fotos/bolsos-1.svg" alt="Bolso de dos tonos, crema y taupe, con herrajes dorados">
+      <article class="pieza revela" style="--i:0" data-cat="bolsos" data-desc="Dos tonos, crema y taupe. Cierres dorados y colgante de llave con cordón. Asas cortas y forma recta." data-id="bolsos-1">
+        <img data-foto="bolsos-1" src="fotos/bolsos-1.jpg" alt="Dos tonos, crema y taupe. Cierres dorados y colgante de llave con cordón. Asas cortas y forma recta.">
         <img class="pieza__b" data-foto-b="bolsos-1-b" alt="" aria-hidden="true" loading="lazy" decoding="async" hidden>
         <button class="pieza__ver" type="button">Ver de cerca</button>
       </article>
 
-      <article class="pieza revela" style="--i:0" data-cat="bolsos" data-desc="" data-id="bolsos-2">
-        <img data-foto="bolsos-2" src="fotos/bolsos-2.svg" alt="Pañuelo de seda">
+      <article class="pieza revela" style="--i:1" data-cat="bolsos" data-desc="Mochila acolchada con pespuntes en zigzag. Asa de piel marrón arriba, tirantes anchos regulables y cierre de cremallera. Lleva colgante de flor de tela." data-id="bolsos-2">
+        <img data-foto="bolsos-2" src="fotos/bolsos-2.jpg" alt="Bolso">
         <img class="pieza__b" data-foto-b="bolsos-2-b" alt="" aria-hidden="true" loading="lazy" decoding="async" hidden>
         <button class="pieza__ver" type="button">Ver de cerca</button>
       </article>
 
-      <article class="pieza revela" style="--i:1" data-cat="bolsos" data-desc="" data-id="bolsos-3">
-        <img data-foto="bolsos-3" src="fotos/bolsos-3.svg" alt="Bolso bandolera">
+      <article class="pieza revela" style="--i:2" data-cat="bolsos" data-desc="Bolso acolchado con pespuntes en zigzag. Asas de cinta y bandolera larga, bolsillo delantero con cremallera. Lleva colgante de flor de tela." data-id="bolsos-3">
+        <img data-foto="bolsos-3" src="fotos/bolsos-3.jpg" alt="Bolso">
         <img class="pieza__b" data-foto-b="bolsos-3-b" alt="" aria-hidden="true" loading="lazy" decoding="async" hidden>
         <button class="pieza__ver" type="button">Ver de cerca</button>
       </article>
 
-      <article class="pieza revela" style="--i:2" data-cat="zapatos" data-desc="" data-id="zapatos-1">
-        <img data-foto="zapatos-1" src="fotos/zapatos-1.svg" alt="Sandalia de tacón">
-        <img class="pieza__b" data-foto-b="zapatos-1-b" alt="" aria-hidden="true" loading="lazy" decoding="async" hidden>
-        <button class="pieza__ver" type="button">Ver de cerca</button>
-      </article>
-
-      <article class="pieza revela" style="--i:3" data-cat="zapatos" data-desc="" data-id="zapatos-2">
-        <img data-foto="zapatos-2" src="fotos/zapatos-2.svg" alt="Zapato plano de piel">
-        <img class="pieza__b" data-foto-b="zapatos-2-b" alt="" aria-hidden="true" loading="lazy" decoding="async" hidden>
-        <button class="pieza__ver" type="button">Ver de cerca</button>
-      </article>
-
-      <article class="pieza revela" style="--i:0" data-cat="zapatos" data-desc="" data-id="zapatos-3">
-        <img data-foto="zapatos-3" src="fotos/zapatos-3.svg" alt="Botín de otoño">
-        <img class="pieza__b" data-foto-b="zapatos-3-b" alt="" aria-hidden="true" loading="lazy" decoding="async" hidden>
-        <button class="pieza__ver" type="button">Ver de cerca</button>
-      </article>
-
-      <article class="pieza revela" style="--i:1" data-cat="bisuteria" data-desc="" data-id="bisuteria-1">
-        <img data-foto="bisuteria-1" src="fotos/bisuteria-1.svg" alt="Pendientes dorados">
-        <img class="pieza__b" data-foto-b="bisuteria-1-b" alt="" aria-hidden="true" loading="lazy" decoding="async" hidden>
-        <button class="pieza__ver" type="button">Ver de cerca</button>
-      </article>
-
-      <article class="pieza revela" style="--i:2" data-cat="bisuteria" data-desc="" data-id="bisuteria-2">
-        <img data-foto="bisuteria-2" src="fotos/bisuteria-2.svg" alt="Collar de perlas">
-        <img class="pieza__b" data-foto-b="bisuteria-2-b" alt="" aria-hidden="true" loading="lazy" decoding="async" hidden>
-        <button class="pieza__ver" type="button">Ver de cerca</button>
-      </article>
-
-      <article class="pieza revela" style="--i:3" data-cat="bisuteria" data-desc="" data-id="bisuteria-3">
-        <img data-foto="bisuteria-3" src="fotos/bisuteria-3.svg" alt="Pulsera de plata">
-        <img class="pieza__b" data-foto-b="bisuteria-3-b" alt="" aria-hidden="true" loading="lazy" decoding="async" hidden>
+      <article class="pieza revela" style="--i:3" data-cat="bolsos" data-desc="Bandolera pequeña acolchada con pespuntes en zigzag. Cremallera arriba, correa ancha regulable y colgante de flor de tela." data-id="bolsos-4">
+        <img data-foto="bolsos-4" src="fotos/bolsos-4.jpg" alt="Bolso">
+        <img class="pieza__b" data-foto-b="bolsos-4-b" alt="" aria-hidden="true" loading="lazy" decoding="async" hidden>
         <button class="pieza__ver" type="button">Ver de cerca</button>
       </article>
 
     </div>
+    <!-- CATALOGO:FIN -->
 
     <div class="aviso-pedido revela">
       <p><strong>¿Te gusta algo?</strong> Aquí no se compra por internet: nos escribes,
@@ -384,7 +340,12 @@
     var i = 0;
 
     (function probarSiguiente() {
-      if (i >= EXTENSIONES.length) return;          // no hay foto: se queda la muestra
+      if (i >= EXTENSIONES.length) {
+        // No hay foto de verdad. La portada, en vez de enseñar el dibujo de
+        // muestra, se queda sin foto: mejor eso que un cuadro de relleno.
+        if (nombre === "portada") document.body.classList.add("sin-portada");
+        return;
+      }
       var url = "fotos/" + nombre + "." + EXTENSIONES[i++];
       var prueba = new Image();
       prueba.onload  = function () { hueco.src = url; };
@@ -574,11 +535,23 @@
   var botones = document.querySelectorAll(".filtro");
   var piezas  = document.querySelectorAll("#rejilla .pieza");
 
+  var rejilla = document.getElementById("rejilla");
+  var vacio = document.createElement("p");
+  vacio.className = "rejilla__vacio";
+  vacio.hidden = true;
+  vacio.textContent = "De esto todavía no hemos subido nada. Pregúntanos por WhatsApp y te decimos qué tenemos.";
+  if (rejilla) rejilla.parentNode.insertBefore(vacio, rejilla.nextSibling);
+
   function filtrar(cat) {
     botones.forEach(function (b) { b.classList.toggle("is-activo", b.dataset.cat === cat); });
+    var quedan = 0;
     piezas.forEach(function (pieza) {
-      pieza.hidden = !(cat === "todo" || pieza.dataset.cat === cat);
+      var sale = cat === "todo" || pieza.dataset.cat === cat;
+      pieza.hidden = !sale;
+      if (sale) quedan++;
     });
+    // Un filtro sin nada no deja la pagina en blanco: se explica.
+    vacio.hidden = quedan > 0;
   }
   botones.forEach(function (boton) {
     boton.addEventListener("click", function () { filtrar(boton.dataset.cat); });

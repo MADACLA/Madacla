@@ -946,3 +946,26 @@ a { color: var(--cacao); }
 @media (prefers-reduced-motion: reduce) {
   .js .letra { animation: none; opacity: 1; translate: 0 0; background-position: 100% 0; }
 }
+
+/* ============ CUANDO TODAVÍA NO HAY FOTOS ============
+   Decisión de Claudia (2026-08-25): la clienta no debe ver cuadros de
+   relleno. Si hay un bolso, sale un bolso; no un bolso y once huecos.
+   El catálogo lo reescribe servidor.py con las prendas que existen. */
+
+/* Un filtro sin nada: en vez de dejar la rejilla en blanco, se explica. */
+.rejilla__vacio {
+  grid-column: 1 / -1;
+  margin: var(--e-5) 0 0;
+  color: var(--taupe);
+  font-size: var(--t-0);
+  text-align: center;
+}
+
+/* Sin foto de escaparate: la portada se queda solo con el texto, a lo ancho,
+   en vez de enseñar el dibujo de muestra. */
+.sin-portada .portada__foto { display: none; }
+
+@media (min-width: 900px) {
+  .sin-portada .portada { display: block; }
+  .sin-portada .portada__texto { max-width: 46rem; }
+}
