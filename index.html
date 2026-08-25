@@ -76,7 +76,10 @@
     </header>
     <!-- NOVEDADES:INICIO (lo escribe solo servidor.py: no tocar a mano) -->
     <div class="rejilla rejilla--novedades">
-
+      <article class="pieza revela" style="--i:0" data-cat="bolsos" data-desc="" data-id="bolsos-1">
+        <img data-foto="bolsos-1" src="fotos/bolsos-1.jpg" alt="Bolso">
+        <button class="pieza__ver" type="button">Ver de cerca</button>
+      </article>
     </div>
     <!-- NOVEDADES:FIN -->
   </section>
@@ -125,7 +128,11 @@
     <!-- CATALOGO:INICIO (lo escribe solo servidor.py: no tocar a mano) -->
     <div class="rejilla" id="rejilla">
 
-
+      <article class="pieza revela" style="--i:0" data-cat="bolsos" data-desc="" data-id="bolsos-1">
+        <img data-foto="bolsos-1" src="fotos/bolsos-1.jpg" alt="Bolso">
+        <img class="pieza__b" data-foto-b="bolsos-1-b" alt="" aria-hidden="true" loading="lazy" decoding="async" hidden>
+        <button class="pieza__ver" type="button">Ver de cerca</button>
+      </article>
 
     </div>
     <!-- CATALOGO:FIN -->
@@ -404,12 +411,25 @@
       };
     }
 
-    // Busca las fotos extra (-b, -c, -d, -e) una detras de otra; para en la primera que falte.
+    // El nombre de la foto nº i+2 de una prenda: b, c, d... z, bb, bc...
+    // La misma cuenta está en servidor.py (sufijo): si se toca una, la otra
+    // también. No hay tope de fotos por producto.
+    var LETRAS = "bcdefghijklmnopqrstuvwxyz";
+    function sufijo(i) {
+      var texto = "", n = i + 1;
+      while (n > 0) {
+        n -= 1;
+        texto = LETRAS.charAt(n % LETRAS.length) + texto;
+        n = Math.floor(n / LETRAS.length);
+      }
+      return texto;
+    }
+
+    // Busca las fotos extra una detrás de otra; para en la primera que falte.
     function buscarExtras(id, cb) {
-      var letras = ["b", "c", "d", "e"], encontradas = [];
+      var encontradas = [];
       (function siguienteLetra(li) {
-        if (li >= letras.length) return cb(encontradas);
-        var base = id + "-" + letras[li], ei = 0;
+        var base = id + "-" + sufijo(li), ei = 0;
         (function siguienteExt() {
           if (ei >= EXTENSIONES.length) return cb(encontradas);  // esta letra no existe: se para
           var url = "fotos/" + base + "." + EXTENSIONES[ei++];
