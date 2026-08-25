@@ -49,3 +49,19 @@
   font-display: swap;
   src: url("jost-500.woff2") format("woff2");
 }
+
+/* Pesos gruesos de Cormorant, para el nombre (añadidos 2026-08-22) */
+@font-face {
+  font-family: "Cormorant Garamond";
+  font-style: normal;
+  font-weight: 600;
+  font-display: swap;
+  src: url("cormorant-garamond-600.woff2") format("woff2");
+}
+@font-face {
+  font-family: "Cormorant Garamond";
+  font-style: normal;
+  font-weight: 700;
+  font-display: swap;
+  src: url("cormorant-garamond-700.woff2") format("woff2");
+}

@@ -305,9 +305,11 @@ a { color: var(--cacao); }
   .pieza:hover img { transform: scale(1.03); }
 }
 
-/* Debajo de cada foto va SOLO el nombre.
-   Ni precio ni categoría: los precios se preguntan por WhatsApp, y la
-   categoría ya la dicen los filtros de arriba. */
+/* Debajo de la foto no va NADA (2026-08-25, decisión de Claudia): ni nombre,
+   ni precio, ni categoría. Con diez bolsos beige el nombre no distinguía nada,
+   y así queda estilo revista. La prenda se identifica por su número, que sale
+   al abrir la ficha y es lo que viaja en el WhatsApp.
+   Se deja la regla por si algún día vuelve un título a la tarjeta. */
 .pieza h3 {
   font-family: var(--sans);
   font-size: var(--t--1); font-weight: 400;
