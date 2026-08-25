@@ -184,10 +184,14 @@ a { color: var(--cacao); }
   padding: var(--e-7) var(--margen) 0;
 }
 
+/* En móvil el escaparate va en 4:5, el mismo formato que las fotos de
+   producto: así la de la tienda entra entera y no se le corta nada.
+   (Antes era 4:3 y a una foto vertical le cortaba la mitad.) */
 .portada__foto img {
   width: 100%;
-  aspect-ratio: 4 / 3;
+  aspect-ratio: 4 / 5;
   object-fit: cover;
+  object-position: center 55%;
 }
 
 .sobretitulo {
