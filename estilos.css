@@ -1222,43 +1222,28 @@ a { color: var(--cacao); }
   cursor: pointer;
 }
 
-/* Los tres pasos del iPhone: numerito, frase corta y el dibujo del botón
-   de Compartir tal cual sale en el móvil, para que lo reconozca. */
-.ponme__pasos {
-  list-style: none;
+/* iPhone: una linea diciendo COMO se llama el boton (nunca donde esta,
+   que cambia en cada version de iOS) y la salida facil de la tienda. */
+.ponme__comose {
+  font-size: 1rem;
+  line-height: 1.5;
+  color: var(--cacao);
   margin: 0;
-  padding: 0;
   text-align: left;
 }
-.ponme__pasos li {
-  display: flex;
-  align-items: center;
-  gap: .5em;
-  flex-wrap: wrap;
-  font-size: 1rem;
-  color: var(--cacao);
-  padding: var(--e-2) 0;
+.ponme__comose b { font-weight: 500; }
+/* La oferta de la tienda: separada por un filete para que se lea como lo
+   que es, la salida facil si lo de arriba no le sale. */
+.ponme__tienda {
+  margin: var(--e-3) 0 0;
+  padding-top: var(--e-3);
   border-top: 1px solid var(--arena);
+  font-size: 1rem;
+  line-height: 1.5;
+  color: var(--taupe);
+  text-align: left;
 }
-.ponme__pasos li:first-child { border-top: 0; }
-.ponme__num {
-  flex: none;
-  width: 1.7em; height: 1.7em;
-  display: grid; place-items: center;
-  border-radius: 50%;
-  background: var(--cacao-700);
-  color: var(--crema);
-  font-family: var(--sans);
-  font-size: .82rem;
-}
-.ponme__signo {
-  color: #0A7CFF;              /* el azul del botón de Compartir del iPhone */
-  vertical-align: middle;
-}
-/* Los tres puntitos de la esquina del Safari: son grises, no azules. Sin
-   esto la clienta busca el de Compartir y no lo ve, porque en los iPhone
-   de ahora está escondido dentro de este botón. */
-.ponme__signo--puntos { color: var(--taupe); }
+.ponme__tienda b { color: var(--cacao); font-weight: 500; }
 
 /* Mientras el cartel esta fuera, el boton de WhatsApp se sube por encima:
    si no, se le monta encima en la esquina. La altura la mide el JS al
