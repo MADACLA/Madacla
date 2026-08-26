@@ -1026,32 +1026,22 @@ a { color: var(--cacao); }
   to   { opacity: 1; clip-path: inset(0 0 0 0); }
 }
 
-/* --- 2. Brillo dorado que recorre las letras una vez, al acabar de entrar.
-   Es el mismo guiño que tenian las letras de antes, pero ahora sobre la
-   imagen: una banda clara que cruza y se va. No se puede recortar a la forma
-   de la letra (es un PNG), asi que va suave y corta. --- */
-.rotulo__logo::after {
-  content: "";
-  position: absolute;
-  inset: 0;
-  pointer-events: none;
-  background: linear-gradient(112deg,
-    transparent 38%, rgba(192, 160, 106, .38) 47%, transparent 56%);
-  background-size: 260% 100%;
-  background-position: 0% 0;
-  opacity: 0;
-  mix-blend-mode: multiply;
-}
-.js .rotulo__logo::after {
-  animation: brillo 2.4s cubic-bezier(.4, 0, .2, 1) both;
-  animation-delay: 1700ms;
-}
-@keyframes brillo {
-  from { background-position: 0% 0;   opacity: 0; }
-  25%  { opacity: .9; }
-  75%  { opacity: .9; }
-  to   { background-position: 100% 0; opacity: 0; }
-}
+/* --- 2. Aquí había un brillo dorado cruzando el logo. SE QUITÓ, y conviene
+   saber por qué antes de volver a intentarlo (2026-08-26):
+
+   Cuando el nombre eran letras de verdad, el brillo se recortaba con
+   `background-clip: text` y solo se veía sobre la letra. Ahora el nombre es
+   una imagen, así que la banda dorada se pinta sobre TODO el rectángulo del
+   logo: un manchurrón beige cruzando la portada. Se vio en la web publicada.
+
+   El arreglo natural es recortarla con `mask-image` a la silueta del logo.
+   Funciona en internet, pero NO abriendo `index.html` con doble clic: los
+   navegadores no dejan usar una imagen `file://` como recorte y entonces
+   desaparece... o, si un día cambian eso, vuelve el manchurrón. Como Claudia
+   mira la web así a menudo, no compensa por un adorno.
+
+   Si algún día se quiere recuperar: hace falta el logo en SVG (trazos, no
+   PNG) y ahí sí se puede recortar sin depender de nada. --- */
 
 /* En pantalla partida (texto a la izquierda, foto a la derecha) el logo tiene
    media pantalla: que no se salga de su columna. */
@@ -1063,7 +1053,6 @@ a { color: var(--cacao); }
 @media (prefers-reduced-motion: reduce) {
   .js .rotulo__elefante,
   .js .rotulo__letras { animation: none; opacity: 1; translate: 0 0; scale: 1; clip-path: none; }
-  .js .rotulo__logo::after { animation: none; opacity: 0; }
 }
 
 /* ============ CUANDO TODAVÍA NO HAY FOTOS ============
