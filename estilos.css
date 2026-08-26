@@ -842,8 +842,14 @@ a { color: var(--cacao); }
 
 /* la galería */
 .ficha__galeria { position: relative; background: var(--arena); }
+/* CONTAIN, no cover. Con `cover` la foto se recortaba para llenar el hueco
+   y, al haber tope de altura, se comía el bajo del pantalón — que es
+   justo lo que se vende. Aquí la prenda se ve ENTERA aunque queden dos
+   franjas del color de la web a los lados. (Claudia, 2026-08-26: «cuando le
+   pincho para verla de cerca no veo el pantalón entero».) */
 .ficha__foto {
-  width: 100%; aspect-ratio: 4 / 5; object-fit: cover; display: block;
+  width: 100%; aspect-ratio: 4 / 5; object-fit: contain; display: block;
+  background: var(--crema);
   max-height: 62dvh;
   transition: opacity .3s ease;
   touch-action: pan-y;
