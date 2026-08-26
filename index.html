@@ -34,8 +34,8 @@
   <section class="portada">
     <!-- ESCAPARATE:INICIO (lo escribe solo servidor.py: no tocar a mano) -->
       <div class="escaparate">
-        <button class="escaparate__foto" type="button" data-id="ropa-4" style="--i:0">
-          <img data-foto="ropa-4" src="fotos/ropa-4.jpg" alt="Prenda de ropa">
+        <button class="escaparate__foto" type="button" data-id="ropa-6" style="--i:0">
+          <img data-foto="ropa-6" src="fotos/ropa-6.jpg" alt="Prenda de ropa">
         </button>
         <button class="escaparate__foto" type="button" data-id="zapatos-1" style="--i:1">
           <img data-foto="zapatos-1" src="fotos/zapatos-1.jpg" alt="Zapato">
@@ -43,14 +43,14 @@
         <button class="escaparate__foto" type="button" data-id="bolsos-16" style="--i:2">
           <img data-foto="bolsos-16" src="fotos/bolsos-16.jpg" alt="Bolso">
         </button>
-        <button class="escaparate__foto" type="button" data-id="ropa-3" style="--i:3">
+        <button class="escaparate__foto" type="button" data-id="ropa-5" style="--i:3">
+          <img data-foto="ropa-5" src="fotos/ropa-5.jpg" alt="Prenda de ropa">
+        </button>
+        <button class="escaparate__foto" type="button" data-id="ropa-4" style="--i:4">
+          <img data-foto="ropa-4" src="fotos/ropa-4.jpg" alt="Prenda de ropa">
+        </button>
+        <button class="escaparate__foto" type="button" data-id="ropa-3" style="--i:5">
           <img data-foto="ropa-3" src="fotos/ropa-3.jpg" alt="Prenda de ropa">
-        </button>
-        <button class="escaparate__foto" type="button" data-id="ropa-2" style="--i:4">
-          <img data-foto="ropa-2" src="fotos/ropa-2.jpg" alt="Prenda de ropa">
-        </button>
-        <button class="escaparate__foto" type="button" data-id="ropa-1" style="--i:5">
-          <img data-foto="ropa-1" src="fotos/ropa-1.jpg" alt="Prenda de ropa">
         </button>
       </div>
     <!-- ESCAPARATE:FIN -->
@@ -105,20 +105,20 @@
     </header>
     <!-- NOVEDADES:INICIO (lo escribe solo servidor.py: no tocar a mano) -->
     <div class="rejilla rejilla--novedades">
-      <article class="pieza revela" style="--i:0" data-cat="ropa" data-desc="" data-id="ropa-5">
+      <article class="pieza revela" style="--i:0" data-cat="ropa" data-desc="" data-id="ropa-6">
+        <img data-foto="ropa-6" src="fotos/ropa-6.jpg" alt="Prenda de ropa">
+        <button class="pieza__ver" type="button">Ver de cerca</button>
+      </article>
+      <article class="pieza revela" style="--i:1" data-cat="ropa" data-desc="" data-id="ropa-5">
         <img data-foto="ropa-5" src="fotos/ropa-5.jpg" alt="Prenda de ropa">
         <button class="pieza__ver" type="button">Ver de cerca</button>
       </article>
-      <article class="pieza revela" style="--i:1" data-cat="ropa" data-desc="" data-id="ropa-4">
+      <article class="pieza revela" style="--i:2" data-cat="ropa" data-desc="" data-id="ropa-4">
         <img data-foto="ropa-4" src="fotos/ropa-4.jpg" alt="Prenda de ropa">
         <button class="pieza__ver" type="button">Ver de cerca</button>
       </article>
-      <article class="pieza revela" style="--i:2" data-cat="zapatos" data-desc="" data-id="zapatos-1">
+      <article class="pieza revela" style="--i:3" data-cat="zapatos" data-desc="" data-id="zapatos-1">
         <img data-foto="zapatos-1" src="fotos/zapatos-1.jpg" alt="Zapato">
-        <button class="pieza__ver" type="button">Ver de cerca</button>
-      </article>
-      <article class="pieza revela" style="--i:3" data-cat="ropa" data-desc="" data-id="ropa-3">
-        <img data-foto="ropa-3" src="fotos/ropa-3.jpg" alt="Prenda de ropa">
         <button class="pieza__ver" type="button">Ver de cerca</button>
       </article>
     </div>
@@ -133,15 +133,15 @@
     <!-- CATEGORIAS:INICIO (lo escribe solo servidor.py: no tocar a mano) -->
     <div class="categorias__rejilla">
       <a class="categoria revela" style="--i:0" href="#catalogo" data-filtro="ropa">
-        <img data-foto="cat-ropa" src="fotos/ropa-4.jpg" alt="">
+        <img src="fotos/ropa-6.jpg" alt="" loading="lazy">
         <span class="categoria__nombre">Ropa</span>
       </a>
       <a class="categoria revela" style="--i:1" href="#catalogo" data-filtro="bolsos">
-        <img data-foto="cat-bolsos" src="fotos/bolsos-16.jpg" alt="">
+        <img src="fotos/bolsos-16.jpg" alt="" loading="lazy">
         <span class="categoria__nombre">Bolsos y complementos</span>
       </a>
       <a class="categoria revela" style="--i:2" href="#catalogo" data-filtro="zapatos">
-        <img data-foto="cat-zapatos" src="fotos/zapatos-1.jpg" alt="">
+        <img src="fotos/zapatos-1.jpg" alt="" loading="lazy">
         <span class="categoria__nombre">Zapatos</span>
       </a>
       <a class="categoria revela" style="--i:3" href="#catalogo" data-filtro="bisuteria">
@@ -171,121 +171,127 @@
     <!-- CATALOGO:INICIO (lo escribe solo servidor.py: no tocar a mano) -->
     <div class="rejilla" id="rejilla">
 
-      <article class="pieza revela" style="--i:0" data-cat="ropa" data-desc="" data-id="ropa-5">
+      <article class="pieza revela" style="--i:0" data-cat="ropa" data-desc="" data-id="ropa-6">
+        <img data-foto="ropa-6" src="fotos/ropa-6.jpg" alt="Prenda de ropa">
+        <img class="pieza__b" data-foto-b="ropa-6-b" alt="" aria-hidden="true" loading="lazy" decoding="async" hidden>
+        <button class="pieza__ver" type="button">Ver de cerca</button>
+      </article>
+
+      <article class="pieza revela" style="--i:1" data-cat="ropa" data-desc="" data-id="ropa-5">
         <img data-foto="ropa-5" src="fotos/ropa-5.jpg" alt="Prenda de ropa">
         <img class="pieza__b" data-foto-b="ropa-5-b" alt="" aria-hidden="true" loading="lazy" decoding="async" hidden>
         <button class="pieza__ver" type="button">Ver de cerca</button>
       </article>
 
-      <article class="pieza revela" style="--i:1" data-cat="ropa" data-desc="" data-id="ropa-4">
+      <article class="pieza revela" style="--i:2" data-cat="ropa" data-desc="" data-id="ropa-4">
         <img data-foto="ropa-4" src="fotos/ropa-4.jpg" alt="Prenda de ropa">
         <img class="pieza__b" data-foto-b="ropa-4-b" alt="" aria-hidden="true" loading="lazy" decoding="async" hidden>
         <button class="pieza__ver" type="button">Ver de cerca</button>
       </article>
 
-      <article class="pieza revela" style="--i:2" data-cat="zapatos" data-desc="" data-id="zapatos-1">
+      <article class="pieza revela" style="--i:3" data-cat="zapatos" data-desc="" data-id="zapatos-1">
         <img data-foto="zapatos-1" src="fotos/zapatos-1.jpg" alt="Zapato">
         <img class="pieza__b" data-foto-b="zapatos-1-b" alt="" aria-hidden="true" loading="lazy" decoding="async" hidden>
         <button class="pieza__ver" type="button">Ver de cerca</button>
       </article>
 
-      <article class="pieza revela" style="--i:3" data-cat="ropa" data-desc="" data-id="ropa-3">
+      <article class="pieza revela" style="--i:0" data-cat="ropa" data-desc="" data-id="ropa-3">
         <img data-foto="ropa-3" src="fotos/ropa-3.jpg" alt="Prenda de ropa">
         <img class="pieza__b" data-foto-b="ropa-3-b" alt="" aria-hidden="true" loading="lazy" decoding="async" hidden>
         <button class="pieza__ver" type="button">Ver de cerca</button>
       </article>
 
-      <article class="pieza revela" style="--i:0" data-cat="ropa" data-desc="" data-id="ropa-2">
+      <article class="pieza revela" style="--i:1" data-cat="ropa" data-desc="" data-id="ropa-2">
         <img data-foto="ropa-2" src="fotos/ropa-2.jpg" alt="Prenda de ropa">
         <img class="pieza__b" data-foto-b="ropa-2-b" alt="" aria-hidden="true" loading="lazy" decoding="async" hidden>
         <button class="pieza__ver" type="button">Ver de cerca</button>
       </article>
 
-      <article class="pieza revela" style="--i:1" data-cat="ropa" data-desc="" data-id="ropa-1">
+      <article class="pieza revela" style="--i:2" data-cat="ropa" data-desc="" data-id="ropa-1">
         <img data-foto="ropa-1" src="fotos/ropa-1.jpg" alt="Prenda de ropa">
         <img class="pieza__b" data-foto-b="ropa-1-b" alt="" aria-hidden="true" loading="lazy" decoding="async" hidden>
         <button class="pieza__ver" type="button">Ver de cerca</button>
       </article>
 
-      <article class="pieza revela" style="--i:2" data-cat="bolsos" data-desc="" data-id="bolsos-16">
+      <article class="pieza revela" style="--i:3" data-cat="bolsos" data-desc="" data-id="bolsos-16">
         <img data-foto="bolsos-16" src="fotos/bolsos-16.jpg" alt="Bolso">
         <img class="pieza__b" data-foto-b="bolsos-16-b" alt="" aria-hidden="true" loading="lazy" decoding="async" hidden>
         <button class="pieza__ver" type="button">Ver de cerca</button>
       </article>
 
-      <article class="pieza revela" style="--i:3" data-cat="bolsos" data-desc="Bolso de mano tipo nube, de tejido calado en rayas anchas marrón chocolate y beige, con boquilla fruncida y sin asa." data-id="bolsos-10">
+      <article class="pieza revela" style="--i:0" data-cat="bolsos" data-desc="Bolso de mano tipo nube, de tejido calado en rayas anchas marrón chocolate y beige, con boquilla fruncida y sin asa." data-id="bolsos-10">
         <img data-foto="bolsos-10" src="fotos/bolsos-10.jpg" alt="Bolso de mano tipo nube, de tejido calado en rayas anchas marrón chocolate y beige, con boquilla fruncida y sin asa.">
         <img class="pieza__b" data-foto-b="bolsos-10-b" alt="" aria-hidden="true" loading="lazy" decoding="async" hidden>
         <button class="pieza__ver" type="button">Ver de cerca</button>
       </article>
 
-      <article class="pieza revela" style="--i:0" data-cat="bolsos" data-desc="Bandolera alargada en ante color topo, con tachuelas doradas a los lados, cierre de cremallera y asa de argollas doradas." data-id="bolsos-11">
+      <article class="pieza revela" style="--i:1" data-cat="bolsos" data-desc="Bandolera alargada en ante color topo, con tachuelas doradas a los lados, cierre de cremallera y asa de argollas doradas." data-id="bolsos-11">
         <img data-foto="bolsos-11" src="fotos/bolsos-11.jpg" alt="Bandolera alargada en ante color topo, con tachuelas doradas a los lados, cierre de cremallera y asa de argollas doradas.">
         <img class="pieza__b" data-foto-b="bolsos-11-b" alt="" aria-hidden="true" loading="lazy" decoding="async" hidden>
         <button class="pieza__ver" type="button">Ver de cerca</button>
       </article>
 
-      <article class="pieza revela" style="--i:1" data-cat="bolsos" data-desc="Bolso de hombro en ante color topo, con tachuelas doradas bordeando la solapa, cierre de giro y asa ancha regulable." data-id="bolsos-13">
+      <article class="pieza revela" style="--i:2" data-cat="bolsos" data-desc="Bolso de hombro en ante color topo, con tachuelas doradas bordeando la solapa, cierre de giro y asa ancha regulable." data-id="bolsos-13">
         <img data-foto="bolsos-13" src="fotos/bolsos-13.jpg" alt="Bolso de hombro en ante color topo, con tachuelas doradas bordeando la solapa, cierre de giro y asa ancha regulable.">
         <img class="pieza__b" data-foto-b="bolsos-13-b" alt="" aria-hidden="true" loading="lazy" decoding="async" hidden>
         <button class="pieza__ver" type="button">Ver de cerca</button>
       </article>
 
-      <article class="pieza revela" style="--i:2" data-cat="bolsos" data-desc="Bolso de asas cortas en dos tonos, gris topo y crema, con herrajes dorados y colgante de llave con cordón y cuenta granate. Viene con monedero a juego de cierre de boquilla dorada." data-id="bolsos-12">
+      <article class="pieza revela" style="--i:3" data-cat="bolsos" data-desc="Bolso de asas cortas en dos tonos, gris topo y crema, con herrajes dorados y colgante de llave con cordón y cuenta granate. Viene con monedero a juego de cierre de boquilla dorada." data-id="bolsos-12">
         <img data-foto="bolsos-12" src="fotos/bolsos-12.jpg" alt="Bolso de asas cortas en dos tonos, gris topo y crema, con herrajes dorados y colgante de llave con cordón y cuenta granate. Viene con monedero a juego de cierre de boquilla dorada.">
         <img class="pieza__b" data-foto-b="bolsos-12-b" alt="" aria-hidden="true" loading="lazy" decoding="async" hidden>
         <button class="pieza__ver" type="button">Ver de cerca</button>
       </article>
 
-      <article class="pieza revela" style="--i:3" data-cat="bolsos" data-desc="Bolso de nailon negro con forma de bolo, asas de piel, cremallera dorada y bolsillos laterales. Lleva bandolera ancha de estampado geométrico en rojo, blanco y negro." data-id="bolsos-9">
+      <article class="pieza revela" style="--i:0" data-cat="bolsos" data-desc="Bolso de nailon negro con forma de bolo, asas de piel, cremallera dorada y bolsillos laterales. Lleva bandolera ancha de estampado geométrico en rojo, blanco y negro." data-id="bolsos-9">
         <img data-foto="bolsos-9" src="fotos/bolsos-9.jpg" alt="Bolso de nailon negro con forma de bolo, asas de piel, cremallera dorada y bolsillos laterales. Lleva bandolera ancha de estampado geométrico en rojo, blanco y negro.">
         <img class="pieza__b" data-foto-b="bolsos-9-b" alt="" aria-hidden="true" loading="lazy" decoding="async" hidden>
         <button class="pieza__ver" type="button">Ver de cerca</button>
       </article>
 
-      <article class="pieza revela" style="--i:0" data-cat="bolsos" data-desc="Conjunto de dos en ante marrón con piel marrón oscura y pespuntes en blanco: mochila de solapa con hebillas y capazo grande de asas largas. Se venden por separado: puedes llevarte solo el que quieras, no hace falta el juego entero." data-id="bolsos-8">
+      <article class="pieza revela" style="--i:1" data-cat="bolsos" data-desc="Conjunto de dos en ante marrón con piel marrón oscura y pespuntes en blanco: mochila de solapa con hebillas y capazo grande de asas largas. Se venden por separado: puedes llevarte solo el que quieras, no hace falta el juego entero." data-id="bolsos-8">
         <img data-foto="bolsos-8" src="fotos/bolsos-8.jpg" alt="Conjunto de dos en ante marrón con piel marrón oscura y pespuntes en blanco: mochila de solapa con hebillas y capazo grande de asas largas. Se venden por separado: puedes llevarte solo el que quieras, no hace falta el juego entero.">
         <img class="pieza__b" data-foto-b="bolsos-8-b" alt="" aria-hidden="true" loading="lazy" decoding="async" hidden>
         <button class="pieza__ver" type="button">Ver de cerca</button>
       </article>
 
-      <article class="pieza revela" style="--i:1" data-cat="bolsos" data-desc="Mochila en verde caqui efecto ante, con tachuelas de bronce por todo el cuerpo, solapa de cierre y borla de piel marrón colgando." data-id="bolsos-7">
+      <article class="pieza revela" style="--i:2" data-cat="bolsos" data-desc="Mochila en verde caqui efecto ante, con tachuelas de bronce por todo el cuerpo, solapa de cierre y borla de piel marrón colgando." data-id="bolsos-7">
         <img data-foto="bolsos-7" src="fotos/bolsos-7.jpg" alt="Mochila en verde caqui efecto ante, con tachuelas de bronce por todo el cuerpo, solapa de cierre y borla de piel marrón colgando.">
         <img class="pieza__b" data-foto-b="bolsos-7-b" alt="" aria-hidden="true" loading="lazy" decoding="async" hidden>
         <button class="pieza__ver" type="button">Ver de cerca</button>
       </article>
 
-      <article class="pieza revela" style="--i:2" data-cat="bolsos" data-desc="Bandolera de charol en burdeos, con asa larga para el hombro, hebillas doradas a los lados y cierre de cremallera." data-id="bolsos-6">
+      <article class="pieza revela" style="--i:3" data-cat="bolsos" data-desc="Bandolera de charol en burdeos, con asa larga para el hombro, hebillas doradas a los lados y cierre de cremallera." data-id="bolsos-6">
         <img data-foto="bolsos-6" src="fotos/bolsos-6.jpg" alt="Bandolera de charol en burdeos, con asa larga para el hombro, hebillas doradas a los lados y cierre de cremallera.">
         <img class="pieza__b" data-foto-b="bolsos-6-b" alt="" aria-hidden="true" loading="lazy" decoding="async" hidden>
         <button class="pieza__ver" type="button">Ver de cerca</button>
       </article>
 
-      <article class="pieza revela" style="--i:3" data-cat="bolsos" data-desc="Conjunto en topo con detalles en verde caqui y cierre de botón dorado envejecido: bolso de asas de piel marrón, mochila con solapa y bolso pequeño de tira larga, todos con bolsillo delantero de cremallera. Se venden por separado: puedes llevarte solo el que quieras, no hace falta el juego entero." data-id="bolsos-4">
+      <article class="pieza revela" style="--i:0" data-cat="bolsos" data-desc="Conjunto en topo con detalles en verde caqui y cierre de botón dorado envejecido: bolso de asas de piel marrón, mochila con solapa y bolso pequeño de tira larga, todos con bolsillo delantero de cremallera. Se venden por separado: puedes llevarte solo el que quieras, no hace falta el juego entero." data-id="bolsos-4">
         <img data-foto="bolsos-4" src="fotos/bolsos-4.jpg" alt="Conjunto en topo con detalles en verde caqui y cierre de botón dorado envejecido: bolso de asas de piel marrón, mochila con solapa y bolso pequeño de tira larga, todos con bolsillo delantero de cremallera. Se venden por separado: puedes llevarte solo el que quieras, no hace falta el juego entero.">
         <img class="pieza__b" data-foto-b="bolsos-4-b" alt="" aria-hidden="true" loading="lazy" decoding="async" hidden>
         <button class="pieza__ver" type="button">Ver de cerca</button>
       </article>
 
-      <article class="pieza revela" style="--i:0" data-cat="bolsos" data-desc="Cartera de piel granulada en gris claro, con solapa y cierre de botón plateado." data-id="bolsos-3">
+      <article class="pieza revela" style="--i:1" data-cat="bolsos" data-desc="Cartera de piel granulada en gris claro, con solapa y cierre de botón plateado." data-id="bolsos-3">
         <img data-foto="bolsos-3" src="fotos/bolsos-3.jpg" alt="Cartera de piel granulada en gris claro, con solapa y cierre de botón plateado.">
         <img class="pieza__b" data-foto-b="bolsos-3-b" alt="" aria-hidden="true" loading="lazy" decoding="async" hidden>
         <button class="pieza__ver" type="button">Ver de cerca</button>
       </article>
 
-      <article class="pieza revela" style="--i:1" data-cat="bolsos" data-desc="Cartera y monedero a juego, en negro con la solapa de estampado de leopardo y cierre de cremallera. Se venden por separado: puedes llevarte solo uno de los dos." data-id="bolsos-2">
+      <article class="pieza revela" style="--i:2" data-cat="bolsos" data-desc="Cartera y monedero a juego, en negro con la solapa de estampado de leopardo y cierre de cremallera. Se venden por separado: puedes llevarte solo uno de los dos." data-id="bolsos-2">
         <img data-foto="bolsos-2" src="fotos/bolsos-2.jpg" alt="Cartera y monedero a juego, en negro con la solapa de estampado de leopardo y cierre de cremallera. Se venden por separado: puedes llevarte solo uno de los dos.">
         <img class="pieza__b" data-foto-b="bolsos-2-b" alt="" aria-hidden="true" loading="lazy" decoding="async" hidden>
         <button class="pieza__ver" type="button">Ver de cerca</button>
       </article>
 
-      <article class="pieza revela" style="--i:2" data-cat="bolsos" data-desc="Conjunto en marrón chocolate, efecto ante con pespuntes en blanco: capazo grande de asas largas, bolso de hombro con solapa y bandolera pequeña de tira fina. Se venden por separado: puedes llevarte solo el que quieras, no hace falta el juego entero." data-id="bolsos-1">
+      <article class="pieza revela" style="--i:3" data-cat="bolsos" data-desc="Conjunto en marrón chocolate, efecto ante con pespuntes en blanco: capazo grande de asas largas, bolso de hombro con solapa y bandolera pequeña de tira fina. Se venden por separado: puedes llevarte solo el que quieras, no hace falta el juego entero." data-id="bolsos-1">
         <img data-foto="bolsos-1" src="fotos/bolsos-1.jpg" alt="Conjunto en marrón chocolate, efecto ante con pespuntes en blanco: capazo grande de asas largas, bolso de hombro con solapa y bandolera pequeña de tira fina. Se venden por separado: puedes llevarte solo el que quieras, no hace falta el juego entero.">
         <img class="pieza__b" data-foto-b="bolsos-1-b" alt="" aria-hidden="true" loading="lazy" decoding="async" hidden>
         <button class="pieza__ver" type="button">Ver de cerca</button>
       </article>
 
-      <article class="pieza revela" style="--i:3" data-cat="bolsos" data-desc="Mochila acolchada con pespuntes en zigzag. Asa de piel marrón arriba, tirantes anchos y bolsillos laterales. Lleva colgante de flor de tela con cuentas de colores." data-id="bolsos-5">
+      <article class="pieza revela" style="--i:0" data-cat="bolsos" data-desc="Mochila acolchada con pespuntes en zigzag. Asa de piel marrón arriba, tirantes anchos y bolsillos laterales. Lleva colgante de flor de tela con cuentas de colores." data-id="bolsos-5">
         <img data-foto="bolsos-5" src="fotos/bolsos-5.jpg" alt="Mochila acolchada con pespuntes en zigzag. Asa de piel marrón arriba, tirantes anchos y bolsillos laterales. Lleva colgante de flor de tela con cuentas de colores.">
         <img class="pieza__b" data-foto-b="bolsos-5-b" alt="" aria-hidden="true" loading="lazy" decoding="async" hidden>
         <button class="pieza__ver" type="button">Ver de cerca</button>
