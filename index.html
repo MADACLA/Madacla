@@ -35,7 +35,7 @@
     <!-- ESCAPARATE:INICIO (lo escribe solo servidor.py: no tocar a mano) -->
       <div class="escaparate">
         <button class="escaparate__foto" type="button" data-id="ropa-10" style="--i:0">
-          <img data-foto="ropa-10" src="fotos/ropa-10.jpg" alt="Prenda de ropa">
+          <img data-foto="ropa-10" src="fotos/ropa-10.jpg" alt="Estas tres camisetas de manga corta son de color blanco, con cuello redondo y corte recto. Cada una luce un estampado frontal diferente: papaya, aceitunas o tiramisú, sobre fondos de rayas. Se venden por separado: puedes llevarte solo el que quieras, no hace falta el conjunto entero.">
         </button>
         <button class="escaparate__foto" type="button" data-id="zapatos-1" style="--i:1">
           <img data-foto="zapatos-1" src="fotos/zapatos-1.jpg" alt="Zapato destalonado de punta fina y tacón bajo: la pala en ante marrón y la tira del talón en negro, con un detalle dorado en el lateral.">
@@ -76,7 +76,7 @@
   <ul class="confianza revela" aria-label="Por qué comprar aquí">
     <li><span class="confianza__num">01</span>Tienda en Santomera, calle San Rosendo 5</li>
     <li><span class="confianza__num">02</span>Te atiende Maricarmen</li>
-    <li><span class="confianza__num">03</span>Te lo apartamos por WhatsApp</li>
+    <li><span class="confianza__num">03</span>Cada jueves, ropa nueva</li>
   </ul>
 
   <!-- ============ CINTA ============ -->
@@ -94,10 +94,23 @@
       <h2>Acaba de llegar</h2>
       <p>Lo último que ha entrado en la tienda. Si te gusta algo, escríbenos y te lo apartamos.</p>
     </header>
+    <!-- Los jueves: Claudia cierra el miércoles por la tarde para ir de
+         compras, así que cada jueves hay género nuevo. Sus clientas ya lo
+         saben; esto es para las que no. Se mueve, como la cinta de arriba,
+         porque ella lo pidió así (2026-08-26). -->
+    <div class="jueves" aria-label="Cada jueves, ropa nueva">
+      <div class="jueves__pista">
+        <span class="jueves__texto">Cada jueves, ropa nueva<span class="jueves__punto" aria-hidden="true">&#9679;</span></span>
+        <span class="jueves__texto" aria-hidden="true">Cada jueves, ropa nueva<span class="jueves__punto">&#9679;</span></span>
+        <span class="jueves__texto" aria-hidden="true">Cada jueves, ropa nueva<span class="jueves__punto">&#9679;</span></span>
+        <span class="jueves__texto" aria-hidden="true">Cada jueves, ropa nueva<span class="jueves__punto">&#9679;</span></span>
+      </div>
+    </div>
+
     <!-- NOVEDADES:INICIO (lo escribe solo servidor.py: no tocar a mano) -->
     <div class="rejilla rejilla--novedades">
-      <article class="pieza revela" style="--i:0" data-cat="ropa" data-desc="" data-id="ropa-10">
-        <img data-foto="ropa-10" src="fotos/ropa-10.jpg" alt="Prenda de ropa">
+      <article class="pieza revela" style="--i:0" data-cat="ropa" data-desc="Estas tres camisetas de manga corta son de color blanco, con cuello redondo y corte recto. Cada una luce un estampado frontal diferente: papaya, aceitunas o tiramisú, sobre fondos de rayas. Se venden por separado: puedes llevarte solo el que quieras, no hace falta el conjunto entero." data-id="ropa-10">
+        <img data-foto="ropa-10" src="fotos/ropa-10.jpg" alt="Estas tres camisetas de manga corta son de color blanco, con cuello redondo y corte recto. Cada una luce un estampado frontal diferente: papaya, aceitunas o tiramisú, sobre fondos de rayas. Se venden por separado: puedes llevarte solo el que quieras, no hace falta el conjunto entero.">
         <button class="pieza__ver" type="button">Ver de cerca</button>
       </article>
       <article class="pieza revela" style="--i:1" data-cat="ropa" data-desc="Conjunto en azul marino con finas rayas. El chaleco, de corte entallado y sin mangas, presenta escote en pico y botones dorados. Los pantalones son largos, de corte ancho y con bolsillos." data-id="ropa-9">
@@ -162,8 +175,8 @@
     <!-- CATALOGO:INICIO (lo escribe solo servidor.py: no tocar a mano) -->
     <div class="rejilla" id="rejilla">
 
-      <article class="pieza revela" style="--i:0" data-cat="ropa" data-desc="" data-id="ropa-10">
-        <img data-foto="ropa-10" src="fotos/ropa-10.jpg" alt="Prenda de ropa">
+      <article class="pieza revela" style="--i:0" data-cat="ropa" data-desc="Estas tres camisetas de manga corta son de color blanco, con cuello redondo y corte recto. Cada una luce un estampado frontal diferente: papaya, aceitunas o tiramisú, sobre fondos de rayas. Se venden por separado: puedes llevarte solo el que quieras, no hace falta el conjunto entero." data-id="ropa-10">
+        <img data-foto="ropa-10" src="fotos/ropa-10.jpg" alt="Estas tres camisetas de manga corta son de color blanco, con cuello redondo y corte recto. Cada una luce un estampado frontal diferente: papaya, aceitunas o tiramisú, sobre fondos de rayas. Se venden por separado: puedes llevarte solo el que quieras, no hace falta el conjunto entero.">
         <img class="pieza__b" data-foto-b="ropa-10-b" alt="" aria-hidden="true" loading="lazy" decoding="async" hidden>
         <button class="pieza__ver" type="button">Ver de cerca</button>
       </article>
@@ -404,9 +417,12 @@
         <h3>Horario</h3>
         <ul class="horario">
           <li><span>Lunes a viernes</span><span>9:30 – 13:30 &nbsp;y&nbsp; 17:30 – 20:30</span></li>
+          <li class="horario__cerrado"><span>Miércoles tarde</span><span>Cerrado por compras</span></li>
           <li><span>Sábados</span><span>10:00 – 13:30</span></li>
           <li class="horario__cerrado"><span>Domingos</span><span>Cerrado</span></li>
         </ul>
+        <p class="horario__porque">Los miércoles cerramos la tarde porque nos
+          vamos de compras. Por eso <strong>cada jueves hay ropa nueva</strong>.</p>
       </div>
 
       <div class="dato">
@@ -419,13 +435,20 @@
       </div>
     </div>
 
-    <!-- El mapa de Google solo se carga si alguien lo pide (sin cookies hasta entonces) -->
+    <!-- El mapa, ya puesto. Claudia (2026-08-26) lo pidió así: «que se vea
+         el mapa sin tener que pinchar». Antes había un botón para no cargar
+         nada de Google hasta que alguien lo pidiera. Zoom 16: se ve la calle
+         y el centro del pueblo alrededor, para situarse de un vistazo. -->
     <div class="visitanos__mapa revela">
-      <div class="mapa" id="mapa">
-        <p class="mapa__texto">Calle San Rosendo, 5<br>Santomera (Murcia)</p>
-        <button class="boton boton--fuerte" type="button" id="ver-mapa">Ver el mapa</button>
-        <p class="mapa__nota">Al pulsar se carga un mapa de Google.</p>
+      <div class="mapa mapa--cargado">
+        <iframe
+          title="Mapa: Madacla · Casa Rosendo, Calle San Rosendo 5, Santomera (Murcia)"
+          src="https://www.google.com/maps?q=Calle+San+Rosendo+5,+30140+Santomera,+Murcia&z=16&output=embed"
+          referrerpolicy="no-referrer-when-downgrade"
+          loading="lazy"></iframe>
       </div>
+      <p class="mapa__pie">En el centro de Santomera, a un paso de la iglesia.
+        <a class="enlace" href="https://www.google.com/maps/search/?api=1&amp;query=Calle+San+Rosendo+5+Santomera+Murcia" target="_blank" rel="noopener">Cómo llegar &rarr;</a></p>
     </div>
   </section>
 
@@ -734,22 +757,6 @@
   // sección que tenerla vacía.
   var novedades = document.getElementById("novedades");
   if (novedades && !novedades.querySelector(".pieza")) novedades.hidden = true;
-
-  // El mapa de Google solo se carga al pulsar "Ver el mapa".
-  var botonMapa = document.getElementById("ver-mapa");
-  if (botonMapa) {
-    botonMapa.addEventListener("click", function () {
-      var caja = document.getElementById("mapa");
-      var mapa = document.createElement("iframe");
-      mapa.title = "Mapa de la tienda en Calle San Rosendo 5, Santomera";
-      mapa.src = "https://www.google.com/maps?q=Calle+San+Rosendo+5,+Santomera,+Murcia&output=embed";
-      mapa.setAttribute("referrerpolicy", "no-referrer-when-downgrade");
-      mapa.setAttribute("loading", "lazy");
-      caja.innerHTML = "";
-      caja.classList.add("mapa--cargado");
-      caja.appendChild(mapa);
-    });
-  }
 
   // Los bloques de "Que buscas?" llevan al catalogo ya filtrado.
   document.querySelectorAll("[data-filtro]").forEach(function (enlace) {

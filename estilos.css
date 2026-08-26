@@ -783,6 +783,13 @@ a { color: var(--cacao); }
   width: 100%; height: 100%; min-height: 360px; border: 0;
   border-radius: var(--radio); filter: saturate(.75);
 }
+/* El mapa se ve desde el principio (sin botón). Debajo, la referencia para
+   situarse de un vistazo. */
+.mapa__pie {
+  margin: var(--e-3) 0 0;
+  font-size: .88rem; color: var(--taupe);
+}
+.mapa__pie .enlace { margin-left: var(--e-2); white-space: nowrap; }
 
 @media (min-width: 720px) {
   .instagram__rejilla { grid-template-columns: repeat(6, 1fr); gap: var(--e-3); }
@@ -1048,4 +1055,61 @@ a { color: var(--cacao); }
 }
 .tira a:hover, .tira a:focus-visible {
   color: var(--cacao); border-bottom-color: var(--oro);
+}
+
+/* ==========================================================================
+   CADA JUEVES, ROPA NUEVA
+   Claudia cierra el miércoles por la tarde para ir de compras, así que el
+   jueves siempre hay género nuevo. Sus clientas de siempre ya lo saben; esto
+   es para que lo vea quien entra por primera vez. Va en tres sitios: la
+   franja de confianza, la cinta que se mueve y este rótulo.
+   ========================================================================== */
+
+/* La cinta de los jueves: se mueve de lado, como la de arriba, pero esta
+   pesa más — fondo chocolate y letra crema — porque es EL argumento de la
+   tienda. Claudia (2026-08-26): «que se vea más, incluso que se mueva de
+   lateral como lo de ropa, zapatos...». */
+.jueves {
+  overflow: hidden;
+  margin: 0 0 var(--e-7);
+  padding: var(--e-4) 0;
+  background: var(--chocolate);
+  white-space: nowrap;
+}
+.jueves__pista {
+  display: inline-flex;
+  animation: jueves-pasa 26s linear infinite;
+  will-change: transform;
+}
+.jueves__texto {
+  display: inline-flex;
+  align-items: center;
+  font-family: var(--sans);
+  font-size: clamp(.86rem, .78rem + .4vw, 1.05rem);
+  font-weight: 400;
+  text-transform: uppercase;
+  letter-spacing: .22em;
+  color: var(--crema);
+  padding-right: var(--e-6);
+}
+.jueves__punto {
+  margin-left: var(--e-6);
+  font-size: .5em;
+  color: var(--oro);
+  transform: translateY(-.15em);
+}
+/* Son cuatro copias, así que una vuelta entera es moverse un cuarto. */
+@keyframes jueves-pasa { to { transform: translateX(-25%); } }
+
+/* El porqué, debajo del horario. */
+.horario__porque {
+  margin: var(--e-4) 0 0;
+  font-size: .88rem;
+  line-height: 1.6;
+  color: var(--taupe);
+}
+.horario__porque strong { color: var(--cacao); font-weight: 500; }
+
+@media (prefers-reduced-motion: reduce) {
+  .jueves__pista { animation: none; }
 }
