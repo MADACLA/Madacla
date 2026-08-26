@@ -787,20 +787,10 @@ a { color: var(--cacao); }
    LOTE B2 — Instagram, Maricarmen y mapa al pulsar
    ========================================================================== */
 
-/* --- Instagram: 6 cuadrados --- */
+/* --- Instagram: solo la puerta para seguirla (los seis cuadros los quito
+       Claudia el 2026-08-26: la clienta ya viene de alli) --- */
 .instagram { padding-bottom: 0; }
-.instagram__rejilla {
-  display: grid; grid-template-columns: repeat(3, 1fr); gap: var(--e-2);
-}
-.ig { display: block; overflow: hidden; border-radius: calc(var(--radio) / 2); }
-.ig img {
-  width: 100%; aspect-ratio: 1; object-fit: cover;
-  transition: transform .8s var(--suave), opacity .3s;
-}
-@media (hover: hover) and (pointer: fine) {
-  .ig:hover img { transform: scale(1.04); opacity: .92; }
-}
-.instagram__boton { margin-top: var(--e-6); }
+.instagram__boton { margin-top: var(--e-5); }
 
 /* --- Te atiende Maricarmen: foto + texto en 1.ª persona --- */
 .maricarmen { display: grid; gap: var(--e-6); align-items: center; }
@@ -842,9 +832,6 @@ a { color: var(--cacao); }
 }
 .mapa__pie .enlace { margin-left: var(--e-2); white-space: nowrap; }
 
-@media (min-width: 720px) {
-  .instagram__rejilla { grid-template-columns: repeat(6, 1fr); gap: var(--e-3); }
-}
 @media (min-width: 900px) {
   .maricarmen { grid-template-columns: 1fr 1.2fr; gap: var(--e-8); }
 }
@@ -1268,6 +1255,10 @@ a { color: var(--cacao); }
   color: #0A7CFF;              /* el azul del botón de Compartir del iPhone */
   vertical-align: middle;
 }
+/* Los tres puntitos de la esquina del Safari: son grises, no azules. Sin
+   esto la clienta busca el de Compartir y no lo ve, porque en los iPhone
+   de ahora está escondido dentro de este botón. */
+.ponme__signo--puntos { color: var(--taupe); }
 
 /* Mientras el cartel esta fuera, el boton de WhatsApp se sube por encima:
    si no, se le monta encima en la esquina. La altura la mide el JS al
