@@ -10,6 +10,15 @@
 <link rel="preload" href="fuentes/jost-300.woff2" as="font" type="font/woff2" crossorigin>
 <link rel="stylesheet" href="fuentes/fuentes.css">
 <link rel="stylesheet" href="estilos.css">
+
+<!-- Para que se pueda poner en la pantalla de inicio del movil y se abra como
+     una aplicacion (sin la barra del navegador). Lote del 2026-08-26. -->
+<link rel="manifest" href="madacla.webmanifest">
+<meta name="theme-color" content="#FAF6F0">
+<link rel="apple-touch-icon" href="fotos/icono-madacla-180.png">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="default">
+<meta name="apple-mobile-web-app-title" content="Madacla">
 </head>
 <body>
 
@@ -17,8 +26,8 @@
 
 <header class="barra">
   <a class="marca" href="#">
-    <span class="marca__nombre">Madacla</span>
-    <span class="marca__antes">Casa Rosendo</span>
+    <img class="marca__logo" src="fotos/logo-madacla.png" alt="Madacla" width="1348" height="536">
+    <span class="marca__antes">By Casa Rosendo</span>
   </a>
   <nav class="menu">
     <a href="#novedades">Novedades</a>
@@ -34,8 +43,8 @@
   <section class="portada">
     <!-- ESCAPARATE:INICIO (lo escribe solo servidor.py: no tocar a mano) -->
       <div class="escaparate">
-        <button class="escaparate__foto" type="button" data-id="ropa-10" style="--i:0">
-          <img data-foto="ropa-10" src="fotos/ropa-10.jpg" alt="Estas tres camisetas de manga corta son de color blanco, con cuello redondo y corte recto. Cada una luce un estampado frontal diferente: papaya, aceitunas o tiramisú, sobre fondos de rayas. Se venden por separado: puedes llevarte solo el que quieras, no hace falta el conjunto entero.">
+        <button class="escaparate__foto" type="button" data-id="ropa-9" style="--i:0">
+          <img data-foto="ropa-9" src="fotos/ropa-9.jpg" alt="Conjunto en azul marino con finas rayas. El chaleco, de corte entallado y sin mangas, presenta escote en pico y botones dorados. Los pantalones son largos, de corte ancho y con bolsillos.">
         </button>
         <button class="escaparate__foto" type="button" data-id="zapatos-1" style="--i:1">
           <img data-foto="zapatos-1" src="fotos/zapatos-1.jpg" alt="Zapato destalonado de punta fina y tacón bajo: la pala en ante marrón y la tira del talón en negro, con un detalle dorado en el lateral.">
@@ -48,9 +57,14 @@
     <div class="portada__texto">
       <p class="sobretitulo entra" style="--i:0">Santomera · Murcia</p>
       <h1 class="rotulo">
-        <!-- Cada letra entra por separado, una detrás de otra -->
-        <span class="rotulo__nombre" aria-label="Madacla"><span class="letra" style="--l:0">M</span><span class="letra" style="--l:1">a</span><span class="letra" style="--l:2">d</span><span class="letra" style="--l:3">a</span><span class="letra" style="--l:4">c</span><span class="letra" style="--l:5">l</span><span class="letra" style="--l:6">a</span></span>
-        <span class="rotulo__casa entra" style="--i:2">Casa Rosendo</span>
+        <!-- El logo entra en dos tiempos: primero se dibuja el elefante,
+             luego se escribe MADACLA de izquierda a derecha. Son dos PNG del
+             mismo recorte (logo/preparar-logo.py), apilados para que encajen. -->
+        <span class="rotulo__logo" role="img" aria-label="Madacla">
+          <img class="rotulo__elefante" src="fotos/logo-madacla-elefante.png" alt="" width="1348" height="536" fetchpriority="high">
+          <img class="rotulo__letras" src="fotos/logo-madacla-letras.png" alt="" width="1348" height="536" fetchpriority="high">
+        </span>
+        <span class="rotulo__casa entra" style="--i:2">By Casa Rosendo</span>
       </h1>
       <p class="entradilla entra" style="--i:3">
         Ropa, complementos y muchas cosas más. Te atendemos nosotras
@@ -455,10 +469,53 @@
 </main>
 
 <footer class="pie">
-  <p class="pie__marca">Madacla</p>
-  <p class="pie__casa">Casa Rosendo</p>
+  <img class="pie__logo" src="fotos/logo-madacla-crema.png" alt="Madacla" width="1348" height="536" loading="lazy">
+  <p class="pie__casa">By Casa Rosendo</p>
   <p>Calle San Rosendo, 5 · Santomera (Murcia) · <a href="tel:+34679168346">679 16 83 46</a></p>
 </footer>
+
+<!-- ============================================================
+     «Ponme en tu movil»: el cartel que explica como dejar la web en la
+     pantalla de inicio, al lado de las aplicaciones. Sale una sola vez y
+     solo si NO esta ya puesta. Claudia (2026-08-26): sus clientas son
+     mayores y no se manejan, asi que aqui se dice lo justo y con dibujos.
+     ============================================================ -->
+<div class="ponme" id="ponme" hidden>
+  <div class="ponme__caja" role="dialog" aria-modal="false" aria-labelledby="ponme-titulo">
+    <button class="ponme__cerrar" type="button" data-ponme-no aria-label="Cerrar">&times;</button>
+    <img class="ponme__icono" src="fotos/icono-madacla-180.png" alt="" width="180" height="180">
+    <p class="ponme__titulo" id="ponme-titulo">¿No quieres perderte las novedades?</p>
+    <p class="ponme__texto">Deja Madacla en tu móvil, junto a tus aplicaciones. Así entras de un toque.</p>
+
+    <!-- Android: el movil lo hace solo -->
+    <div class="ponme__solo" hidden>
+      <button class="boton boton--fuerte" type="button" data-ponme-si>Ponerlo en mi móvil</button>
+      <button class="ponme__luego" type="button" data-ponme-no>Ahora no</button>
+    </div>
+
+    <!-- iPhone: Apple no deja hacerlo solo, hay que enseñarle el camino -->
+    <ol class="ponme__pasos" hidden>
+      <li>
+        <span class="ponme__num">1</span>
+        Toca
+        <svg class="ponme__signo" viewBox="0 0 24 24" width="20" height="20" aria-hidden="true" focusable="false">
+          <path fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"
+                d="M12 15V3m0 0L8.5 6.5M12 3l3.5 3.5M5 12v7a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2v-7"/>
+        </svg>
+        aquí abajo
+      </li>
+      <li>
+        <span class="ponme__num">2</span>
+        Baja y toca <b>Añadir a pantalla de inicio</b>
+      </li>
+      <li>
+        <span class="ponme__num">3</span>
+        Ya está: te queda el elefante en el móvil
+      </li>
+    </ol>
+    <button class="ponme__luego ponme__luego--solo" type="button" data-ponme-no hidden>Ahora no</button>
+  </div>
+</div>
 
 <!-- Botón flotante de WhatsApp: siempre a mano del pulgar. Logo oficial, sin recolorear. -->
 <a class="flotante" href="https://wa.me/34679168346" target="_blank" rel="noopener" aria-label="Escríbenos por WhatsApp">
@@ -591,7 +648,7 @@
     var NOMBRES_CAT = { ropa: "Ropa", bolsos: "Bolsos y complementos", zapatos: "Zapatos", bisuteria: "Bisutería" };
     // La web publicada. Se usa para el enlace de la foto en el WhatsApp: si se
     // mandara la dirección de casa (100.94...), a la clienta no le abriría.
-    var SITIO_PUBLICO = "https://clauunortes-eng.github.io/madacla/";
+    var SITIO_PUBLICO = "https://madacla.es/";
     var fotos = [], actual = 0, apertura = 0;
 
     // Los datos viven en el catalogo (#rejilla): ahi estan la categoria y la descripcion.
@@ -762,6 +819,109 @@
   document.querySelectorAll("[data-filtro]").forEach(function (enlace) {
     enlace.addEventListener("click", function () { filtrar(enlace.dataset.filtro); });
   });
+
+  // ---------------------------------------------------------------------
+  // «Ponme en tu movil»
+  //
+  // En Android el navegador deja hacerlo con un boton. En iPhone NO: Apple
+  // no da ninguna forma de pedirlo, hay que enseñarle el camino a mano
+  // (Compartir -> Anadir a pantalla de inicio). Por eso hay dos versiones
+  // del cartel y se enseña la que toca.
+  //
+  // El cartel no salta de golpe al entrar: espera a que la clienta haya
+  // bajado un poco, o a medio minuto. Si dice que no, no vuelve a salir en
+  // dos meses. Si ya la tiene puesta, no sale nunca.
+  // ---------------------------------------------------------------------
+  (function () {
+    var cartel = document.getElementById("ponme");
+    if (!cartel) return;
+
+    var LLAVE = "madacla-ponme";
+    var ESPERA = 60 * 24 * 60 * 60 * 1000;   // dos meses
+
+    // Ya la tiene en la pantalla de inicio: nada que ofrecer.
+    var puesta = window.matchMedia("(display-mode: standalone)").matches ||
+                 window.navigator.standalone === true;
+    if (puesta) return;
+
+    // Si ya dijo que no hace poco, se respeta. En navegacion privada
+    // localStorage puede dar error: entonces se sigue como si nada.
+    try {
+      var dijo = parseInt(localStorage.getItem(LLAVE) || "0", 10);
+      if (dijo && Date.now() - dijo < ESPERA) return;
+    } catch (e) { /* sin memoria, da igual */ }
+
+    var esIPhone = /iphone|ipad|ipod/i.test(navigator.userAgent);
+    var esSafari = esIPhone && !/crios|fxios|edgios/i.test(navigator.userAgent);
+    var solo = cartel.querySelector(".ponme__solo");
+    var pasos = cartel.querySelector(".ponme__pasos");
+    var luegoSolo = cartel.querySelector(".ponme__luego--solo");
+    var guardado = null;   // el "permiso" que da Android para instalar
+
+    function enseñar(que) {
+      if (que === "boton") {
+        solo.hidden = false;
+      } else {
+        pasos.hidden = false;
+        luegoSolo.hidden = false;
+      }
+      cartel.hidden = false;
+      requestAnimationFrame(function () {
+        // El boton de WhatsApp se aparta lo que mida el cartel.
+        var alto = cartel.querySelector(".ponme__caja").offsetHeight + 26;
+        document.documentElement.style.setProperty("--ponme-alto", alto + "px");
+        cartel.classList.add("ponme--fuera");
+      });
+    }
+
+    function esconder(recordar) {
+      cartel.classList.remove("ponme--fuera");
+      document.documentElement.style.setProperty("--ponme-alto", "0px");
+      setTimeout(function () { cartel.hidden = true; }, 400);
+      if (recordar) {
+        try { localStorage.setItem(LLAVE, String(Date.now())); } catch (e) {}
+      }
+    }
+
+    cartel.querySelectorAll("[data-ponme-no]").forEach(function (boton) {
+      boton.addEventListener("click", function () { esconder(true); });
+    });
+
+    var siApp = cartel.querySelector("[data-ponme-si]");
+    if (siApp) {
+      siApp.addEventListener("click", function () {
+        if (!guardado) return esconder(true);
+        guardado.prompt();
+        guardado.userChoice.then(function () { guardado = null; esconder(true); });
+      });
+    }
+
+    // Cuando ya la ha puesto, el cartel sobra para siempre.
+    window.addEventListener("appinstalled", function () { esconder(true); });
+
+    // Android avisa de que se puede instalar; se guarda para el boton.
+    var aTiempo = false;
+    window.addEventListener("beforeinstallprompt", function (evento) {
+      evento.preventDefault();
+      guardado = evento;
+      if (aTiempo) enseñar("boton");
+    });
+
+    // El momento: cuando lleve media pagina bajada o medio minuto dentro.
+    function momento() {
+      if (aTiempo) return;
+      aTiempo = true;
+      if (guardado) enseñar("boton");
+      else if (esSafari) enseñar("pasos");
+    }
+    var bajado = false;
+    window.addEventListener("scroll", function () {
+      if (bajado || window.scrollY < window.innerHeight * 1.2) return;
+      bajado = true;
+      momento();
+    }, { passive: true });
+    setTimeout(momento, 30000);
+  })();
 </script>
 
 </body>

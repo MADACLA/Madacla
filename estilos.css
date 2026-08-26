@@ -142,6 +142,49 @@ a { color: var(--cacao); }
   color: var(--cacao-700);
 }
 
+/* ==========================================================================
+   EL LOGO (el elefante de Claudia)
+   Es SU png, tal cual, solo con dos retoques: fondo transparente y sin la
+   línea de «ROPA» (la tienda no es solo ropa). Se hacen con el script del
+   diario de NOTAS, a partir de logo/logotipo.png, que es el original intacto.
+   Viven en fotos/ a propósito: publicar.sh ya copia fotos/*.png, así que no
+   hay carpeta nueva que añadir (la lección de fuentes/). Y el nombre
+   «logo-madacla» no casa con el patrón de prendas, así que NO sale como
+   producto en el catálogo.
+   ========================================================================== */
+
+.marca {
+  display: grid;
+  justify-items: start;
+  gap: var(--e-1);
+}
+/* El nombre dentro del logo es solo un tercio del alto de la imagen, así que
+   para que MADACLA se lea como antes hay que darle más alto que al texto. */
+.marca__logo { display: block; height: clamp(52px, 13vw, 62px); width: auto; }
+
+/* En el pie el fondo es chocolate: ahí va la versión crema. */
+.pie__logo {
+  display: block;
+  height: clamp(76px, 14vw, 98px); width: auto;
+  margin: 0 auto var(--e-2);
+}
+.marca .elefante--barra { grid-row: 1 / 3; height: 38px; color: var(--cacao); }
+
+/* En la portada: encima del nombre grande. */
+.elefante--rotulo {
+  height: clamp(56px, 11vw, 104px);
+  color: var(--cacao);
+  margin-bottom: var(--e-4);
+}
+
+/* En el pie va sobre chocolate, así que sale en crema. */
+.elefante--pie {
+  height: 52px;
+  margin: 0 auto var(--e-4);
+  color: var(--crema);
+  opacity: .85;
+}
+
 .menu { display: flex; gap: var(--e-5); flex-wrap: wrap; }
 .menu a {
   color: var(--cacao); text-decoration: none;
@@ -237,13 +280,21 @@ a { color: var(--cacao); }
 /* El rótulo grande: MADACLA arriba, Casa Rosendo pequeñito debajo */
 .rotulo { margin: 0 0 var(--e-5); }
 
-.rotulo__nombre {
+/* El nombre de la portada es el logo de Claudia: dos PNG del mismo recorte
+   (MADACLA en cacao y el elefante en taupe) puestos uno encima de otro, para
+   poder moverlos por separado. La caja lleva la proporcion del logo para que
+   no pegue un salto mientras cargan las imagenes. */
+.rotulo__logo {
   display: block;
-  font-size: var(--t-6);
-  font-weight: 400;
-  line-height: .92;
-  color: var(--cacao);
-  letter-spacing: .01em;
+  position: relative;
+  width: min(100%, 30rem);
+  aspect-ratio: 1348 / 536;
+}
+.rotulo__logo img {
+  position: absolute;
+  inset: 0;
+  width: 100%; height: 100%;
+  object-fit: contain;
 }
 
 .rotulo__casa {
@@ -952,62 +1003,67 @@ a { color: var(--cacao); }
    LOTE E2 — la entrada más moderna
    ========================================================================== */
 
-/* --- 1. Las letras de MADACLA entran una a una, subiendo desde detrás de
-   una línea invisible (cada .letra es una ventanita con overflow oculto) --- */
-/* El nombre es una "ventana" que recorta por debajo; cada letra sube desde
-   fuera de esa ventana hasta su sitio, una detrás de otra. */
-.rotulo__nombre { display: flex; flex-wrap: nowrap; }
-.letra { display: inline-block; }
-.js .rotulo__nombre { overflow: hidden; padding-bottom: .1em; margin-bottom: -.1em; }
-.js .letra {
-  animation: letra-sube .9s var(--suave) both;
-  animation-delay: calc(60ms * var(--l, 0) + 120ms);
+/* --- 1. El logo entra en dos tiempos --- */
+/* Primero aparece el elefante, bajando muy poco y creciendo un pelin, como si
+   se posara. Justo despues se "escribe" MADACLA: la capa de las letras se
+   descubre de izquierda a derecha con un clip-path, que es el gesto que tenia
+   antes la entrada letra a letra (Claudia, 2026-08-26: que entre el logo). */
+.js .rotulo__elefante {
+  animation: elefante-entra 1.1s var(--suave) both;
+  animation-delay: 120ms;
 }
-@keyframes letra-sube {
-  from { translate: 0 110%; opacity: 0; }
-  to   { translate: 0 0;    opacity: 1; }
+.js .rotulo__letras {
+  animation: letras-se-escriben 1.15s cubic-bezier(.22, .61, .36, 1) both;
+  animation-delay: 620ms;
+}
+@keyframes elefante-entra {
+  from { opacity: 0; translate: 0 -6%; scale: 1.04; }
+  to   { opacity: 1; translate: 0 0;   scale: 1; }
+}
+@keyframes letras-se-escriben {
+  from { opacity: 0; clip-path: inset(0 100% 0 0); }
+  20%  { opacity: 1; }
+  to   { opacity: 1; clip-path: inset(0 0 0 0); }
 }
 
-/* (Claudia, 2026-08-22: fuera el nombre gigante de fondo y la palabra que
-   cambia. Se quedan solo las letras una a una.) */
-
-/* --- 2. Efecto espejo en las letras del nombre: un degradado metálico
-   (cacao → taupe → dorado → cacao) recortado a la forma de cada letra, con
-   un brillo que las recorre una vez al entrar y otra al pasar el ratón --- */
-.letra {
-  /* La parte izquierda del degradado es el brillo dorado que pasa al entrar;
-     la parte derecha (donde se queda) es un metal suave: cacao con un reflejo. */
+/* --- 2. Brillo dorado que recorre las letras una vez, al acabar de entrar.
+   Es el mismo guiño que tenian las letras de antes, pero ahora sobre la
+   imagen: una banda clara que cruza y se va. No se puede recortar a la forma
+   de la letra (es un PNG), asi que va suave y corta. --- */
+.rotulo__logo::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
   background: linear-gradient(112deg,
-    var(--cacao) 0%, var(--cacao-700) 14%, var(--oro-txt) 22%, var(--cacao-700) 30%,
-    var(--cacao) 42%, #5A4A3E 62%, var(--cacao) 82%, #4E4036 92%, var(--cacao) 100%);
+    transparent 38%, rgba(192, 160, 106, .38) 47%, transparent 56%);
   background-size: 260% 100%;
   background-position: 0% 0;
-  -webkit-background-clip: text; background-clip: text;
-  color: transparent; -webkit-text-fill-color: transparent;
+  opacity: 0;
+  mix-blend-mode: multiply;
 }
-.js .letra {
-  animation:
-    letra-sube .9s var(--suave) both,
-    brillo 2.8s cubic-bezier(.4, 0, .2, 1) both;
-  animation-delay:
-    calc(60ms * var(--l, 0) + 120ms),
-    calc(70ms * var(--l, 0) + 1400ms);
-}
-/* En pantalla partida (texto a la izquierda, foto a la derecha) el nombre
-   tiene media pantalla: que no se salga de su columna. */
-@media (min-width: 900px) {
-  .rotulo__nombre { font-size: clamp(3.6rem, 7.2vw, 7.5rem); }
+.js .rotulo__logo::after {
+  animation: brillo 2.4s cubic-bezier(.4, 0, .2, 1) both;
+  animation-delay: 1700ms;
 }
 @keyframes brillo {
-  from { background-position: 0% 0; }
-  to   { background-position: 100% 0; }
+  from { background-position: 0% 0;   opacity: 0; }
+  25%  { opacity: .9; }
+  75%  { opacity: .9; }
+  to   { background-position: 100% 0; opacity: 0; }
 }
-/* Sin JS o con movimiento reducido: el metal suave fijo */
-.no-js .letra { background-position: 100% 0; }
 
-/* --- movimiento reducido: letras quietas, con el degradado fijo --- */
+/* En pantalla partida (texto a la izquierda, foto a la derecha) el logo tiene
+   media pantalla: que no se salga de su columna. */
+@media (min-width: 900px) {
+  .rotulo__logo { width: min(100%, 26rem); }
+}
+
+/* --- movimiento reducido: el logo, quieto y entero --- */
 @media (prefers-reduced-motion: reduce) {
-  .js .letra { animation: none; opacity: 1; translate: 0 0; background-position: 100% 0; }
+  .js .rotulo__elefante,
+  .js .rotulo__letras { animation: none; opacity: 1; translate: 0 0; scale: 1; clip-path: none; }
+  .js .rotulo__logo::after { animation: none; opacity: 0; }
 }
 
 /* ============ CUANDO TODAVÍA NO HAY FOTOS ============
@@ -1112,4 +1168,135 @@ a { color: var(--cacao); }
 
 @media (prefers-reduced-motion: reduce) {
   .jueves__pista { animation: none; }
+}
+
+/* ==========================================================================
+   «PONME EN TU MÓVIL»
+   El cartel que explica cómo dejar la web en la pantalla de inicio.
+   Claudia (2026-08-26): sus clientas son mayores, así que letra grande,
+   poco texto y el botón bien gordo. Sube desde abajo, sin tapar el de
+   WhatsApp cuando está fuera.
+   ========================================================================== */
+.ponme {
+  position: fixed;
+  inset: auto 0 0 0;
+  z-index: 60;
+  padding: var(--e-3);
+  display: flex;
+  justify-content: center;
+  pointer-events: none;
+}
+.ponme__caja {
+  pointer-events: auto;
+  position: relative;
+  width: min(100%, 26rem);
+  background: var(--crema);
+  border: 1px solid var(--oro);
+  border-radius: 14px;
+  box-shadow: 0 14px 40px rgba(43, 33, 27, .22);
+  padding: var(--e-5) var(--e-4) var(--e-4);
+  text-align: center;
+  transform: translateY(130%);
+  opacity: 0;
+  transition: transform .45s var(--suave), opacity .45s var(--suave);
+}
+.ponme--fuera .ponme__caja { transform: translateY(0); opacity: 1; }
+
+.ponme__icono {
+  width: 62px; height: 62px;
+  border-radius: 14px;
+  border: 1px solid var(--arena);
+  /* El CSS de la web pone las imagenes en bloque, asi que para centrarlo no
+     basta con el text-align del padre: hace falta el auto de los lados. */
+  margin: 0 auto var(--e-3);
+}
+.ponme__titulo {
+  font-family: var(--serif);
+  font-size: 1.4rem;
+  line-height: 1.2;
+  color: var(--cacao);
+  margin: 0 0 var(--e-2);
+}
+.ponme__texto {
+  font-size: 1rem;
+  color: var(--taupe);
+  margin: 0 0 var(--e-4);
+}
+.ponme__cerrar {
+  position: absolute;
+  top: 2px; right: 6px;
+  background: none; border: 0;
+  font-size: 1.9rem; line-height: 1;
+  color: var(--taupe);
+  padding: .2em .3em;
+  cursor: pointer;
+}
+.ponme__cerrar:hover { color: var(--cacao); }
+
+.ponme__solo .boton { width: 100%; font-size: 1rem; padding: .95em 1.2em; }
+.ponme__luego {
+  display: block;
+  margin: var(--e-3) auto 0;
+  background: none; border: 0;
+  font-family: var(--sans);
+  font-size: .95rem;
+  color: var(--taupe);
+  text-decoration: underline;
+  text-underline-offset: 3px;
+  cursor: pointer;
+}
+
+/* Los tres pasos del iPhone: numerito, frase corta y el dibujo del botón
+   de Compartir tal cual sale en el móvil, para que lo reconozca. */
+.ponme__pasos {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  text-align: left;
+}
+.ponme__pasos li {
+  display: flex;
+  align-items: center;
+  gap: .5em;
+  flex-wrap: wrap;
+  font-size: 1rem;
+  color: var(--cacao);
+  padding: var(--e-2) 0;
+  border-top: 1px solid var(--arena);
+}
+.ponme__pasos li:first-child { border-top: 0; }
+.ponme__num {
+  flex: none;
+  width: 1.7em; height: 1.7em;
+  display: grid; place-items: center;
+  border-radius: 50%;
+  background: var(--cacao-700);
+  color: var(--crema);
+  font-family: var(--sans);
+  font-size: .82rem;
+}
+.ponme__signo {
+  color: #0A7CFF;              /* el azul del botón de Compartir del iPhone */
+  vertical-align: middle;
+}
+
+/* Mientras el cartel esta fuera, el boton de WhatsApp se sube por encima:
+   si no, se le monta encima en la esquina. La altura la mide el JS al
+   sacarlo, porque cambia segun sea la version de iPhone o la de Android. */
+.ponme--fuera + .flotante {
+  transform: translateY(calc(-1 * var(--ponme-alto, 0px)));
+}
+.flotante { transition: transform .45s var(--suave); }
+
+/* En pantalla ancha el cartel se va a la esquina: en el ordenador nadie
+   pone accesos directos, pero si sale, que no se coma media pantalla. */
+@media (min-width: 900px) {
+  .ponme { justify-content: flex-start; padding: var(--e-4); }
+  .ponme__caja { width: 22rem; }
+}
+
+/* Movimiento reducido: aparece sin deslizarse. */
+@media (prefers-reduced-motion: reduce) {
+  .ponme__caja { transition: opacity .2s linear; transform: none; }
+  .ponme--fuera .ponme__caja { transform: none; }
 }
