@@ -187,15 +187,38 @@ a { color: var(--cacao); }
   padding: var(--e-7) var(--margen) 0;
 }
 
-/* En móvil el escaparate va en 4:5, el mismo formato que las fotos de
-   producto: así la de la tienda entra entera y no se le corta nada.
-   (Antes era 4:3 y a una foto vertical le cortaba la mitad.) */
-.portada__foto img {
-  width: 100%;
+/* ---- El escaparate: varias fotos, no una ----------------------------
+   Claudia (2026-08-26): «que no salga solo una, que salgan tres o seis».
+   En el móvil, una grande y dos pequeñas al lado (las demás se esconden:
+   a seis salen del tamaño de un sello). En pantalla grande, las seis.  */
+.escaparate {
+  display: grid;
+  grid-template-columns: 2fr 1fr;
+  grid-auto-rows: 1fr;
+  gap: var(--e-1);
+  padding: 0 var(--margen);
+}
+.escaparate__foto {
+  display: block; padding: 0; margin: 0;
+  border: 0; background: none; cursor: pointer;
+  overflow: hidden;
+  border-radius: var(--radio);
+}
+.escaparate__foto img {
+  width: 100%; height: 100%;
   aspect-ratio: 4 / 5;
   object-fit: cover;
-  object-position: center 55%;
+  object-position: center 45%;
+  display: block;
 }
+/* La primera manda: ocupa las dos filas de la izquierda. */
+.escaparate__foto:first-child { grid-row: span 2; }
+.escaparate__foto:first-child img { aspect-ratio: 4 / 5; }
+.escaparate__foto:nth-child(2) img,
+.escaparate__foto:nth-child(3) img { aspect-ratio: 1 / 1; }
+.escaparate__foto:nth-child(n+4) { display: none; }
+/* Si solo hay una prenda, que ocupe todo el ancho y no quede coja. */
+.escaparate:has(.escaparate__foto:only-child) { grid-template-columns: 1fr; }
 
 .sobretitulo {
   margin: 0 0 var(--e-4);
@@ -447,12 +470,25 @@ a { color: var(--cacao); }
     align-items: stretch;
     padding: 0;
   }
-  .portada__foto { order: 2; }
-  .portada__foto img {
-    height: 100%; min-height: 640px;
-    aspect-ratio: auto;
+  /* En pantalla grande caben las seis: dos columnas por tres filas,
+     ocupando la mitad derecha de arriba abajo. */
+  .escaparate {
+    order: 2;
+    grid-template-columns: 1fr 1fr;
+    grid-template-rows: repeat(3, 1fr);
+    min-height: 640px;
+    padding: 0;
     border-radius: var(--radio) 0 0 var(--radio);
+    overflow: hidden;
   }
+  .escaparate__foto { border-radius: 0; }
+  .escaparate__foto:first-child { grid-row: span 2; }
+  .escaparate__foto:nth-child(n+4) { display: block; }
+  .escaparate__foto img,
+  .escaparate__foto:first-child img,
+  .escaparate__foto:nth-child(2) img,
+  .escaparate__foto:nth-child(3) img { aspect-ratio: auto; height: 100%; }
+  .escaparate:has(.escaparate__foto:only-child) { grid-template-columns: 1fr; }
   .portada__texto {
     display: flex; flex-direction: column; justify-content: center;
     max-width: none; margin: 0;
@@ -489,10 +525,14 @@ a { color: var(--cacao); }
   to { opacity: 1; transform: none; }
 }
 
-/* La foto de portada: aparece y crece lentísimo (Ken Burns sutil) */
-.portada__foto { overflow: hidden; }
-.js .portada__foto img {
+/* El escaparate: las fotos van apareciendo una detrás de otra, y la
+   grande además crece lentísimo (Ken Burns sutil). */
+.js .escaparate__foto img {
   opacity: 0;
+  animation: foto-entra .9s ease-out forwards;
+  animation-delay: calc(var(--i, 0) * 110ms);
+}
+.js .escaparate__foto:first-child img {
   animation: foto-entra 1.2s ease-out forwards, foto-crece 8s ease-out forwards;
 }
 @keyframes foto-entra { to { opacity: 1; } }
@@ -539,7 +579,7 @@ a { color: var(--cacao); }
 .siempre > :not(.siempre__fondo) { position: relative; }
 
 @supports (animation-timeline: view()) {
-  .portada__foto img {
+  .escaparate__foto:first-child img {
     animation-name: foto-entra, foto-crece, foto-parallax;
     animation-duration: 1.2s, 8s, auto;
     animation-timing-function: ease-out, ease-out, linear;
@@ -574,10 +614,13 @@ a { color: var(--cacao); }
 /* --- 6. Movimiento reducido: solo fades cortos, nada que se mueva --- */
 @media (prefers-reduced-motion: reduce) {
   .js .entra { transform: none; animation-duration: .2s; animation-delay: 0s; }
-  .js .portada__foto img { animation: foto-entra .2s ease-out forwards; }
+  .js .escaparate__foto img,
+  .js .escaparate__foto:first-child img {
+    animation: foto-entra .2s ease-out forwards; animation-delay: 0s;
+  }
   .js .revela { transform: none; transition-duration: .2s; transition-delay: 0s; }
   .cinta__pista { animation: none; }
-  .siempre__fondo, .portada__foto img { animation-timeline: auto; translate: 0; }
+  .siempre__fondo, .escaparate__foto img { animation-timeline: auto; translate: 0; }
   .pieza img { transition: none; }
 }
 
@@ -968,11 +1011,31 @@ a { color: var(--cacao); }
   text-align: center;
 }
 
-/* Sin foto de escaparate: la portada se queda solo con el texto, a lo ancho,
-   en vez de enseñar el dibujo de muestra. */
-.sin-portada .portada__foto { display: none; }
+/* Sin ninguna prenda publicada no hay escaparate: la portada se queda solo
+   con el texto, a lo ancho, en vez de enseñar un dibujo de relleno. */
+.portada:not(:has(.escaparate__foto)) .escaparate { display: none; }
 
 @media (min-width: 900px) {
-  .sin-portada .portada { display: block; }
-  .sin-portada .portada__texto { max-width: 46rem; }
+  .portada:not(:has(.escaparate__foto)) { display: block; }
+  .portada:not(:has(.escaparate__foto)) .portada__texto { max-width: 46rem; }
+}
+
+/* ---- La tira de categorías de la portada ----------------------------
+   Para que al entrar se vea que hay más cosas, sin tener que bajar. */
+.tira {
+  display: flex; flex-wrap: wrap;
+  gap: var(--e-2) var(--e-4);
+  margin-top: var(--e-5);
+  padding-top: var(--e-4);
+  border-top: 1px solid var(--lino);
+}
+.tira a {
+  color: var(--taupe);
+  font-size: .78rem; letter-spacing: .14em; text-transform: uppercase;
+  text-decoration: none;
+  padding-bottom: 2px;
+  border-bottom: 1px solid transparent;
+}
+.tira a:hover, .tira a:focus-visible {
+  color: var(--cacao); border-bottom-color: var(--oro);
 }
