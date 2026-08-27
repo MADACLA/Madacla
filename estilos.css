@@ -834,6 +834,9 @@ a { color: var(--cacao); }
 
 @media (min-width: 900px) {
   .maricarmen { grid-template-columns: 1fr 1.2fr; gap: var(--e-8); }
+  /* Mientras no haya foto suya, el texto no se queda en media pantalla con
+     un hueco al lado: ocupa el ancho entero. */
+  .maricarmen:has(.maricarmen__foto[hidden]) { grid-template-columns: 1fr; }
 }
 
 /* ==========================================================================

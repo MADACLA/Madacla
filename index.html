@@ -480,8 +480,12 @@
   <!-- Decisión de Claudia (2026-08-22): SOLO la foto y «Te atiende Maricarmen».
        Nada de texto sobre ella, ni su vida, ni historia, ni años. No añadir nada. -->
   <section class="seccion maricarmen">
-    <div class="maricarmen__foto revela">
-      <img data-foto="maricarmen" src="fotos/maricarmen.svg" alt="Maricarmen, en la tienda" loading="lazy" decoding="async">
+    <!-- Claudia (2026-08-27): fuera el dibujo de muestra, «de momento no
+         vamos a subir foto de ella». El hueco nace ESCONDIDO y se enseña
+         solo el dia que haya una foto de verdad en fotos/maricarmen.jpg
+         (la sube ella desde gestion.html, sin tocar codigo). -->
+    <div class="maricarmen__foto revela" hidden>
+      <img data-foto="maricarmen" alt="Maricarmen, en la tienda" loading="lazy" decoding="async">
     </div>
     <div class="maricarmen__texto revela">
       <p class="sobretitulo">Quién te atiende</p>
@@ -639,7 +643,13 @@
       }
       var url = "fotos/" + nombre + "." + EXTENSIONES[i++];
       var prueba = new Image();
-      prueba.onload  = function () { hueco.src = url; };
+      prueba.onload  = function () {
+        hueco.src = url;
+        // Huecos que nacen escondidos (la foto de Maricarmen): en cuanto
+        // hay foto de verdad, se enseñan solos.
+        var caja = hueco.closest("[hidden]");
+        if (caja) caja.hidden = false;
+      };
       prueba.onerror = probarSiguiente;
       prueba.src = url;
     })();
