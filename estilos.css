@@ -867,43 +867,29 @@ a { color: var(--cacao); }
   border-radius: 2px;
   pointer-events: none;
 }
-/* El SVG tapa la foto entera (que es el 125% del ancho de la tarjeta):
-   dentro, un ovalo alrededor de la pieza y una LUZ que recorre su contorno
-   cada 3,5 s (Claudia, 2026-08-27: «como un recorrido de luz»). Donde esta
-   la pieza lo situa la IA sola; el trazo tenue de debajo deja intuir el
-   ovalo mientras la luz viaja. */
+/* El pulso que late sobre la pieza, donde la situa la IA (o el toque
+   manual del buzon). Hubo una version con una luz recorriendo un ovalo
+   (2026-08-27) y Claudia la quito el mismo dia: esto, mas sutil, es lo
+   que le gusta. */
 .pieza__halo {
   position: absolute;
-  left: 0; top: 0;
-  width: 100%;
-  aspect-ratio: 4 / 5;
+  width: 48px; height: 48px;
+  transform: translate(-50%, -50%);
+  border: 2px solid var(--oro);
+  border-radius: 50%;
+  opacity: 0;
   pointer-events: none;
-  overflow: visible;
+  animation: halo-late 3s ease-out infinite;
 }
-.pieza__halo-aro {
-  fill: none;
-  stroke: var(--oro);
-  stroke-width: .7;
-  opacity: .3;
-}
-.pieza__halo-luz {
-  fill: none;
-  stroke: var(--oro);
-  stroke-width: 1.1;
-  stroke-linecap: round;
-  /* un tramo de luz de 22 (sobre 100 de contorno) y el resto vacio */
-  stroke-dasharray: 22 78;
-  filter: drop-shadow(0 0 2px rgba(192, 160, 106, .9));
-  animation: halo-recorre 3.5s linear infinite;
-}
-@keyframes halo-recorre {
-  from { stroke-dashoffset: 0; }
-  to   { stroke-dashoffset: -100; }
+@keyframes halo-late {
+  0%   { transform: translate(-50%, -50%) scale(.45); opacity: 0; }
+  12%  { opacity: .95; }
+  45%  { transform: translate(-50%, -50%) scale(1.05); opacity: 0; }
+  100% { opacity: 0; }
 }
 @media (prefers-reduced-motion: reduce) {
-  /* Sin movimiento: se queda el ovalo quieto, sin la luz viajando. */
-  .pieza__halo-luz { display: none; }
-  .pieza__halo-aro { opacity: .5; }
+  /* Sin movimiento: el pulso no late (la etiqueta ya dice que se vende). */
+  .pieza__halo { display: none; }
 }
 
 .pieza__ver {
