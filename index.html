@@ -43,15 +43,15 @@
   <section class="portada">
     <!-- ESCAPARATE:INICIO (lo escribe solo servidor.py: no tocar a mano) -->
       <div class="escaparate">
-        <button class="escaparate__foto" type="button" data-id="ropa-9" style="--i:0">
+        <a class="escaparate__foto" href="#catalogo" data-filtro="ropa" style="--i:0" aria-label="Ver toda la ropa">
           <img data-foto="ropa-9" src="fotos/ropa-9.jpg" alt="Conjunto en azul marino con finas rayas. El chaleco, de corte entallado y sin mangas, presenta escote en pico y botones dorados. Los pantalones son largos, de corte ancho y con bolsillos.">
-        </button>
-        <button class="escaparate__foto" type="button" data-id="bolsos-18" style="--i:1">
+        </a>
+        <a class="escaparate__foto" href="#catalogo" data-filtro="bolsos" style="--i:1" aria-label="Ver todos los bolsos y complementos">
           <img data-foto="bolsos-18" src="fotos/bolsos-18.jpg" alt="Neceser rectangular con estampado de leopardo en tonos tierra. Su tejido acolchado presenta costuras que forman un patrón de cuadros. Incluye una cremallera dorada, asa lateral y un parche frontal rectangular blanco.">
-        </button>
-        <button class="escaparate__foto" type="button" data-id="zapatos-1" style="--i:2">
+        </a>
+        <a class="escaparate__foto" href="#catalogo" data-filtro="zapatos" style="--i:2" aria-label="Ver todos los zapatos">
           <img data-foto="zapatos-1" src="fotos/zapatos-1.jpg" alt="Zapato destalonado de punta fina y tacón bajo: la pala en ante marrón y la tira del talón en negro, con un detalle dorado en el lateral.">
-        </button>
+        </a>
       </div>
     <!-- ESCAPARATE:FIN -->
     <div class="portada__texto">
@@ -101,6 +101,33 @@
     </div>
   </div>
 
+  <!-- ============ CATEGORÍAS CON FOTO ============ -->
+  <section class="seccion categorias">
+    <header class="seccion__cabecera revela">
+      <h2>¿Qué buscas?</h2>
+    </header>
+    <!-- CATEGORIAS:INICIO (lo escribe solo servidor.py: no tocar a mano) -->
+    <div class="categorias__rejilla">
+      <a class="categoria revela" style="--i:0" href="#catalogo" data-filtro="ropa">
+        <img src="fotos/ropa-24.jpg" alt="" loading="lazy">
+        <span class="categoria__nombre">Ropa</span>
+      </a>
+      <a class="categoria revela" style="--i:1" href="#catalogo" data-filtro="bolsos">
+        <img src="fotos/bolsos-18.jpg" alt="" loading="lazy">
+        <span class="categoria__nombre">Bolsos y complementos</span>
+      </a>
+      <a class="categoria revela" style="--i:2" href="#catalogo" data-filtro="zapatos">
+        <img src="fotos/zapatos-1.jpg" alt="" loading="lazy">
+        <span class="categoria__nombre">Zapatos</span>
+      </a>
+      <a class="categoria revela" style="--i:3" href="#catalogo" data-filtro="bisuteria">
+        <img data-foto="cat-bisuteria" src="fotos/cat-bisuteria.svg" alt="">
+        <span class="categoria__nombre">Bisutería</span>
+      </a>
+    </div>
+    <!-- CATEGORIAS:FIN -->
+  </section>
+
   <!-- ============ ACABA DE LLEGAR ============ -->
   <section id="novedades" class="seccion">
     <header class="seccion__cabecera revela">
@@ -141,33 +168,6 @@
       </article>
     </div>
     <!-- NOVEDADES:FIN -->
-  </section>
-
-  <!-- ============ CATEGORÍAS CON FOTO ============ -->
-  <section class="seccion categorias">
-    <header class="seccion__cabecera revela">
-      <h2>¿Qué buscas?</h2>
-    </header>
-    <!-- CATEGORIAS:INICIO (lo escribe solo servidor.py: no tocar a mano) -->
-    <div class="categorias__rejilla">
-      <a class="categoria revela" style="--i:0" href="#catalogo" data-filtro="ropa">
-        <img src="fotos/ropa-24.jpg" alt="" loading="lazy">
-        <span class="categoria__nombre">Ropa</span>
-      </a>
-      <a class="categoria revela" style="--i:1" href="#catalogo" data-filtro="bolsos">
-        <img src="fotos/bolsos-18.jpg" alt="" loading="lazy">
-        <span class="categoria__nombre">Bolsos y complementos</span>
-      </a>
-      <a class="categoria revela" style="--i:2" href="#catalogo" data-filtro="zapatos">
-        <img src="fotos/zapatos-1.jpg" alt="" loading="lazy">
-        <span class="categoria__nombre">Zapatos</span>
-      </a>
-      <a class="categoria revela" style="--i:3" href="#catalogo" data-filtro="bisuteria">
-        <img data-foto="cat-bisuteria" src="fotos/cat-bisuteria.svg" alt="">
-        <span class="categoria__nombre">Bisutería</span>
-      </a>
-    </div>
-    <!-- CATEGORIAS:FIN -->
   </section>
 
   <!-- ============ CATÁLOGO ============ -->
@@ -814,9 +814,10 @@
       });
     }
 
-    // Las tarjetas del catálogo y de novedades, y también las fotos del
-    // escaparate de la portada: todas abren la ficha de su prenda.
-    document.querySelectorAll(".pieza[data-id], .escaparate__foto[data-id]")
+    // Las tarjetas del catálogo y de novedades abren la ficha de su prenda.
+    // Las fotos del escaparate NO: esas llevan al catálogo de su categoría
+    // (Claudia, 2026-08-27), y de eso se encarga el [data-filtro] de abajo.
+    document.querySelectorAll(".pieza[data-id]")
       .forEach(function (p) {
         p.addEventListener("click", function () { abrir(p.dataset.id); });
       });
@@ -1014,8 +1015,7 @@
     var ficha = document.getElementById("ficha");
 
     document.addEventListener("click", function (e) {
-      var el = e.target.closest &&
-               e.target.closest('a, .pieza[data-id], .escaparate__foto[data-id]');
+      var el = e.target.closest && e.target.closest('a, .pieza[data-id]');
       if (!el) return;
       var a = el.getAttribute("href") || "";
 
@@ -1030,6 +1030,11 @@
       if (a.indexOf("instagram.com") > -1) { contar("instagram"); return; }
       if (a.indexOf("google.com/maps") > -1) { contar("como-llegar"); return; }
       if (a.indexOf("tel:") === 0) { contar("telefono"); return; }
+
+      // La tira de la portada, los cuadros de «¿Qué buscas?» y las fotos
+      // del escaparate: todos llevan a una categoría.
+      var cat = el.getAttribute("data-filtro");
+      if (cat) { contar("categoria:" + cat); return; }
 
       var id = el.getAttribute("data-id");
       if (id) contar("ficha:" + id);
