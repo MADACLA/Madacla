@@ -1,0 +1,1312 @@
+/* ==========================================================================
+   MADACLA — hoja de estilos
+
+   Los colores de la marca están todos aquí abajo, en el bloque :root.
+   Si cambias un color ahí, cambia en TODA la web de golpe.
+   Los mismos códigos están explicados en identidad.html (ábrelo con doble clic).
+
+   Las letras viven en fuentes/ (ya no se piden a Google).
+   ========================================================================== */
+
+:root {
+  /* --- FONDOS (de más claro a menos) --- */
+  --crema:   #FAF6F0;   /* fondo general, blanco roto calentito */
+  --arena:   #F1E8DC;   /* fondo de las secciones que van en otro tono */
+  --lino:    #E3D6C4;   /* líneas y bordes finos */
+
+  /* --- EL TOQUE DULCE --- */
+  --nude:    #E8D3CB;   /* rosa empolvado muy suave: solo detalles pequeños */
+
+  /* --- TEXTO --- */
+  --cacao:     #2B211B; /* marrón café MUY oscuro: el texto principal (no es negro) */
+  --cacao-700: #4A3A30; /* un punto más claro: botones rellenos */
+  --taupe:     #6E5F52; /* topo: textos secundarios (se lee bien sobre crema) */
+  --taupe-400: #9C8B79; /* topo claro: solo etiquetas grandes o decorativo */
+
+  /* --- EL PESO --- */
+  --chocolate: #3B2E26; /* chocolate oscuro: las franjas que sostienen la página */
+
+  /* --- DORADO --- */
+  --oro:     #C0A06A;   /* dorado claro: líneas y adornos (NUNCA para letras) */
+  --oro-txt: #8A6A3A;   /* dorado oscuro: solo en rotulitos y títulos grandes */
+
+  /* --- ESCALA DE LETRA (crece suave con la pantalla) --- */
+  --t--1: clamp(0.94rem, 0.92rem + 0.10vw, 1.00rem);   /* 15-16: etiquetas, pie */
+  --t-0:  clamp(1.06rem, 1.03rem + 0.15vw, 1.125rem);  /* 17-18: cuerpo */
+  --t-1:  clamp(1.25rem, 1.18rem + 0.35vw, 1.50rem);   /* subtítulos */
+  --t-2:  clamp(1.50rem, 1.35rem + 0.75vw, 2.00rem);   /* h3 */
+  --t-3:  clamp(1.85rem, 1.55rem + 1.40vw, 2.75rem);   /* h2 */
+  --t-4:  clamp(2.25rem, 1.75rem + 2.40vw, 3.75rem);   /* h1 normal */
+  --t-5:  clamp(2.75rem, 1.95rem + 3.80vw, 5.00rem);   /* titular editorial */
+  --t-6:  clamp(3.60rem, 1.80rem + 9.00vw, 7.50rem);   /* el rótulo MADACLA */
+
+  /* --- ESCALA DE ESPACIO (siempre múltiplos de 4) --- */
+  --e-1: 4px;  --e-2: 8px;  --e-3: 12px; --e-4: 16px; --e-5: 24px;
+  --e-6: 32px; --e-7: 48px; --e-8: 64px; --e-9: 96px; --e-10: 128px;
+  /* aire entre secciones: 72 px en móvil → 128 px en pantalla grande */
+  --aire: clamp(4.5rem, 3rem + 5vw, 8rem);
+
+  /* --- MEDIDAS --- */
+  --ancho:   1200px;
+  --radio:   14px;
+  --margen:  clamp(1.25rem, 4vw, 2.5rem);   /* margen lateral de la página */
+
+  /* --- LETRAS --- */
+  --serif: "Cormorant Garamond", "Iowan Old Style", "Palatino Linotype", Palatino, Georgia, serif;
+  --sans:  "Jost", "Segoe UI", -apple-system, BlinkMacSystemFont, Roboto, "Helvetica Neue", Arial, sans-serif;
+}
+
+* { box-sizing: border-box; }
+[hidden] { display: none !important; }
+
+html { scroll-behavior: smooth; }
+
+body {
+  margin: 0;
+  background: var(--crema);
+  color: var(--cacao);
+  font-family: var(--sans);
+  font-size: var(--t-0);
+  font-weight: 300;
+  line-height: 1.6;
+  -webkit-font-smoothing: antialiased;
+}
+
+img { max-width: 100%; display: block; }
+
+h1, h2, h3 {
+  font-family: var(--serif);
+  font-weight: 500;
+  line-height: 1.1;
+  letter-spacing: -.01em;
+  margin: 0 0 .5em;
+}
+
+p { max-width: 65ch; }
+
+a { color: var(--cacao); }
+
+/* Etiqueta pequeña en mayúsculas: la forma de Jost que se repite por toda la web */
+.etq,
+.sobretitulo,
+.menu a,
+.dato h3,
+.rotulo__casa,
+.marca__antes,
+.pie__casa,
+.filtro,
+.boton,
+.etiquetas li {
+  font-family: var(--sans);
+  text-transform: uppercase;
+  letter-spacing: .14em;
+  font-weight: 400;
+}
+
+/* Enlace de accesibilidad: solo se ve al navegar con el teclado */
+.saltar {
+  position: absolute; left: -9999px;
+  background: var(--cacao); color: var(--crema); padding: var(--e-3) var(--e-4); z-index: 99;
+}
+.saltar:focus { left: var(--e-4); top: var(--e-4); }
+
+:focus-visible { outline: 2px solid var(--cacao-700); outline-offset: 3px; }
+
+/* ============ BARRA DE ARRIBA ============ */
+
+.barra {
+  position: sticky; top: 0; z-index: 50;
+  display: flex; align-items: center; justify-content: space-between;
+  gap: var(--e-4); flex-wrap: wrap;
+  min-height: 68px;
+  padding: var(--e-3) var(--margen);
+  background: rgba(250, 246, 240, .92);
+  backdrop-filter: blur(10px);
+  border-bottom: 1px solid var(--lino);
+}
+
+.marca { text-decoration: none; color: inherit; line-height: 1.05; }
+.marca__nombre {
+  display: block;
+  font-family: var(--serif);
+  font-size: var(--t-2); font-weight: 500;
+  color: var(--cacao);
+  letter-spacing: .04em;
+}
+/* «Casa Rosendo» es el nombre de toda la vida en Santomera: tiene que
+   leerse, no ser un susurro. Se sube de tamaño y se oscurece, pero sin
+   acercarse a Madacla (pedido por Claudia el 2026-08-25). */
+.marca__antes {
+  display: block;
+  font-size: .74rem; letter-spacing: .24em;
+  color: var(--cacao-700);
+}
+
+/* ==========================================================================
+   EL LOGO (el elefante de Claudia)
+   Es SU png, tal cual, solo con dos retoques: fondo transparente y sin la
+   línea de «ROPA» (la tienda no es solo ropa). Se hacen con el script del
+   diario de NOTAS, a partir de logo/logotipo.png, que es el original intacto.
+   Viven en fotos/ a propósito: publicar.sh ya copia fotos/*.png, así que no
+   hay carpeta nueva que añadir (la lección de fuentes/). Y el nombre
+   «logo-madacla» no casa con el patrón de prendas, así que NO sale como
+   producto en el catálogo.
+   ========================================================================== */
+
+.marca {
+  display: grid;
+  justify-items: start;
+  gap: var(--e-1);
+}
+/* El nombre dentro del logo es solo un tercio del alto de la imagen, así que
+   para que MADACLA se lea como antes hay que darle más alto que al texto. */
+.marca__logo { display: block; height: clamp(52px, 13vw, 62px); width: auto; }
+
+/* En el pie el fondo es chocolate: ahí va la versión crema. */
+.pie__logo {
+  display: block;
+  height: clamp(76px, 14vw, 98px); width: auto;
+  margin: 0 auto var(--e-2);
+}
+.marca .elefante--barra { grid-row: 1 / 3; height: 38px; color: var(--cacao); }
+
+/* En la portada: encima del nombre grande. */
+.elefante--rotulo {
+  height: clamp(56px, 11vw, 104px);
+  color: var(--cacao);
+  margin-bottom: var(--e-4);
+}
+
+/* En el pie va sobre chocolate, así que sale en crema. */
+.elefante--pie {
+  height: 52px;
+  margin: 0 auto var(--e-4);
+  color: var(--crema);
+  opacity: .85;
+}
+
+.menu { display: flex; gap: var(--e-5); flex-wrap: wrap; }
+.menu a {
+  color: var(--cacao); text-decoration: none;
+  font-size: .8rem;
+  padding: var(--e-2) 0;
+  border-bottom: 1px solid transparent;
+  transition: color .2s, border-color .2s;
+}
+.menu a:hover { color: var(--oro-txt); border-bottom-color: var(--oro); }
+
+/* ============ BOTONES ============ */
+
+.botones { display: flex; gap: var(--e-3); flex-wrap: wrap; margin-top: var(--e-6); }
+
+.boton {
+  display: inline-flex; align-items: center; justify-content: center;
+  min-height: 48px;
+  padding: 0 var(--e-6);
+  border: 1px solid var(--cacao);
+  border-radius: 999px;
+  color: var(--cacao);
+  text-decoration: none;
+  font-size: .8rem; font-weight: 500;
+  transition: background .2s, color .2s, border-color .2s, transform .2s;
+}
+.boton:hover { background: var(--arena); transform: translateY(-1px); }
+
+.boton--fuerte { background: var(--cacao-700); border-color: var(--cacao-700); color: var(--crema); }
+.boton--fuerte:hover { background: var(--cacao); border-color: var(--cacao); color: var(--crema); }
+
+/* ============ PORTADA ============ */
+
+.portada {
+  display: grid;
+  gap: 0;
+  align-items: center;
+  padding: 0 0 var(--e-8);
+}
+
+.portada__texto {
+  max-width: var(--ancho);
+  margin: 0 auto;
+  padding: var(--e-7) var(--margen) 0;
+}
+
+/* ---- El escaparate: varias fotos, no una ----------------------------
+   Claudia (2026-08-26): «que no salga solo una, que salgan tres o seis».
+   En el móvil, una grande y dos pequeñas al lado (las demás se esconden:
+   a seis salen del tamaño de un sello). En pantalla grande, las seis.  */
+/* La FORMA del mosaico manda: 6/5 de ancho por alto y dos filas. Así la
+   grande queda en 4:5 (el formato de las fotos) y no le corta la cabeza a
+   nadie; si se dejaran las filas al aire, la grande salía casi cuadrada. */
+.escaparate {
+  display: grid;
+  grid-template-columns: 2fr 1fr;
+  grid-template-rows: 1fr 1fr;
+  aspect-ratio: 6 / 5;
+  gap: var(--e-1);
+  margin: 0 var(--margen);
+}
+.escaparate__foto {
+  display: block; padding: 0; margin: 0;
+  border: 0; background: none; cursor: pointer;
+  overflow: hidden;
+  border-radius: var(--radio);
+}
+.escaparate__foto img {
+  width: 100%; height: 100%;
+  object-fit: cover;
+  object-position: center 40%;   /* al recortar, se sacrifica el suelo */
+  display: block;
+}
+/* La primera manda: ocupa las dos filas de la izquierda. */
+.escaparate__foto:first-child { grid-row: span 2; }
+/* Si solo hay una prenda publicada, que ocupe todo y no quede coja. */
+.escaparate:has(.escaparate__foto:only-child) {
+  grid-template-columns: 1fr; grid-template-rows: 1fr; aspect-ratio: 4 / 5;
+}
+/* Con dos, una encima de otra a la derecha no tiene sentido: media y media. */
+.escaparate:has(.escaparate__foto:nth-child(2):last-child) {
+  grid-template-columns: 1fr 1fr; grid-template-rows: 1fr; aspect-ratio: 8 / 5;
+}
+.escaparate:has(.escaparate__foto:nth-child(2):last-child) .escaparate__foto:first-child {
+  grid-row: auto;
+}
+
+.sobretitulo {
+  margin: 0 0 var(--e-4);
+  font-size: .72rem; letter-spacing: .32em;
+  color: var(--oro-txt);
+}
+
+/* El rótulo grande: MADACLA arriba, Casa Rosendo pequeñito debajo */
+.rotulo { margin: 0 0 var(--e-5); }
+
+/* El nombre de la portada es el logo de Claudia: dos PNG del mismo recorte
+   (MADACLA en cacao y el elefante en taupe) puestos uno encima de otro, para
+   poder moverlos por separado. La caja lleva la proporcion del logo para que
+   no pegue un salto mientras cargan las imagenes. */
+.rotulo__logo {
+  display: block;
+  position: relative;
+  width: min(100%, 30rem);
+  aspect-ratio: 1348 / 536;
+}
+.rotulo__logo img {
+  position: absolute;
+  inset: 0;
+  width: 100%; height: 100%;
+  object-fit: contain;
+}
+
+.rotulo__casa {
+  display: block;
+  margin-top: var(--e-4);
+  padding-top: var(--e-4);
+  border-top: 1px solid var(--oro);
+  max-width: 15em;
+  font-size: clamp(.86rem, 2.6vw, 1.05rem);
+  letter-spacing: .3em;
+  color: var(--cacao-700);
+}
+
+.entradilla {
+  font-size: var(--t-1);
+  font-weight: 300;
+  line-height: 1.5;
+  color: var(--taupe);
+  max-width: 40ch;
+  margin: 0;
+}
+
+/* ============ SECCIONES ============ */
+
+.seccion {
+  max-width: var(--ancho);
+  margin: 0 auto;
+  padding: var(--aire) var(--margen);
+}
+
+/* Bloque de fondo arena, a todo lo ancho pero con el texto alineado.
+   (100% y no 100vw: el vw cuenta la barra de scroll y en móvil desbordaba.) */
+.seccion--arena {
+  max-width: none;
+  background: var(--arena);
+  padding-left:  max(var(--margen), calc((100% - var(--ancho)) / 2 + var(--margen)));
+  padding-right: max(var(--margen), calc((100% - var(--ancho)) / 2 + var(--margen)));
+}
+
+.seccion__cabecera { max-width: 58ch; margin-bottom: var(--e-7); }
+.seccion__cabecera h2 { font-size: var(--t-3); }
+.seccion__cabecera p { color: var(--taupe); margin: 0; }
+
+/* Rayita dorada bajo los titulares: el hilo que cose toda la página */
+.seccion__cabecera h2::after,
+.visitanos h2::after {
+  content: ""; display: block;
+  width: 54px; height: 1px;
+  background: var(--oro);
+  margin: var(--e-4) 0 var(--e-5);
+}
+.siempre h2::after {
+  content: ""; display: block;
+  width: 54px; height: 1px;
+  background: var(--oro);
+  margin: var(--e-5) auto var(--e-5);
+}
+
+/* ============ FILTROS DEL CATÁLOGO ============ */
+
+.filtros { display: flex; flex-wrap: wrap; gap: var(--e-2); margin-bottom: var(--e-7); }
+
+.filtro {
+  font-size: .74rem;
+  min-height: 44px;
+  padding: 0 var(--e-5);
+  border: 1px solid var(--lino);
+  border-radius: 999px;
+  background: transparent;
+  color: var(--taupe);
+  cursor: pointer;
+  transition: all .2s;
+}
+.filtro:hover { border-color: var(--oro); color: var(--oro-txt); }
+.filtro.is-activo {
+  background: var(--cacao-700); border-color: var(--cacao-700); color: var(--crema);
+}
+
+/* ============ REJILLA DE PRODUCTOS ============ */
+
+.rejilla {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: var(--e-6) var(--e-4);
+}
+
+/* La tarjeta no tiene borde, ni sombra, ni fondo: la definen la foto y el aire */
+.pieza img {
+  width: 100%;
+  aspect-ratio: 4 / 5;
+  object-fit: cover;
+  border-radius: var(--radio);
+  background: var(--lino);
+  transition: transform .6s cubic-bezier(.16, 1, .3, 1);
+}
+@media (hover: hover) and (pointer: fine) {
+  .pieza:hover img { transform: scale(1.03); }
+}
+
+/* Debajo de la foto no va NADA (2026-08-25, decisión de Claudia): ni nombre,
+   ni precio, ni categoría. Con diez bolsos beige el nombre no distinguía nada,
+   y así queda estilo revista. La prenda se identifica por su número, que sale
+   al abrir la ficha y es lo que viaja en el WhatsApp.
+   Se deja la regla por si algún día vuelve un título a la tarjeta. */
+.pieza h3 {
+  font-family: var(--sans);
+  font-size: var(--t--1); font-weight: 400;
+  letter-spacing: 0;
+  margin: var(--e-3) 0 0;
+}
+
+/* ============ AVISO DE PEDIDO ============ */
+
+.aviso-pedido {
+  margin-top: var(--e-8);
+  padding: var(--e-6) var(--e-6) var(--e-6) calc(var(--e-6) + 3px);
+  background: var(--crema);
+  border-left: 1px solid var(--oro);
+  border-radius: 0 var(--radio) var(--radio) 0;
+  display: grid; gap: var(--e-5); align-items: center;
+}
+.aviso-pedido p { margin: 0; color: var(--taupe); }
+.aviso-pedido strong { color: var(--cacao); font-weight: 500; }
+.aviso-pedido .boton { justify-self: start; }
+
+/* ============ FRANJA "Y MUCHAS COSAS MÁS" ============ */
+
+.siempre {
+  background: var(--chocolate);
+  color: var(--crema);
+  padding: var(--aire) var(--margen);
+  text-align: center;
+}
+.siempre h2 { font-size: var(--t-3); color: var(--crema); }
+.siempre p {
+  max-width: 54ch; margin: 0 auto;
+  color: rgba(250, 246, 240, .78);
+}
+
+.etiquetas {
+  list-style: none; display: flex; flex-wrap: wrap; justify-content: center;
+  gap: var(--e-2); padding: 0; margin: var(--e-6) 0 0;
+}
+.etiquetas li {
+  border: 1px solid rgba(192, 160, 106, .55);
+  border-radius: 999px;
+  padding: var(--e-2) var(--e-4);
+  font-size: .72rem;
+  color: var(--crema);
+}
+
+/* ============ VISÍTANOS ============ */
+
+.visitanos { display: grid; gap: var(--e-7); }
+.visitanos h2 { font-size: var(--t-3); }
+
+.dato { padding: var(--e-5) 0; border-top: 1px solid var(--lino); }
+.dato h3 {
+  font-size: .68rem; letter-spacing: .22em; color: var(--oro-txt);
+  margin-bottom: var(--e-2);
+}
+.dato p { margin: 0 0 var(--e-2); }
+.dato .boton { margin-top: var(--e-2); }
+
+.enlace { border-bottom: 1px solid var(--oro); text-decoration: none; transition: color .2s; }
+.enlace:hover { color: var(--oro-txt); }
+
+.enlace--tel {
+  font-family: var(--serif); font-size: var(--t-2);
+  font-variant-numeric: lining-nums tabular-nums;
+  border-bottom: 0; letter-spacing: .02em;
+}
+
+.botones--juntos { margin-top: var(--e-4); }
+
+/* Cuadro de horarios */
+.horario { list-style: none; margin: 0; padding: 0; font-variant-numeric: lining-nums tabular-nums; }
+.horario li {
+  display: flex; flex-wrap: wrap; justify-content: space-between; gap: var(--e-1) var(--e-4);
+  padding: var(--e-2) 0;
+  border-bottom: 1px dotted var(--lino);
+}
+.horario li:last-child { border-bottom: 0; }
+.horario span:first-child { letter-spacing: .04em; }
+.horario span:last-child { color: var(--taupe); text-align: right; }
+.horario__cerrado span:last-child { font-style: italic; }
+
+.visitanos__mapa iframe {
+  width: 100%;
+  min-height: 360px;
+  border: 0;
+  border-radius: var(--radio);
+  filter: saturate(.75);
+}
+
+/* ============ PIE ============ */
+
+.pie {
+  background: var(--chocolate);
+  padding: var(--e-8) var(--margen);
+  text-align: center;
+  color: rgba(250, 246, 240, .6);
+  font-size: var(--t--1);
+}
+.pie p { margin: var(--e-1) auto; }
+.pie a { color: rgba(250, 246, 240, .85); }
+.pie__marca {
+  font-family: var(--serif); font-size: var(--t-3); font-weight: 400;
+  color: var(--crema); line-height: 1; letter-spacing: .04em;
+}
+.pie__casa {
+  font-size: .72rem; letter-spacing: .3em;
+  color: var(--oro-txt);
+  margin: var(--e-3) auto var(--e-5) !important;
+}
+
+/* ==========================================================================
+   PANTALLAS GRANDES — de tablet para arriba
+   ========================================================================== */
+
+@media (min-width: 720px) {
+  .rejilla { grid-template-columns: repeat(3, 1fr); gap: var(--e-7) var(--e-5); }
+  .aviso-pedido { grid-template-columns: 1fr auto; }
+  .aviso-pedido .boton { justify-self: end; }
+}
+
+@media (min-width: 900px) {
+  /* La portada: el texto alineado con el resto de la web y la foto
+     saliéndose por el borde derecho, de arriba abajo. */
+  .portada {
+    grid-template-columns: 1fr 1fr;
+    align-items: stretch;
+    padding: 0;
+  }
+  /* En pantalla grande, el mismo mosaico ocupando la mitad derecha. Se le
+     pone tope de alto para que no empuje al nombre fuera de la pantalla. */
+  .escaparate {
+    order: 2;
+    align-self: center;
+    margin: 0;
+    max-height: 86vh;
+    border-radius: var(--radio) 0 0 var(--radio);
+    overflow: hidden;
+  }
+  .escaparate__foto { border-radius: 0; }
+  .portada__texto {
+    display: flex; flex-direction: column; justify-content: center;
+    max-width: none; margin: 0;
+    padding: var(--e-9) var(--e-8) var(--e-9) max(var(--margen), calc((100vw - var(--ancho)) / 2 + var(--margen)));
+    min-width: 0;
+  }
+
+  .visitanos { grid-template-columns: 1fr 1.1fr; align-items: start; gap: var(--e-8); }
+}
+
+@media (min-width: 1100px) {
+  .rejilla { grid-template-columns: repeat(4, 1fr); }
+}
+
+/* ==========================================================================
+   MOVIMIENTO (lote E)
+   Regla de oro: sin JS la web se ve entera. Solo cuando <html> lleva la
+   clase "js" se esconden las cosas para que entren con suavidad.
+   Solo se animan transform y opacity (van por la tarjeta gráfica).
+   ========================================================================== */
+
+:root {
+  --suave: cubic-bezier(.16, 1, .3, 1);   /* ease-out expo: el "lujo" */
+}
+
+/* --- 1. La portada entra escalonada (--i = orden de cada pieza) --- */
+.js .entra {
+  opacity: 0;
+  transform: translateY(24px);
+  animation: entrar .8s var(--suave) forwards;
+  animation-delay: calc(120ms * var(--i, 0) + 80ms);
+}
+@keyframes entrar {
+  to { opacity: 1; transform: none; }
+}
+
+/* El escaparate: las fotos van apareciendo una detrás de otra, y la
+   grande además crece lentísimo (Ken Burns sutil). */
+.js .escaparate__foto img {
+  opacity: 0;
+  animation: foto-entra .9s ease-out forwards;
+  animation-delay: calc(var(--i, 0) * 110ms);
+}
+.js .escaparate__foto:first-child img {
+  animation: foto-entra 1.2s ease-out forwards, foto-crece 8s ease-out forwards;
+}
+@keyframes foto-entra { to { opacity: 1; } }
+@keyframes foto-crece { from { scale: 1; } to { scale: 1.04; } }
+
+/* --- 2. Revelado al bajar: .revela → .is-visible (lo pone el JS) --- */
+.js .revela {
+  opacity: 0;
+  transform: translateY(28px);
+  transition: opacity .7s var(--suave), transform .7s var(--suave);
+  transition-delay: calc(70ms * var(--i, 0));
+}
+.js .revela.is-visible { opacity: 1; transform: none; }
+
+/* --- 3. La cinta de texto lenta --- */
+.cinta {
+  overflow: hidden;
+  border-top: 1px solid var(--lino);
+  border-bottom: 1px solid var(--lino);
+  background: var(--crema);
+  padding: var(--e-3) 0;
+  white-space: nowrap;
+}
+.cinta__pista {
+  display: inline-flex;
+  animation: cinta 38s linear infinite;
+  will-change: transform;
+}
+.cinta__texto {
+  font-family: var(--sans);
+  font-size: .72rem; font-weight: 400;
+  text-transform: uppercase; letter-spacing: .24em;
+  color: var(--taupe);
+  padding-right: var(--e-6);
+}
+@keyframes cinta { to { transform: translateX(-50%); } }
+
+/* --- 4. Parallax suave (CSS nativo; quien no lo soporte lo ve quieto) --- */
+.siempre { position: relative; overflow: hidden; isolation: isolate; }
+.siempre__fondo {
+  position: absolute; inset: -12% 0; z-index: -1;
+  background: linear-gradient(180deg, #3B2E26 0%, #463830 50%, #3B2E26 100%);
+}
+.siempre > :not(.siempre__fondo) { position: relative; }
+
+@supports (animation-timeline: view()) {
+  .escaparate__foto:first-child img {
+    animation-name: foto-entra, foto-crece, foto-parallax;
+    animation-duration: 1.2s, 8s, auto;
+    animation-timing-function: ease-out, ease-out, linear;
+    animation-fill-mode: forwards, forwards, both;
+    animation-timeline: auto, auto, view();
+    animation-range: normal, normal, exit 0% exit 100%;
+  }
+  .siempre__fondo {
+    animation: fondo-parallax linear both;
+    animation-timeline: view();
+    animation-range: entry 0% exit 100%;
+  }
+}
+@keyframes foto-parallax  { from { translate: 0 0; } to { translate: 0 -6%; } }
+@keyframes fondo-parallax { from { translate: 0 -8%; } to { translate: 0 8%; } }
+
+/* --- 5. Segunda foto al pasar el ratón (solo si existe el hueco -b) --- */
+.pieza { position: relative; }
+.pieza__b {
+  position: absolute; top: 0; left: 0;
+  width: 100%; aspect-ratio: 4 / 5; object-fit: cover;
+  border-radius: var(--radio);
+  opacity: 0;
+  transition: opacity .45s ease;
+  pointer-events: none;
+}
+@media (hover: hover) and (pointer: fine) {
+  .pieza.tiene-b:hover .pieza__b { opacity: 1; }
+  .pieza.tiene-b:hover img:first-of-type { transform: none; }
+}
+
+/* --- 6. Movimiento reducido: solo fades cortos, nada que se mueva --- */
+@media (prefers-reduced-motion: reduce) {
+  .js .entra { transform: none; animation-duration: .2s; animation-delay: 0s; }
+  .js .escaparate__foto img,
+  .js .escaparate__foto:first-child img {
+    animation: foto-entra .2s ease-out forwards; animation-delay: 0s;
+  }
+  .js .revela { transform: none; transition-duration: .2s; transition-delay: 0s; }
+  .cinta__pista { animation: none; }
+  .siempre__fondo, .escaparate__foto img { animation-timeline: auto; translate: 0; }
+  .pieza img { transition: none; }
+}
+
+/* ==========================================================================
+   LOTE B1 — la home en el orden que vende
+   ========================================================================== */
+
+/* --- Franja de confianza: tres datos, sin cajas, separados por aire --- */
+.confianza {
+  list-style: none; margin: 0; padding: var(--e-5) var(--margen);
+  display: grid; gap: var(--e-3);
+  max-width: var(--ancho); margin-inline: auto;
+  border-top: 1px solid var(--lino);
+}
+.confianza li {
+  display: flex; align-items: baseline; gap: var(--e-3);
+  font-size: var(--t--1); color: var(--taupe);
+}
+.confianza__num {
+  font-family: var(--serif); font-style: italic; font-size: var(--t-1);
+  color: var(--oro-txt); line-height: 1;
+}
+
+/* --- "Acaba de llegar": mismas tarjetas que el catálogo, 2 → 4 columnas --- */
+.rejilla--novedades { grid-template-columns: repeat(2, 1fr); }
+
+/* --- Categorías con foto: el nombre encima de la imagen --- */
+.categorias { padding-top: 0; }
+.categorias__rejilla {
+  display: grid; grid-template-columns: repeat(2, 1fr); gap: var(--e-4);
+}
+.categoria {
+  position: relative; display: block; overflow: hidden;
+  border-radius: var(--radio);
+  text-decoration: none; color: var(--crema);
+  isolation: isolate;
+}
+.categoria img {
+  width: 100%; aspect-ratio: 4 / 5; object-fit: cover;
+  transition: transform .8s var(--suave);
+}
+.categoria::after {   /* velo suave para que el nombre se lea sobre cualquier foto */
+  content: ""; position: absolute; inset: 0;
+  background: linear-gradient(180deg, rgba(43,33,27,0) 45%, rgba(43,33,27,.55) 100%);
+}
+.categoria__nombre {
+  position: absolute; left: var(--e-5); right: var(--e-5); bottom: var(--e-5); z-index: 1;
+  font-family: var(--serif); font-size: var(--t-2); font-weight: 500;
+  letter-spacing: .01em; line-height: 1.1;
+  text-shadow: 0 1px 12px rgba(43,33,27,.35);
+}
+.categoria__nombre::after {   /* rayita dorada que crece al pasar el ratón */
+  content: ""; display: block; width: 32px; height: 1px;
+  background: var(--oro); margin-top: var(--e-2);
+  transition: width .5s var(--suave);
+}
+@media (hover: hover) and (pointer: fine) {
+  .categoria:hover img { transform: scale(1.04); }
+  .categoria:hover .categoria__nombre::after { width: 64px; }
+}
+
+/* --- Cómo comprar en 3 pasos --- */
+.pasos__lista {
+  list-style: none; margin: 0; padding: 0;
+  display: grid; gap: var(--e-6);
+  counter-reset: paso;
+}
+.paso {
+  padding-top: var(--e-5);
+  border-top: 1px solid var(--oro);
+}
+.paso__num {
+  display: block;
+  font-family: var(--serif); font-style: italic; font-size: var(--t-4);
+  color: var(--oro-txt); line-height: 1; margin-bottom: var(--e-3);
+}
+.paso h3 { font-size: var(--t-1); margin-bottom: var(--e-2); }
+.paso p { margin: 0; color: var(--taupe); font-size: var(--t--1); }
+.pasos__boton { margin-top: var(--e-7); }
+
+/* --- Botón flotante de WhatsApp (verde oficial, logo sin recolorear) --- */
+.flotante {
+  position: fixed; right: var(--e-5); bottom: var(--e-5); z-index: 60;
+  width: 56px; height: 56px; border-radius: 50%;
+  display: flex; align-items: center; justify-content: center;
+  background: #25D366;
+  box-shadow: 0 1px 2px rgba(43,33,27,.08), 0 8px 24px rgba(43,33,27,.18);
+  transition: transform .2s, box-shadow .2s;
+}
+.flotante:hover { transform: translateY(-2px); box-shadow: 0 2px 4px rgba(43,33,27,.1), 0 12px 28px rgba(43,33,27,.22); }
+.flotante:focus-visible { outline: 2px solid var(--cacao); outline-offset: 3px; }
+
+@media (min-width: 720px) {
+  .confianza { grid-template-columns: repeat(3, 1fr); gap: var(--e-6); padding-block: var(--e-6); }
+  .confianza li { justify-content: center; }
+  .rejilla--novedades { grid-template-columns: repeat(4, 1fr); }
+  .categorias__rejilla { grid-template-columns: repeat(4, 1fr); gap: var(--e-5); }
+  .pasos__lista { grid-template-columns: repeat(3, 1fr); gap: var(--e-7); }
+}
+@media (min-width: 900px) {
+  .flotante { right: var(--e-6); bottom: var(--e-6); }
+}
+
+/* En móvil el menú no cabe con 4 entradas: «Novedades» se esconde (la portada
+   ya tiene el botón «Ver novedades») y las otras tres caben en una línea. */
+@media (max-width: 719px) {
+  .menu { gap: var(--e-4); }
+  .menu a { font-size: .74rem; }
+  .menu a[href="#novedades"] { display: none; }
+}
+
+/* ==========================================================================
+   LOTE B2 — Instagram, Maricarmen y mapa al pulsar
+   ========================================================================== */
+
+/* --- Instagram: solo la puerta para seguirla (los seis cuadros los quito
+       Claudia el 2026-08-26: la clienta ya viene de alli) --- */
+.instagram { padding-bottom: 0; }
+.instagram__boton { margin-top: var(--e-5); }
+
+/* --- Te atiende Maricarmen: foto + texto en 1.ª persona --- */
+.maricarmen { display: grid; gap: var(--e-6); align-items: center; }
+.maricarmen__foto img {
+  width: 100%; aspect-ratio: 4 / 5; object-fit: cover;
+  border-radius: var(--radio);
+}
+.maricarmen__texto h2 { font-size: var(--t-3); }
+.maricarmen__texto h2::after {
+  content: ""; display: block; width: 54px; height: 1px;
+  background: var(--oro); margin: var(--e-4) 0 var(--e-5);
+}
+.maricarmen__texto p { color: var(--taupe); }
+.maricarmen__firma {
+  font-family: var(--serif); font-style: italic; font-size: var(--t-2);
+  color: var(--cacao) !important; margin-top: var(--e-5);
+}
+
+/* --- Mapa que solo carga al pulsar --- */
+.mapa {
+  min-height: 360px; height: 100%;
+  display: flex; flex-direction: column; align-items: center; justify-content: center;
+  gap: var(--e-4); text-align: center;
+  background: var(--arena); border-radius: var(--radio);
+  padding: var(--e-6);
+}
+.mapa__texto { font-family: var(--serif); font-size: var(--t-1); margin: 0; }
+.mapa__nota { font-size: .78rem; color: var(--taupe); margin: 0; }
+.mapa--cargado { padding: 0; display: block; }
+.mapa--cargado iframe {
+  width: 100%; height: 100%; min-height: 360px; border: 0;
+  border-radius: var(--radio); filter: saturate(.75);
+}
+/* El mapa se ve desde el principio (sin botón). Debajo, la referencia para
+   situarse de un vistazo. */
+.mapa__pie {
+  margin: var(--e-3) 0 0;
+  font-size: .88rem; color: var(--taupe);
+}
+.mapa__pie .enlace { margin-left: var(--e-2); white-space: nowrap; }
+
+@media (min-width: 900px) {
+  .maricarmen { grid-template-columns: 1fr 1.2fr; gap: var(--e-8); }
+  /* Mientras no haya foto suya, el texto no se queda en media pantalla con
+     un hueco al lado: ocupa el ancho entero. */
+  .maricarmen:has(.maricarmen__foto[hidden]) { grid-template-columns: 1fr; }
+}
+
+/* ==========================================================================
+   LOTE C1 — la ficha de producto (ventana encima, «como en Zara»)
+   ========================================================================== */
+
+/* La tarjeta entera se puede pinchar; el botón «Ver de cerca» es el acceso
+   con teclado y el aviso visual. */
+.pieza { cursor: pointer; }
+
+/* --- Bisuteria: que se sepa QUE se vende en la foto (2026-08-27) ---
+   La escena es bonita pero la pieza puede pasar desapercibida: etiqueta
+   con lo que se vende y, si Claudia ha señalado el punto, un destello
+   suave que late encima. El margin-top en % va sobre el ANCHO de la
+   tarjeta, y la foto es 4:5 (125% del ancho): asi las dos cosas se
+   colocan respecto a la FOTO aunque debajo haya texto. */
+.pieza__se-vende {
+  position: absolute;
+  left: 10px; top: 0;
+  margin-top: calc(125% - 42px);
+  padding: 7px 12px;
+  background: rgba(250, 246, 240, .92);
+  color: var(--cacao);
+  font-size: .66rem;
+  letter-spacing: .18em;
+  text-transform: uppercase;
+  border-left: 2px solid var(--oro);
+  border-radius: 2px;
+  pointer-events: none;
+}
+.pieza__halo {
+  position: absolute;
+  width: 48px; height: 48px;
+  transform: translate(-50%, -50%);
+  border: 2px solid var(--oro);
+  border-radius: 50%;
+  opacity: 0;
+  pointer-events: none;
+  animation: halo-late 3s ease-out infinite;
+}
+@keyframes halo-late {
+  0%   { transform: translate(-50%, -50%) scale(.45); opacity: 0; }
+  12%  { opacity: .95; }
+  45%  { transform: translate(-50%, -50%) scale(1.05); opacity: 0; }
+  100% { opacity: 0; }
+}
+@media (prefers-reduced-motion: reduce) {
+  /* Sin movimiento: el destello no late (la etiqueta ya dice que es). */
+  .pieza__halo { display: none; }
+}
+
+.pieza__ver {
+  font: inherit; font-size: .7rem; text-transform: uppercase; letter-spacing: .14em;
+  background: none; border: 0; padding: var(--e-1) 0 0; cursor: pointer;
+  color: var(--oro-txt);
+  border-bottom: 1px solid var(--oro);
+  transition: color .2s, border-color .2s;
+}
+.pieza__ver:hover { color: var(--cacao); border-color: var(--cacao); }
+
+/* --- La ventana --- */
+.ficha {
+  border: 0; padding: 0; margin: auto;
+  width: min(1040px, calc(100vw - 2 * var(--e-4)));
+  max-height: calc(100dvh - 2 * var(--e-4));
+  background: var(--crema); color: var(--cacao);
+  border-radius: var(--radio);
+  box-shadow: 0 2px 6px rgba(43,33,27,.08), 0 24px 64px rgba(43,33,27,.28);
+  overflow: hidden;
+}
+.ficha::backdrop { background: rgba(43, 33, 27, .55); backdrop-filter: blur(3px); }
+
+/* entrada suave: desde un poco más abajo y transparente */
+.ficha[open] { animation: ficha-entra .5s var(--suave); }
+@keyframes ficha-entra { from { opacity: 0; transform: translateY(18px); } }
+.ficha[open]::backdrop { animation: fondo-entra .35s ease-out; }
+@keyframes fondo-entra { from { opacity: 0; } }
+
+.ficha__cuerpo {
+  display: grid; grid-template-rows: auto auto;
+  max-height: calc(100dvh - 2 * var(--e-4));
+  overflow: auto;
+}
+
+.ficha__cerrar {
+  position: absolute; top: var(--e-3); right: var(--e-3); z-index: 3;
+  width: 44px; height: 44px; border-radius: 50%;
+  border: 0; background: rgba(250,246,240,.9); color: var(--cacao);
+  font-size: 1.4rem; line-height: 1; cursor: pointer;
+  display: flex; align-items: center; justify-content: center;
+}
+.ficha__cerrar:hover { background: var(--crema); }
+
+/* la galería */
+.ficha__galeria { position: relative; background: var(--arena); }
+/* CONTAIN, no cover. Con `cover` la foto se recortaba para llenar el hueco
+   y, al haber tope de altura, se comía el bajo del pantalón — que es
+   justo lo que se vende. Aquí la prenda se ve ENTERA aunque queden dos
+   franjas del color de la web a los lados. (Claudia, 2026-08-26: «cuando le
+   pincho para verla de cerca no veo el pantalón entero».) */
+.ficha__foto {
+  width: 100%; aspect-ratio: 4 / 5; object-fit: contain; display: block;
+  background: var(--crema);
+  max-height: 62dvh;
+  transition: opacity .3s ease;
+  touch-action: pan-y;
+}
+.ficha__foto.cambiando { opacity: 0; }
+
+.ficha__flecha {
+  position: absolute; top: 50%; transform: translateY(-50%); z-index: 2;
+  width: 44px; height: 44px; border-radius: 50%;
+  border: 0; background: rgba(250,246,240,.9); color: var(--cacao);
+  font-size: 1.2rem; cursor: pointer;
+  display: flex; align-items: center; justify-content: center;
+  transition: background .2s, opacity .2s;
+}
+.ficha__flecha:hover { background: var(--crema); }
+.ficha__flecha--ant { left: var(--e-3); }
+.ficha__flecha--sig { right: var(--e-3); }
+.ficha__flecha[disabled] { opacity: .35; cursor: default; }
+
+.ficha__contador {
+  position: absolute; left: var(--e-4); bottom: var(--e-3); z-index: 2;
+  font-size: .7rem; letter-spacing: .18em; text-transform: uppercase;
+  color: var(--crema); text-shadow: 0 1px 8px rgba(43,33,27,.6);
+  font-variant-numeric: tabular-nums;
+}
+
+.ficha__minis {
+  display: flex; gap: var(--e-2); padding: var(--e-3); margin: 0;
+  list-style: none; overflow-x: auto;
+  background: var(--arena);
+}
+.ficha__minis button {
+  width: 56px; height: 70px; padding: 0; border: 0; cursor: pointer;
+  border-radius: 4px; overflow: hidden; opacity: .55; flex: none;
+  outline-offset: 2px;
+  transition: opacity .2s;
+}
+.ficha__minis button img { width: 100%; height: 100%; object-fit: cover; display: block; }
+.ficha__minis button.is-activa, .ficha__minis button:hover { opacity: 1; }
+
+/* el texto */
+.ficha__texto { padding: var(--e-6) var(--e-5) var(--e-6); }
+.ficha__texto .sobretitulo { margin-bottom: var(--e-2); }
+.ficha__nombre { font-size: var(--t-3); margin-bottom: var(--e-3); }
+.ficha__desc { color: var(--taupe); margin: 0 0 var(--e-5); }
+.ficha__nota { font-size: .8rem; color: var(--taupe); margin: var(--e-3) 0 0; }
+
+@media (min-width: 820px) {
+  .ficha__cuerpo { grid-template-columns: 1.1fr 1fr; grid-template-rows: none; }
+  .ficha__galeria { display: grid; grid-template-rows: 1fr auto; }
+  .ficha__foto { max-height: none; height: 100%; min-height: 520px; }
+  .ficha__texto {
+    padding: var(--e-8) var(--e-7);
+    display: flex; flex-direction: column; justify-content: center;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .ficha[open], .ficha[open]::backdrop { animation: none; }
+  .ficha__foto { transition: none; }
+}
+
+/* El visor: la foto con sus flechas y su contador (las miniaturas van aparte,
+   así el contador ya no se monta sobre ellas). */
+.ficha__visor { position: relative; }
+@media (min-width: 820px) {
+  .ficha__galeria { grid-template-rows: 1fr auto; }
+  .ficha__visor { display: flex; min-height: 0; }
+}
+
+/* En móvil: foto un poco menos alta y texto más prieto, para que el botón de
+   WhatsApp se vea sin tener que bajar dentro de la ficha. */
+@media (max-width: 819px) {
+  .ficha__foto { max-height: 52dvh; }
+  .ficha__texto { padding: var(--e-5) var(--e-5) var(--e-6); }
+  .ficha__nombre { font-size: var(--t-2); }
+}
+@media (min-width: 820px) {
+  /* El visor ocupa toda la fila y la foto lo llena (sin flex, que la dejaba sin altura). */
+  .ficha__visor { display: block; height: 100%; min-height: 520px; }
+}
+@media (min-width: 820px) {
+  /* A prueba de bombas: el visor marca la altura y la foto lo llena entero. */
+  .ficha__visor { position: relative; display: block; height: auto; min-height: 520px; }
+  .ficha__foto {
+    position: absolute; inset: 0;
+    width: 100%; height: 100%; max-height: none; min-height: 0;
+    aspect-ratio: auto;
+  }
+}
+
+/* ==========================================================================
+   LOTE E2 — la entrada más moderna
+   ========================================================================== */
+
+/* --- 1. El logo entra en dos tiempos --- */
+/* Primero aparece el elefante, bajando muy poco y creciendo un pelin, como si
+   se posara. Justo despues se "escribe" MADACLA: la capa de las letras se
+   descubre de izquierda a derecha con un clip-path, que es el gesto que tenia
+   antes la entrada letra a letra (Claudia, 2026-08-26: que entre el logo). */
+.js .rotulo__elefante {
+  animation: elefante-entra 1.1s var(--suave) both;
+  animation-delay: 120ms;
+}
+.js .rotulo__letras {
+  animation: letras-se-escriben 1.15s cubic-bezier(.22, .61, .36, 1) both;
+  animation-delay: 620ms;
+}
+@keyframes elefante-entra {
+  from { opacity: 0; translate: 0 -6%; scale: 1.04; }
+  to   { opacity: 1; translate: 0 0;   scale: 1; }
+}
+@keyframes letras-se-escriben {
+  from { opacity: 0; clip-path: inset(0 100% 0 0); }
+  20%  { opacity: 1; }
+  to   { opacity: 1; clip-path: inset(0 0 0 0); }
+}
+
+/* --- 2. Aquí había un brillo dorado cruzando el logo. SE QUITÓ, y conviene
+   saber por qué antes de volver a intentarlo (2026-08-26):
+
+   Cuando el nombre eran letras de verdad, el brillo se recortaba con
+   `background-clip: text` y solo se veía sobre la letra. Ahora el nombre es
+   una imagen, así que la banda dorada se pinta sobre TODO el rectángulo del
+   logo: un manchurrón beige cruzando la portada. Se vio en la web publicada.
+
+   El arreglo natural es recortarla con `mask-image` a la silueta del logo.
+   Funciona en internet, pero NO abriendo `index.html` con doble clic: los
+   navegadores no dejan usar una imagen `file://` como recorte y entonces
+   desaparece... o, si un día cambian eso, vuelve el manchurrón. Como Claudia
+   mira la web así a menudo, no compensa por un adorno.
+
+   Si algún día se quiere recuperar: hace falta el logo en SVG (trazos, no
+   PNG) y ahí sí se puede recortar sin depender de nada. --- */
+
+/* En pantalla partida (texto a la izquierda, foto a la derecha) el logo tiene
+   media pantalla: que no se salga de su columna. */
+@media (min-width: 900px) {
+  .rotulo__logo { width: min(100%, 26rem); }
+}
+
+/* --- movimiento reducido: el logo, quieto y entero --- */
+@media (prefers-reduced-motion: reduce) {
+  .js .rotulo__elefante,
+  .js .rotulo__letras { animation: none; opacity: 1; translate: 0 0; scale: 1; clip-path: none; }
+}
+
+/* ============ CUANDO TODAVÍA NO HAY FOTOS ============
+   Decisión de Claudia (2026-08-25): la clienta no debe ver cuadros de
+   relleno. Si hay un bolso, sale un bolso; no un bolso y once huecos.
+   El catálogo lo reescribe servidor.py con las prendas que existen. */
+
+/* Un filtro sin nada: en vez de dejar la rejilla en blanco, se explica. */
+.rejilla__vacio {
+  grid-column: 1 / -1;
+  margin: var(--e-5) 0 0;
+  color: var(--taupe);
+  font-size: var(--t-0);
+  text-align: center;
+}
+
+/* Sin ninguna prenda publicada no hay escaparate: la portada se queda solo
+   con el texto, a lo ancho, en vez de enseñar un dibujo de relleno. */
+.portada:not(:has(.escaparate__foto)) .escaparate { display: none; }
+
+@media (min-width: 900px) {
+  .portada:not(:has(.escaparate__foto)) { display: block; }
+  .portada:not(:has(.escaparate__foto)) .portada__texto { max-width: 46rem; }
+}
+
+/* ---- La tira de categorías de la portada ----------------------------
+   Para que al entrar se vea que hay más cosas, sin tener que bajar. */
+.tira {
+  display: flex; flex-wrap: wrap;
+  gap: var(--e-2) var(--e-4);
+  margin-top: var(--e-5);
+  padding-top: var(--e-4);
+  /* Hueco a la derecha para el botón redondo de WhatsApp, que es fijo y si
+     no se le come la última palabra. */
+  padding-right: 68px;
+  border-top: 1px solid var(--lino);
+}
+@media (min-width: 900px) { .tira { padding-right: 0; } }
+.tira a {
+  color: var(--taupe);
+  font-size: .78rem; letter-spacing: .14em; text-transform: uppercase;
+  text-decoration: none;
+  padding-bottom: 2px;
+  border-bottom: 1px solid transparent;
+}
+.tira a:hover, .tira a:focus-visible {
+  color: var(--cacao); border-bottom-color: var(--oro);
+}
+
+/* ==========================================================================
+   CADA JUEVES, ROPA NUEVA
+   Claudia cierra el miércoles por la tarde para ir de compras, así que el
+   jueves siempre hay género nuevo. Sus clientas de siempre ya lo saben; esto
+   es para que lo vea quien entra por primera vez. Va en tres sitios: la
+   franja de confianza, la cinta que se mueve y este rótulo.
+   ========================================================================== */
+
+/* La cinta de los jueves: se mueve de lado, como la de arriba, pero esta
+   pesa más — fondo chocolate y letra crema — porque es EL argumento de la
+   tienda. Claudia (2026-08-26): «que se vea más, incluso que se mueva de
+   lateral como lo de ropa, zapatos...». */
+.jueves {
+  overflow: hidden;
+  margin: 0 0 var(--e-7);
+  padding: var(--e-4) 0;
+  background: var(--chocolate);
+  white-space: nowrap;
+}
+.jueves__pista {
+  display: inline-flex;
+  animation: jueves-pasa 26s linear infinite;
+  will-change: transform;
+}
+.jueves__texto {
+  display: inline-flex;
+  align-items: center;
+  font-family: var(--sans);
+  font-size: clamp(.86rem, .78rem + .4vw, 1.05rem);
+  font-weight: 400;
+  text-transform: uppercase;
+  letter-spacing: .22em;
+  color: var(--crema);
+  padding-right: var(--e-6);
+}
+.jueves__punto {
+  margin-left: var(--e-6);
+  font-size: .5em;
+  color: var(--oro);
+  transform: translateY(-.15em);
+}
+/* Son cuatro copias, así que una vuelta entera es moverse un cuarto. */
+@keyframes jueves-pasa { to { transform: translateX(-25%); } }
+
+/* El porqué, debajo del horario. */
+.horario__porque {
+  margin: var(--e-4) 0 0;
+  font-size: .88rem;
+  line-height: 1.6;
+  color: var(--taupe);
+}
+.horario__porque strong { color: var(--cacao); font-weight: 500; }
+
+@media (prefers-reduced-motion: reduce) {
+  .jueves__pista { animation: none; }
+}
+
+/* ==========================================================================
+   «PONME EN TU MÓVIL»
+   El cartel que explica cómo dejar la web en la pantalla de inicio.
+   Claudia (2026-08-26): sus clientas son mayores, así que letra grande,
+   poco texto y el botón bien gordo. Sube desde abajo, sin tapar el de
+   WhatsApp cuando está fuera.
+   ========================================================================== */
+.ponme {
+  position: fixed;
+  inset: auto 0 0 0;
+  z-index: 60;
+  padding: var(--e-3);
+  display: flex;
+  justify-content: center;
+  pointer-events: none;
+}
+.ponme__caja {
+  pointer-events: auto;
+  position: relative;
+  width: min(100%, 26rem);
+  background: var(--crema);
+  border: 1px solid var(--oro);
+  border-radius: 14px;
+  box-shadow: 0 14px 40px rgba(43, 33, 27, .22);
+  padding: var(--e-5) var(--e-4) var(--e-4);
+  text-align: center;
+  transform: translateY(130%);
+  opacity: 0;
+  transition: transform .45s var(--suave), opacity .45s var(--suave);
+}
+.ponme--fuera .ponme__caja { transform: translateY(0); opacity: 1; }
+
+.ponme__icono {
+  width: 62px; height: 62px;
+  border-radius: 14px;
+  border: 1px solid var(--arena);
+  /* El CSS de la web pone las imagenes en bloque, asi que para centrarlo no
+     basta con el text-align del padre: hace falta el auto de los lados. */
+  margin: 0 auto var(--e-3);
+}
+.ponme__titulo {
+  font-family: var(--serif);
+  font-size: 1.4rem;
+  line-height: 1.2;
+  color: var(--cacao);
+  margin: 0 0 var(--e-2);
+}
+.ponme__texto {
+  font-size: 1rem;
+  color: var(--taupe);
+  margin: 0 0 var(--e-4);
+}
+.ponme__cerrar {
+  position: absolute;
+  top: 2px; right: 6px;
+  background: none; border: 0;
+  font-size: 1.9rem; line-height: 1;
+  color: var(--taupe);
+  padding: .2em .3em;
+  cursor: pointer;
+}
+.ponme__cerrar:hover { color: var(--cacao); }
+
+.ponme__solo .boton { width: 100%; font-size: 1rem; padding: .95em 1.2em; }
+.ponme__luego {
+  display: block;
+  margin: var(--e-3) auto 0;
+  background: none; border: 0;
+  font-family: var(--sans);
+  font-size: .95rem;
+  color: var(--taupe);
+  text-decoration: underline;
+  text-underline-offset: 3px;
+  cursor: pointer;
+}
+
+/* iPhone: una linea diciendo COMO se llama el boton (nunca donde esta,
+   que cambia en cada version de iOS) y la salida facil de la tienda. */
+.ponme__comose {
+  font-size: 1rem;
+  line-height: 1.5;
+  color: var(--cacao);
+  margin: 0;
+  text-align: left;
+}
+.ponme__comose b { font-weight: 500; }
+/* La oferta de la tienda: separada por un filete para que se lea como lo
+   que es, la salida facil si lo de arriba no le sale. */
+.ponme__tienda {
+  margin: var(--e-3) 0 0;
+  padding-top: var(--e-3);
+  border-top: 1px solid var(--arena);
+  font-size: 1rem;
+  line-height: 1.5;
+  color: var(--taupe);
+  text-align: left;
+}
+.ponme__tienda b { color: var(--cacao); font-weight: 500; }
+
+/* Mientras el cartel esta fuera, el boton de WhatsApp se sube por encima:
+   si no, se le monta encima en la esquina. La altura la mide el JS al
+   sacarlo, porque cambia segun sea la version de iPhone o la de Android. */
+.ponme--fuera + .flotante {
+  transform: translateY(calc(-1 * var(--ponme-alto, 0px)));
+}
+.flotante { transition: transform .45s var(--suave); }
+
+/* En pantalla ancha el cartel se va a la esquina: en el ordenador nadie
+   pone accesos directos, pero si sale, que no se coma media pantalla. */
+@media (min-width: 900px) {
+  .ponme { justify-content: flex-start; padding: var(--e-4); }
+  .ponme__caja { width: 22rem; }
+}
+
+/* Movimiento reducido: aparece sin deslizarse. */
+@media (prefers-reduced-motion: reduce) {
+  .ponme__caja { transition: opacity .2s linear; transform: none; }
+  .ponme--fuera .ponme__caja { transform: none; }
+}
