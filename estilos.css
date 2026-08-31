@@ -199,6 +199,20 @@ a { color: var(--cacao); }
 
 .botones { display: flex; gap: var(--e-3); flex-wrap: wrap; margin-top: var(--e-6); }
 
+/* Lo de los jueves, pegadito al boton de novedades (Claudia, 2026-09-01).
+   Era el 03 de la franja de confianza; aqui trabaja mas. */
+.botones__nota {
+  margin: var(--e-2) 0 0;
+  font-size: .8rem; letter-spacing: .12em; text-transform: uppercase;
+  color: var(--taupe);
+}
+.botones__nota::before {
+  content: ""; display: inline-block; vertical-align: middle;
+  width: 5px; height: 5px; border-radius: 50%;
+  background: var(--oro);            /* el dorado, solo de adorno */
+  margin-right: 8px;
+}
+
 .boton {
   display: inline-flex; align-items: center; justify-content: center;
   min-height: 48px;
