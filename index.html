@@ -90,15 +90,15 @@
         <a href="#catalogo" data-filtro="zapatos">Zapatos</a>
         <a href="#catalogo" data-filtro="bisuteria">Bisutería</a>
       </nav>
+
+      <!-- La señal de bajar (Claudia, 2026-08-31): una luz dorada recorre el
+           hilo y enciende la flecha, para que se note que hay cosas abajo. -->
+      <a class="baja entra" style="--i:6" href="#categorias" aria-label="Baja para ver el catálogo">
+        <span class="baja__hilo" aria-hidden="true"></span>
+        <span class="baja__punta" aria-hidden="true"></span>
+      </a>
     </div>
   </section>
-
-  <!-- ============ CONFIANZA ============ -->
-  <ul class="confianza revela" aria-label="Por qué comprar aquí">
-    <li><span class="confianza__num">01</span>Tienda en Santomera, calle San Rosendo 5</li>
-    <li><span class="confianza__num">02</span>Te atiende Maricarmen</li>
-    <li><span class="confianza__num">03</span>Cada jueves, ropa nueva</li>
-  </ul>
 
   <!-- ============ CINTA ============ -->
   <div class="cinta" aria-label="Ropa, bolsos, zapatos, bisutería. Santomera. Te lo apartamos por WhatsApp.">
@@ -109,7 +109,7 @@
   </div>
 
   <!-- ============ CATEGORÍAS CON FOTO ============ -->
-  <section class="seccion categorias">
+  <section id="categorias" class="seccion categorias">
     <header class="seccion__cabecera revela">
       <h2>¿Qué buscas?</h2>
     </header>
@@ -134,6 +134,15 @@
     </div>
     <!-- CATEGORIAS:FIN -->
   </section>
+
+  <!-- ============ CONFIANZA ============ -->
+  <!-- Iba encima de todo; Claudia (2026-08-31) la bajo aqui para que la
+       clienta vea antes la ropa y las categorias. -->
+  <ul class="confianza revela" aria-label="Por qué comprar aquí">
+    <li><span class="confianza__num">01</span>Tienda en Santomera, calle San Rosendo 5</li>
+    <li><span class="confianza__num">02</span>Te atiende Maricarmen</li>
+    <li><span class="confianza__num">03</span>Cada jueves, ropa nueva</li>
+  </ul>
 
   <!-- ============ ACABA DE LLEGAR ============ -->
   <section id="novedades" class="seccion">
@@ -877,21 +886,43 @@
 
 <script>
   // ---------------------------------------------------------------
-  // EL ESCAPARATE VA CAMBIANDO
+  // EL ESCAPARATE VA CAMBIANDO... Y NO PARA
   // Cada hueco lleva apuntadas todas las prendas de su categoria que
-  // podrian salir ahi (data-opciones). En cada visita se elige una al
-  // azar, asi quien vuelve a entrar no se encuentra siempre lo mismo.
-  // Sin JS se queda la primera, que ya viene puesta en el HTML.
+  // podrian salir ahi (data-opciones). Al entrar se elige una al azar
+  // y, desde ahi, van cambiando SOLAS con un fundido suave (Claudia,
+  // 2026-08-31: "como Bershka"). Cada hueco a su ritmo, para que no
+  // cambien los tres a la vez como un semaforo.
+  // Sin JS se queda la primera; con "reducir movimiento", la del azar.
   // ---------------------------------------------------------------
-  document.querySelectorAll(".escaparate__foto[data-opciones]").forEach(function (hueco) {
+  document.querySelectorAll(".escaparate__foto[data-opciones]").forEach(function (hueco, n) {
     var opciones;
     try { opciones = JSON.parse(hueco.dataset.opciones); } catch (e) { return; }
     if (!opciones || opciones.length < 2) return;   // con una, no hay que elegir
-    var elegida = opciones[Math.floor(Math.random() * opciones.length)];
     var foto = hueco.querySelector("img");
-    if (!foto || !elegida) return;
-    foto.src = elegida.src;
-    foto.alt = elegida.alt || foto.alt;
+    if (!foto) return;
+    var i = Math.floor(Math.random() * opciones.length);
+    foto.src = opciones[i].src;
+    foto.alt = opciones[i].alt || foto.alt;
+
+    if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
+
+    setInterval(function () {
+      if (document.hidden) return;      // con la pestaña escondida, quieto
+      i = (i + 1) % opciones.length;
+      var siguiente = new Image();      // se descarga ANTES de fundir, para
+      siguiente.onload = function () {  // no fundir a un hueco en blanco
+        // La clase .vive le quita a la foto la animacion de entrada (su
+        // fill "forwards" clavaba la opacidad y el fundido no podia).
+        foto.classList.add("vive");
+        foto.classList.add("se-va");    // baja suave al crema del fondo...
+        setTimeout(function () {
+          foto.src = siguiente.src;
+          foto.alt = opciones[i].alt || "";
+          foto.classList.remove("se-va");   // ...y vuelve con la nueva
+        }, 900);
+      };
+      siguiente.src = opciones[i].src;
+    }, 5200 + n * 1100);
   });
 
   // ---------------------------------------------------------------

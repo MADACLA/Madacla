@@ -576,18 +576,33 @@ a { color: var(--cacao); }
   to { opacity: 1; transform: none; }
 }
 
-/* El escaparate: las fotos van apareciendo una detrás de otra, y la
-   grande además crece lentísimo (Ken Burns sutil). */
+/* El escaparate: las fotos van apareciendo una detrás de otra y respiran
+   con un zoom lentísimo QUE NO PARA (Claudia, 2026-08-31: «como Bershka»).
+   El retardo negativo desacompasa los tres huecos: cada uno va a su ritmo. */
 .js .escaparate__foto img {
   opacity: 0;
-  animation: foto-entra .9s ease-out forwards;
-  animation-delay: calc(var(--i, 0) * 110ms);
+  animation: foto-entra .9s ease-out calc(var(--i, 0) * 110ms) forwards,
+             foto-vive 18s ease-in-out calc(var(--i, 0) * -6s) infinite alternate;
 }
 .js .escaparate__foto:first-child img {
-  animation: foto-entra 1.2s ease-out forwards, foto-crece 8s ease-out forwards;
+  animation: foto-entra 1.2s ease-out forwards,
+             foto-vive 18s ease-in-out infinite alternate;
 }
+/* Cuando el JS empieza a rotar las fotos, quita foto-entra (su fill
+   forwards clavaba la opacidad y el fundido no podía con él) y deja el
+   fundido en manos de una transición. foto-vive sigue con el mismo nombre
+   y los mismos números, así el navegador no la reinicia y no da saltos. */
+.js .escaparate__foto img.vive {
+  opacity: 1;
+  animation: foto-vive 18s ease-in-out calc(var(--i, 0) * -6s) infinite alternate;
+  transition: opacity .85s var(--suave);
+}
+.js .escaparate__foto:first-child img.vive {
+  animation: foto-vive 18s ease-in-out infinite alternate;
+}
+.js .escaparate__foto img.vive.se-va { opacity: 0; }
 @keyframes foto-entra { to { opacity: 1; } }
-@keyframes foto-crece { from { scale: 1; } to { scale: 1.04; } }
+@keyframes foto-vive { from { scale: 1; } to { scale: 1.055; } }
 
 /* --- 2. Revelado al bajar: .revela → .is-visible (lo pone el JS) --- */
 .js .revela {
@@ -631,12 +646,24 @@ a { color: var(--cacao); }
 
 @supports (animation-timeline: view()) {
   .escaparate__foto:first-child img {
-    animation-name: foto-entra, foto-crece, foto-parallax;
-    animation-duration: 1.2s, 8s, auto;
-    animation-timing-function: ease-out, ease-out, linear;
-    animation-fill-mode: forwards, forwards, both;
+    animation-name: foto-entra, foto-vive, foto-parallax;
+    animation-duration: 1.2s, 18s, auto;
+    animation-timing-function: ease-out, ease-in-out, linear;
+    animation-iteration-count: 1, infinite, 1;
+    animation-direction: normal, alternate, normal;
+    animation-fill-mode: forwards, none, both;
     animation-timeline: auto, auto, view();
     animation-range: normal, normal, exit 0% exit 100%;
+  }
+  .js .escaparate__foto:first-child img.vive {
+    animation-name: foto-vive, foto-parallax;
+    animation-duration: 18s, auto;
+    animation-timing-function: ease-in-out, linear;
+    animation-iteration-count: infinite, 1;
+    animation-direction: alternate, normal;
+    animation-fill-mode: none, both;
+    animation-timeline: auto, view();
+    animation-range: normal, exit 0% exit 100%;
   }
   .siempre__fondo {
     animation: fondo-parallax linear both;
@@ -670,6 +697,9 @@ a { color: var(--cacao); }
     animation: foto-entra .2s ease-out forwards; animation-delay: 0s;
   }
   .js .revela { transform: none; transition-duration: .2s; transition-delay: 0s; }
+  .js .escaparate__foto img.vive { animation: none; opacity: 1; transition: none; }
+  .baja__hilo::after { animation: none; opacity: 0; }
+  .baja__punta { animation: none; }
   .cinta__pista { animation: none; }
   .siempre__fondo, .escaparate__foto img { animation-timeline: auto; translate: 0; }
   .pieza img { transition: none; }
@@ -1158,14 +1188,56 @@ a { color: var(--cacao); }
 }
 @media (min-width: 900px) { .tira { padding-right: 0; } }
 .tira a {
-  color: var(--taupe);
-  font-size: .78rem; letter-spacing: .14em; text-transform: uppercase;
+  /* Claudia (2026-08-31): "un poquito mas en negrita para que lo vean
+     antes". De taupe fino a cacao con peso 500 (el maximo de Jost que
+     tenemos alojado) y un punto mas de cuerpo. */
+  color: var(--cacao);
+  font-weight: 500;
+  font-size: .84rem; letter-spacing: .14em; text-transform: uppercase;
   text-decoration: none;
   padding-bottom: 2px;
   border-bottom: 1px solid transparent;
 }
 .tira a:hover, .tira a:focus-visible {
   color: var(--cacao); border-bottom-color: var(--oro);
+}
+
+/* --- La señal de bajar (Claudia, 2026-08-31): "algo que incite a bajar,
+   que se ilumine de arriba hacia abajo la flecha". Un hilo fino por el que
+   baja una luz dorada; al llegar abajo, enciende la puntita. Sin rebotes:
+   nada se mueve de sitio, solo viaja la luz. --- */
+.baja {
+  display: flex; flex-direction: column; align-items: center; gap: 7px;
+  width: 44px;
+  margin: var(--e-5) auto 0;
+}
+.baja__hilo {
+  position: relative; overflow: hidden;
+  width: 2px; height: 46px; border-radius: 1px;
+  background: var(--lino);
+}
+.baja__hilo::after {
+  content: "";
+  position: absolute; left: 0; width: 100%; height: 46%;
+  background: linear-gradient(180deg, transparent, var(--oro), transparent);
+  animation: baja-luz 2.8s cubic-bezier(.45, 0, .35, 1) infinite;
+}
+@keyframes baja-luz {
+  0%        { transform: translateY(-110%); }
+  58%, 100% { transform: translateY(320%); }
+}
+.baja__punta {
+  width: 10px; height: 10px;
+  border-right: 2px solid var(--taupe);
+  border-bottom: 2px solid var(--taupe);
+  transform: rotate(45deg);
+  animation: baja-brilla 2.8s cubic-bezier(.45, 0, .35, 1) infinite;
+}
+/* La luz llega abajo hacia el 58% del ciclo: justo ahi prende la flecha. */
+@keyframes baja-brilla {
+  0%, 45%    { border-color: var(--taupe); }
+  60%        { border-color: var(--oro); }
+  82%, 100%  { border-color: var(--taupe); }
 }
 
 /* ==========================================================================
