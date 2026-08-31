@@ -1044,6 +1044,7 @@
       return {
         cat: NOMBRES_CAT[art.dataset.cat] || "",
         desc: art.dataset.desc || "",
+        vendida: art.dataset.vendida === "si",
         principal: img.currentSrc || img.src
       };
     }
@@ -1112,7 +1113,7 @@
       fotos = [d.principal]; actual = 0;
       nombreEl.textContent = "";
       nombreEl.hidden = true;
-      catEl.textContent = d.cat;
+      catEl.textContent = d.cat + (d.vendida ? " · vendido" : "");
       descEl.textContent = d.desc; descEl.hidden = !d.desc;
       fotoEl.alt = d.cat;
       // Las prendas no llevan nombre ni número, así que en el WhatsApp va el

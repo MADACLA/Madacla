@@ -688,6 +688,23 @@ a { color: var(--cacao); }
 @keyframes foto-parallax  { from { translate: 0 0; } to { translate: 0 -6%; } }
 @keyframes fondo-parallax { from { translate: 0 -8%; } to { translate: 0 8%; } }
 
+/* --- Vendido (Claudia, 2026-09-01): la prenda vendida se queda unos dias
+   con su etiqueta, un punto apagada y sin pulso, y luego el servidor la
+   quita solo del catalogo. Etiqueta sobria: crema y cacao, nada de rojos
+   de rebajas. --- */
+.pieza--vendida img { opacity: .78; filter: saturate(.55); }
+.pieza__vendida {
+  position: absolute; top: 10px; left: 10px;
+  padding: 6px 14px;
+  background: var(--crema);
+  border: 1px solid var(--lino);
+  border-radius: 999px;
+  color: var(--cacao);
+  font-size: .68rem; font-weight: 500;
+  letter-spacing: .22em; text-indent: .22em; text-transform: uppercase;
+  pointer-events: none;
+}
+
 /* --- 5. Segunda foto al pasar el ratón (solo si existe el hueco -b) --- */
 .pieza { position: relative; }
 .pieza__b {
