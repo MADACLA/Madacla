@@ -692,16 +692,22 @@ a { color: var(--cacao); }
    con su etiqueta, un punto apagada y sin pulso, y luego el servidor la
    quita solo del catalogo. Etiqueta sobria: crema y cacao, nada de rojos
    de rebajas. --- */
-.pieza--vendida img { opacity: .78; filter: saturate(.55); }
+.pieza--vendida img { opacity: .55; filter: saturate(.35); }
+/* Claudia (2026-09-01): «casi que no se ve, quiero que se vea más». De
+   pildorita arriba a banda en medio de la foto: cacao con letra crema,
+   como los botones de la web. El truco del margin-top en % (sobre el
+   ANCHO) es el mismo del pulso: la foto es 4:5, su centro cae al 62,5%. */
 .pieza__vendida {
-  position: absolute; top: 10px; left: 10px;
-  padding: 6px 14px;
-  background: var(--crema);
-  border: 1px solid var(--lino);
+  position: absolute; left: 50%; top: 0; margin-top: 62.5%;
+  transform: translate(-50%, -50%);
+  padding: 9px 22px;
+  background: var(--cacao);
   border-radius: 999px;
-  color: var(--cacao);
-  font-size: .68rem; font-weight: 500;
-  letter-spacing: .22em; text-indent: .22em; text-transform: uppercase;
+  color: var(--crema);
+  font-size: .8rem; font-weight: 500;
+  letter-spacing: .3em; text-indent: .3em; text-transform: uppercase;
+  white-space: nowrap;
+  box-shadow: 0 6px 18px rgba(43, 33, 27, .28);
   pointer-events: none;
 }
 
