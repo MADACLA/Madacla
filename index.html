@@ -1035,15 +1035,21 @@
     var visor = ficha.querySelector(".ficha__visor");
     var ampliada = false;
 
+    var ESCALA = 2.5;            // el mismo 2.5 del CSS (.ficha__foto.is-zoom)
+    var mira = { x: 50, y: 50 };  // el punto de la foto que se queda quieto
+
+    function ponerMira(px, py) {
+      mira.x = Math.max(0, Math.min(100, px));
+      mira.y = Math.max(0, Math.min(100, py));
+      fotoEl.style.transformOrigin = mira.x + "% " + mira.y + "%";
+    }
+
     function origenDesde(e) {
       // El punto tocado, en % de la foto: es el que se queda quieto al
       // agrandar, asi que la foto crece justo por donde ha mirado.
       var caja = fotoEl.getBoundingClientRect();
-      var px = ((e.clientX - caja.left) / caja.width) * 100;
-      var py = ((e.clientY - caja.top) / caja.height) * 100;
-      fotoEl.style.transformOrigin =
-        Math.max(0, Math.min(100, px)) + "% " +
-        Math.max(0, Math.min(100, py)) + "%";
+      ponerMira(((e.clientX - caja.left) / caja.width) * 100,
+                ((e.clientY - caja.top) / caja.height) * 100);
     }
 
     function ampliar(e) {
@@ -1061,6 +1067,7 @@
       fotoEl.classList.remove("is-zoom");
       visor.classList.remove("is-ampliada");
       fotoEl.style.transformOrigin = "";
+      mira.x = mira.y = 50;
       antEl.hidden = sigEl.hidden = fotos.length < 2;
     }
 
@@ -1076,14 +1083,25 @@
     // Deslizar con el dedo: pasa de foto si NO esta ampliada, y la pasea
     // si lo esta.
     var x0 = null, y0 = null, movido = false;
+    var miraAlEmpezar = null;     // donde miraba cuando empezo el arrastre
+
     fotoEl.addEventListener("touchstart", function (e) {
       x0 = e.touches[0].clientX; y0 = e.touches[0].clientY; movido = false;
+      miraAlEmpezar = { x: mira.x, y: mira.y };
     }, { passive: true });
 
     fotoEl.addEventListener("touchmove", function (e) {
       if (!ampliada || x0 === null) return;
       movido = true;
-      origenDesde(e.touches[0]);
+      var caja = fotoEl.getBoundingClientRect();
+      // El dedo ARRASTRA la foto: si va a la derecha, la foto va con el.
+      // Para eso el punto de mira tiene que ir al REVES que el dedo. Y se
+      // divide entre (escala - 1) para que la foto siga al dedo 1:1: al
+      // mover la mira un 1%, la foto se desplaza (escala - 1)%.
+      var dx = (e.touches[0].clientX - x0) / caja.width * 100;
+      var dy = (e.touches[0].clientY - y0) / caja.height * 100;
+      ponerMira(miraAlEmpezar.x - dx / (ESCALA - 1),
+                miraAlEmpezar.y - dy / (ESCALA - 1));
     }, { passive: true });
 
     fotoEl.addEventListener("touchend", function (e) {
