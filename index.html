@@ -754,6 +754,13 @@
         <button class="ficha__flecha ficha__flecha--ant" type="button" aria-label="Foto anterior">&lsaquo;</button>
         <button class="ficha__flecha ficha__flecha--sig" type="button" aria-label="Foto siguiente">&rsaquo;</button>
         <span class="ficha__contador" aria-live="polite"></span>
+        <span class="ficha__lupa" aria-hidden="true">
+          <svg viewBox="0 0 24 24" width="13" height="13" fill="none"
+               stroke="currentColor" stroke-width="2" stroke-linecap="round">
+            <circle cx="11" cy="11" r="7"/><path d="M20 20l-3.5-3.5M11 8v6M8 11h6"/>
+          </svg>
+          Toca para ampliar
+        </span>
       </div>
       <ul class="ficha__minis" aria-label="Más fotos"></ul>
     </div>
@@ -952,6 +959,7 @@
 
     function ir(i) {
       if (i < 0 || i >= fotos.length) return;
+      if (typeof encoger === "function") encoger();   // que no se quede ampliada
       actual = i;
       fotoEl.classList.add("cambiando");
       setTimeout(function () { fotoEl.src = fotos[i]; fotoEl.classList.remove("cambiando"); }, 120);
@@ -1018,13 +1026,77 @@
       if (e.key === "ArrowLeft")  ir(actual - 1);
       if (e.key === "ArrowRight") ir(actual + 1);
     });
-    // Deslizar con el dedo en el movil
-    var x0 = null;
-    fotoEl.addEventListener("touchstart", function (e) { x0 = e.touches[0].clientX; }, { passive: true });
+    // ---------------------------------------------------------------
+    // AMPLIAR LA FOTO
+    // Claudia (2026-08-31): «lo primero que hacen las clientas es pinchar
+    // en un producto y ampliar». Un toque amplia 2,5x por donde ha tocado;
+    // arrastrando se pasea; otro toque y vuelve.
+    // ---------------------------------------------------------------
+    var visor = ficha.querySelector(".ficha__visor");
+    var ampliada = false;
+
+    function origenDesde(e) {
+      // El punto tocado, en % de la foto: es el que se queda quieto al
+      // agrandar, asi que la foto crece justo por donde ha mirado.
+      var caja = fotoEl.getBoundingClientRect();
+      var px = ((e.clientX - caja.left) / caja.width) * 100;
+      var py = ((e.clientY - caja.top) / caja.height) * 100;
+      fotoEl.style.transformOrigin =
+        Math.max(0, Math.min(100, px)) + "% " +
+        Math.max(0, Math.min(100, py)) + "%";
+    }
+
+    function ampliar(e) {
+      origenDesde(e);
+      ampliada = true;
+      fotoEl.classList.add("is-zoom");
+      visor.classList.add("is-ampliada", "ya-lo-sabe");
+      // Con la foto ampliada las flechas estorban.
+      antEl.hidden = sigEl.hidden = true;
+    }
+
+    function encoger() {
+      if (!ampliada) return;
+      ampliada = false;
+      fotoEl.classList.remove("is-zoom");
+      visor.classList.remove("is-ampliada");
+      fotoEl.style.transformOrigin = "";
+      antEl.hidden = sigEl.hidden = fotos.length < 2;
+    }
+
+    fotoEl.addEventListener("click", function (e) {
+      if (ampliada) encoger(); else ampliar(e);
+    });
+
+    // Con el raton: al pasear por encima de la foto ampliada, se mueve.
+    fotoEl.addEventListener("mousemove", function (e) {
+      if (ampliada) origenDesde(e);
+    });
+
+    // Deslizar con el dedo: pasa de foto si NO esta ampliada, y la pasea
+    // si lo esta.
+    var x0 = null, y0 = null, movido = false;
+    fotoEl.addEventListener("touchstart", function (e) {
+      x0 = e.touches[0].clientX; y0 = e.touches[0].clientY; movido = false;
+    }, { passive: true });
+
+    fotoEl.addEventListener("touchmove", function (e) {
+      if (!ampliada || x0 === null) return;
+      movido = true;
+      origenDesde(e.touches[0]);
+    }, { passive: true });
+
     fotoEl.addEventListener("touchend", function (e) {
       if (x0 === null) return;
-      var dx = e.changedTouches[0].clientX - x0; x0 = null;
-      if (Math.abs(dx) > 40) ir(actual + (dx < 0 ? 1 : -1));
+      var dx = e.changedTouches[0].clientX - x0;
+      var dy = e.changedTouches[0].clientY - y0;
+      x0 = y0 = null;
+      if (ampliada) return;                  // ampliada, el dedo solo pasea
+      // Solo cambia de foto si el gesto ha sido claramente horizontal: si
+      // no, un dedo torcido al bajar cambiaba de prenda sin querer.
+      if (Math.abs(dx) > 40 && Math.abs(dx) > Math.abs(dy)) {
+        ir(actual + (dx < 0 ? 1 : -1));
+      }
     }, { passive: true });
   })();
 

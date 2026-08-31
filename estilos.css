@@ -945,10 +945,40 @@ a { color: var(--cacao); }
   width: 100%; aspect-ratio: 4 / 5; object-fit: contain; display: block;
   background: var(--crema);
   max-height: 62dvh;
-  transition: opacity .3s ease;
+  transition: opacity .3s ease, transform .35s var(--suave);
   touch-action: pan-y;
+  cursor: zoom-in;
 }
 .ficha__foto.cambiando { opacity: 0; }
+
+/* AMPLIAR (Claudia, 2026-08-31: es lo primero que hacen las clientas).
+   Se agranda con transform y el punto por donde ha tocado se pone de
+   origen, asi que la foto crece justo por ahi. El visor recorta lo que
+   sobra. */
+.ficha__visor { overflow: hidden; }
+.ficha__foto.is-zoom {
+  transform: scale(2.5);
+  cursor: zoom-out;
+  touch-action: none;   /* mientras esta ampliada, el dedo pasea la foto */
+}
+
+/* El avisito de «toca para ampliar»: se va en cuanto amplia una vez. */
+.ficha__lupa {
+  position: absolute; left: 50%; bottom: 10px; transform: translateX(-50%);
+  z-index: 2; pointer-events: none;
+  display: flex; align-items: center; gap: .4em;
+  padding: 6px 12px; border-radius: 999px;
+  background: rgba(250, 246, 240, .92);
+  color: var(--taupe); font-family: var(--sans);
+  font-size: .72rem; letter-spacing: .1em; text-transform: uppercase;
+  transition: opacity .3s ease;
+}
+.ficha__visor.is-ampliada .ficha__lupa,
+.ficha__visor.ya-lo-sabe .ficha__lupa { opacity: 0; }
+
+@media (prefers-reduced-motion: reduce) {
+  .ficha__foto { transition: opacity .3s ease; }
+}
 
 .ficha__flecha {
   position: absolute; top: 50%; transform: translateY(-50%); z-index: 2;
