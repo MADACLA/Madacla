@@ -1068,6 +1068,43 @@
   </svg>
 </a>
 
+<!-- ============================================================
+     «MI LISTA» — el carrito que acaba en WhatsApp, no en pago
+     Acordado con Claudia: sin precios, sin registro y sin la palabra
+     «carrito» (la de la casa es APARTAR). La lista vive en el movil de
+     la clienta (localStorage), asi que no hay cuentas ni datos nuestros.
+     ============================================================ -->
+<button class="lista-abre" id="lista-abre" type="button" hidden
+        aria-label="Ver mi lista">
+  <svg viewBox="0 0 24 24" width="22" height="22" fill="none"
+       stroke="currentColor" stroke-width="1.7" stroke-linecap="round"
+       stroke-linejoin="round" aria-hidden="true">
+    <path d="M6 2h12l1 4H5l1-4zM4 6h16l-1.2 14.2a2 2 0 0 1-2 1.8H7.2a2 2 0 0 1-2-1.8L4 6z"/>
+    <path d="M9 10a3 3 0 0 0 6 0"/>
+  </svg>
+  <span class="lista-abre__cuenta" id="lista-cuenta">0</span>
+</button>
+
+<dialog class="lista" id="lista" aria-labelledby="lista-titulo">
+  <div class="lista__cuerpo">
+    <button class="ficha__cerrar" type="button" data-lista-cerrar
+            aria-label="Cerrar">&times;</button>
+    <p class="sobretitulo">Lo que te has guardado</p>
+    <h2 class="lista__titulo" id="lista-titulo">Mi lista</h2>
+    <ul class="lista__prendas" id="lista-prendas"></ul>
+    <p class="lista__vacia" id="lista-vacia" hidden>
+      Todavía no has guardado nada. Ve al catálogo, entra en una prenda y
+      dale a «Añadir a mi lista».
+    </p>
+    <a class="boton boton--fuerte lista__wa" id="lista-wa"
+       href="https://wa.me/34679168346" target="_blank" rel="noopener">
+      Reservar mi lista por WhatsApp</a>
+    <p class="ficha__nota">Te contestamos nosotras, en horario de tienda.
+      Sin compromiso: te las apartamos y las ves en la tienda.</p>
+    <p class="lista__aviso">Tu lista se guarda solo en este móvil.</p>
+  </div>
+</dialog>
+
 <!-- La ficha de producto: se rellena por JS al pinchar una tarjeta -->
 <dialog class="ficha" id="ficha" aria-labelledby="ficha-nombre">
   <div class="ficha__cuerpo">
@@ -1093,6 +1130,7 @@
       <h2 class="ficha__nombre" id="ficha-nombre"></h2>
       <p class="ficha__desc"></p>
       <a class="boton boton--fuerte ficha__wa" href="https://wa.me/34679168346" target="_blank" rel="noopener">Pregúntame por esta prenda</a>
+      <button class="boton ficha__guardar" type="button">Añadir a mi lista</button>
       <p class="ficha__nota">Te contestamos nosotras, en horario de tienda. Sin compromiso.</p>
     </div>
   </div>
@@ -1341,6 +1379,7 @@
       // Ahora se lee de un vistazo: QUE es, como es, y el enlace a la
       // ficha (…/#zapatos-12), que abre esa prenda en la web. La direccion
       // tiene que ser la publica: la de casa no la ve un movil de fuera.
+      if (window.MiLista) MiLista.pintarBoton(d);
       var partes = ["Hola, me interesa esta prenda que he visto en la web:"];
       if (d.que) partes.push("");
       partes.push((d.que ? d.que.toUpperCase() : "") +
@@ -1665,6 +1704,167 @@
       var id = el.getAttribute("data-id");
       if (id) contar("ficha:" + id);
     });
+  })();
+</script>
+
+<script>
+  // ---------------------------------------------------------------
+  // «MI LISTA» — el carrito que acaba en WhatsApp
+  //
+  // Acordado con Claudia: sin precios, sin registro, sin la palabra
+  // «carrito». La lista vive SOLO en el movil de la clienta
+  // (localStorage): nosotras no guardamos nada de nadie.
+  // ---------------------------------------------------------------
+  var MiLista = (function () {
+    var LLAVE = "madacla-mi-lista";
+    var TOPE = 20;              // mas de 20 no es una lista, es un pedido
+    // La direccion publica. Esta tambien en el guion de la ficha, pero
+    // aquel es otro bloque y sus variables no llegan aqui: si no se
+    // declara, el mensaje de WhatsApp sale sin las prendas (paso al
+    // probarlo el 2026-09-02).
+    var SITIO_PUBLICO = "https://madacla.es/";
+    var SALTO = String.fromCharCode(10);
+
+    var abre     = document.getElementById("lista-abre");
+    var cuentaEl = document.getElementById("lista-cuenta");
+    var panel    = document.getElementById("lista");
+    var prendasEl= document.getElementById("lista-prendas");
+    var vaciaEl  = document.getElementById("lista-vacia");
+    var waEl     = document.getElementById("lista-wa");
+    var botonFicha = document.querySelector(".ficha__guardar");
+    var abierta = null;         // la prenda que se esta mirando
+
+    // --- guardar y leer -------------------------------------------
+    // En navegacion privada localStorage puede dar error: entonces la
+    // lista funciona igual, solo que no sobrevive al cerrar.
+    var enMemoria = [];
+    function leer() {
+      try {
+        var x = JSON.parse(localStorage.getItem(LLAVE) || "[]");
+        return Array.isArray(x) ? x : [];
+      } catch (e) { return enMemoria; }
+    }
+    function escribir(ids) {
+      enMemoria = ids;
+      try { localStorage.setItem(LLAVE, JSON.stringify(ids)); } catch (e) {}
+    }
+
+    function tiene(id) { return leer().indexOf(id) > -1; }
+
+    function anadir(id) {
+      var ids = leer();
+      if (ids.indexOf(id) > -1 || ids.length >= TOPE) return;
+      ids.push(id);
+      escribir(ids);
+      pintar();
+    }
+    function quitar(id) {
+      escribir(leer().filter(function (x) { return x !== id; }));
+      pintar();
+    }
+
+    // --- los datos de una prenda, sacados del catalogo -------------
+    function datos(id) {
+      var art = document.querySelector('#rejilla .pieza[data-id="' + id + '"]');
+      if (!art) return null;
+      var img = art.querySelector("img[data-foto]");
+      var etq = art.querySelector(".pieza__se-vende");
+      return {
+        id: id,
+        foto: img ? (img.currentSrc || img.src) : "",
+        que: etq ? etq.textContent.trim() : "",
+        desc: art.dataset.desc || "",
+        vendida: art.dataset.vendida === "si"
+      };
+    }
+
+    // --- el boton de la ficha --------------------------------------
+    function pintarBoton(d) {
+      abierta = d;
+      if (!botonFicha) return;
+      // Lo vendido no se puede apartar: seria prometer lo que no hay.
+      botonFicha.hidden = !!d.vendida;
+      var dentro = tiene(d.id);
+      botonFicha.textContent = dentro ? "Quitar de mi lista" : "Añadir a mi lista";
+      botonFicha.classList.toggle("is-dentro", dentro);
+    }
+
+    // --- el panel ---------------------------------------------------
+    function pintar() {
+      var ids = leer().filter(function (id) {
+        var d = datos(id);
+        return d && !d.vendida;      // si se vendio mientras tanto, fuera
+      });
+      if (ids.length !== leer().length) escribir(ids);
+
+      cuentaEl.textContent = ids.length;
+      abre.hidden = ids.length === 0;
+
+      prendasEl.innerHTML = "";
+      ids.forEach(function (id) {
+        var d = datos(id);
+        var li = document.createElement("li");
+        li.className = "lista__prenda";
+
+        var img = document.createElement("img");
+        img.src = d.foto; img.alt = ""; img.loading = "lazy";
+
+        var texto = document.createElement("div");
+        texto.className = "lista__que";
+        var fuerte = document.createElement("b");
+        fuerte.textContent = d.que || "Esta prenda";
+        var pequeno = document.createElement("span");
+        pequeno.textContent = d.desc;
+        texto.appendChild(fuerte); texto.appendChild(pequeno);
+
+        var fuera = document.createElement("button");
+        fuera.type = "button";
+        fuera.className = "lista__quitar";
+        fuera.setAttribute("aria-label", "Quitar de mi lista");
+        fuera.textContent = "×";
+        fuera.addEventListener("click", function () { quitar(id); });
+
+        li.appendChild(img); li.appendChild(texto); li.appendChild(fuera);
+        prendasEl.appendChild(li);
+      });
+
+      vaciaEl.hidden = ids.length > 0;
+      waEl.hidden = ids.length === 0;
+
+      // El mensaje para Maricarmen: una prenda por linea, dicha con
+      // palabras y con su enlace. Igual que el de la ficha, pero en lista.
+      var lineas = ["Hola, me gustaría que me apartarais estas prendas que he visto en la web:", ""];
+      ids.forEach(function (id, i) {
+        var d = datos(id);
+        lineas.push((i + 1) + ". " + (d.que ? d.que.toUpperCase() : "Esta prenda"));
+        if (d.desc) lineas.push("   " + d.desc);
+        lineas.push("   " + SITIO_PUBLICO + "#" + id);
+        lineas.push("");
+      });
+      waEl.href = "https://wa.me/34679168346?text=" +
+                  encodeURIComponent(lineas.join(SALTO));
+
+      if (botonFicha && abierta) pintarBoton(abierta);
+    }
+
+    // --- los botones ------------------------------------------------
+    if (botonFicha) {
+      botonFicha.addEventListener("click", function () {
+        if (!abierta) return;
+        if (tiene(abierta.id)) quitar(abierta.id); else anadir(abierta.id);
+      });
+    }
+    abre.addEventListener("click", function () { panel.showModal(); });
+    panel.querySelectorAll("[data-lista-cerrar]").forEach(function (b) {
+      b.addEventListener("click", function () { panel.close(); });
+    });
+    // Pinchar fuera del panel tambien lo cierra.
+    panel.addEventListener("click", function (e) {
+      if (e.target === panel) panel.close();
+    });
+
+    pintar();
+    return { pintarBoton: pintarBoton, datos: datos, pintar: pintar };
   })();
 </script>
 

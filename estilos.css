@@ -1433,6 +1433,101 @@ a { color: var(--cacao); }
 }
 .ponme__tienda b { color: var(--cacao); font-weight: 500; }
 
+/* ==========================================================================
+   «MI LISTA» — el carrito que acaba en WhatsApp
+   Sin precios y sin registro: la clienta guarda prendas y las manda de
+   golpe para que se las aparten. Vive en SU movil (localStorage).
+   ========================================================================== */
+
+/* El icono flotante, encima del de WhatsApp y con el mismo tamaño. */
+.lista-abre {
+  position: fixed; right: 18px; bottom: 88px; z-index: 60;
+  width: 56px; height: 56px; border-radius: 50%;
+  border: 1px solid var(--lino);
+  background: var(--crema); color: var(--cacao);
+  display: flex; align-items: center; justify-content: center;
+  cursor: pointer;
+  box-shadow: 0 6px 20px rgba(43, 33, 27, .16);
+  transition: transform .2s var(--suave), background .2s;
+}
+.lista-abre:hover { background: var(--arena); transform: translateY(-2px); }
+
+/* El numerito: en cacao, que el dorado en pequeño no se lee. */
+.lista-abre__cuenta {
+  position: absolute; top: -4px; right: -4px;
+  min-width: 22px; height: 22px; padding: 0 5px;
+  border-radius: 999px;
+  background: var(--cacao-700); color: var(--crema);
+  font-family: var(--sans); font-size: .72rem; font-weight: 500;
+  display: flex; align-items: center; justify-content: center;
+}
+
+/* Mientras el cartel de «ponme en el movil» esta fuera, este sube tambien. */
+.ponme--fuera ~ .lista-abre {
+  transform: translateY(calc(-1 * var(--ponme-alto, 0px)));
+}
+
+/* --- el panel --- */
+.lista {
+  border: 0; padding: 0; max-width: min(560px, 94vw); width: 100%;
+  background: var(--crema); color: var(--cacao);
+  border-radius: var(--radio);
+  box-shadow: 0 24px 70px rgba(43, 33, 27, .3);
+}
+.lista::backdrop { background: rgba(43, 33, 27, .55); }
+.lista__cuerpo { position: relative; padding: var(--e-6) var(--e-5) var(--e-5); }
+.lista__titulo { font-size: var(--t-2); margin-bottom: var(--e-5); }
+
+.lista__prendas { list-style: none; margin: 0 0 var(--e-5); padding: 0; }
+.lista__prenda {
+  display: flex; align-items: center; gap: var(--e-4);
+  padding: var(--e-3) 0;
+  border-top: 1px solid var(--lino);
+}
+.lista__prenda:first-child { border-top: 0; }
+.lista__prenda img {
+  width: 62px; aspect-ratio: 4 / 5; object-fit: cover; flex: none;
+  border-radius: calc(var(--radio) / 2);
+}
+.lista__que { flex: 1; min-width: 0; }
+.lista__que b {
+  display: block;
+  font-family: var(--sans); font-weight: 500;
+  font-size: .74rem; letter-spacing: .14em; text-transform: uppercase;
+}
+/* La descripcion, a dos lineas: en una lista de ocho prendas, entera
+   ocuparia media pantalla y no se veria el boton de reservar. */
+.lista__que span {
+  display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical;
+  overflow: hidden;
+  font-size: .88rem; color: var(--taupe); line-height: 1.4;
+}
+.lista__quitar {
+  flex: none; width: 34px; height: 34px; border-radius: 50%;
+  border: 1px solid var(--lino); background: var(--crema);
+  color: var(--taupe); font-size: 1.1rem; line-height: 1; cursor: pointer;
+  transition: border-color .2s, color .2s;
+}
+.lista__quitar:hover { border-color: var(--oro); color: var(--cacao); }
+
+.lista__vacia { color: var(--taupe); margin: 0 0 var(--e-5); }
+.lista__wa { width: 100%; }
+.lista__aviso {
+  font-size: .78rem; color: var(--taupe-400); margin: var(--e-3) 0 0;
+  text-align: center;
+}
+
+/* El boton de guardar de la ficha, debajo del de WhatsApp. */
+.ficha__guardar { width: 100%; margin-top: var(--e-3); cursor: pointer; }
+.ficha__guardar.is-dentro {
+  background: var(--arena); border-color: var(--oro); color: var(--cacao);
+}
+
+@media (max-width: 480px) {
+  .lista-abre { width: 50px; height: 50px; bottom: 80px; }
+  .lista__prenda img { width: 54px; }
+}
+
 /* Mientras el cartel esta fuera, el boton de WhatsApp se sube por encima:
    si no, se le monta encima en la esquina. La altura la mide el JS al
    sacarlo, porque cambia segun sea la version de iPhone o la de Android. */
