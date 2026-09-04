@@ -369,7 +369,20 @@ a { color: var(--cacao); }
 
 /* ============ FILTROS DEL CATÁLOGO ============ */
 
-.filtros { display: flex; flex-wrap: wrap; gap: var(--e-2); margin-bottom: var(--e-7); }
+/* Los filtros se quedan pegados bajo la barra mientras se baja por el
+   catalogo (Claudia, 2026-09-02): con 81 prendas, si se van, la clienta
+   tiene que volver arriba para cambiar de apartado. El alto de la barra lo
+   mide el JS (--barra-alto) porque cambia segun el movil. */
+.filtros {
+  display: flex; flex-wrap: wrap; gap: var(--e-2);
+  margin-bottom: var(--e-7);
+  position: sticky; top: var(--barra-alto, 68px); z-index: 40;
+  padding: var(--e-3) 0;
+  background: var(--arena);
+}
+
+/* El boton de «Ver mas prendas», centrado bajo la rejilla. */
+.rejilla__mas { display: flex; margin: var(--e-7) auto 0; }
 
 .filtro {
   font-size: .74rem;
@@ -764,6 +777,19 @@ a { color: var(--cacao); }
 
 /* --- "Acaba de llegar": mismas tarjetas que el catálogo, 2 → 4 columnas --- */
 .rejilla--novedades { grid-template-columns: repeat(2, 1fr); }
+
+/* «Lo que has visto»: una fila que se desliza a un lado, como en las webs
+   de moda. Asi no ocupa media pantalla aunque haya ocho. */
+.rejilla--vistas {
+  display: flex; gap: var(--e-4);
+  overflow-x: auto; scroll-snap-type: x mandatory;
+  padding-bottom: var(--e-3);
+  scrollbar-width: none;
+}
+.rejilla--vistas::-webkit-scrollbar { display: none; }
+.rejilla--vistas .pieza { flex: 0 0 44%; scroll-snap-align: start; }
+@media (min-width: 720px) { .rejilla--vistas .pieza { flex-basis: 30%; } }
+@media (min-width: 900px) { .rejilla--vistas .pieza { flex-basis: 22%; } }
 
 /* --- Categorías con foto: el nombre encima de la imagen --- */
 .categorias { padding-top: 0; }
