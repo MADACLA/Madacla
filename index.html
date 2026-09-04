@@ -1253,9 +1253,14 @@
       var art = document.querySelector('#rejilla .pieza[data-id="' + id + '"]');
       if (!art) return null;
       var img = art.querySelector("img[data-foto]");
+      var etiqueta = art.querySelector(".pieza__se-vende");
       return {
+        id: id,
         cat: NOMBRES_CAT[art.dataset.cat] || "",
         desc: art.dataset.desc || "",
+        // «Los zapatos», «La camiseta»…: es lo que hace que Maricarmen
+        // sepa de que prenda le hablan sin abrir ningun enlace.
+        que: etiqueta ? etiqueta.textContent.trim() : "",
         vendida: art.dataset.vendida === "si",
         principal: img.currentSrc || img.src
       };
@@ -1328,13 +1333,22 @@
       catEl.textContent = d.cat + (d.vendida ? " · vendido" : "");
       descEl.textContent = d.desc; descEl.hidden = !d.desc;
       fotoEl.alt = d.cat;
-      // Las prendas no llevan nombre ni número, así que en el WhatsApp va el
-      // ENLACE a la foto: WhatsApp enseña la miniatura y Maricarmen ve cuál es.
-      // Tiene que ser la dirección pública: la de casa no la ve un móvil de fuera.
-      var enlaceFoto = SITIO_PUBLICO + d.principal.replace(/^.*?fotos\//, "fotos/");
+      // El mensaje que le llega a Maricarmen. Antes iba SOLO el enlace a la
+      // foto (…/fotos/zapatos-12.jpg) y el 2026-09-01 paso lo que tenia que
+      // pasar: una clienta pregunto y Maricarmen no sabia por que prenda,
+      // porque el nombre del fichero no dice nada y hay que abrirlo.
+      //
+      // Ahora se lee de un vistazo: QUE es, como es, y el enlace a la
+      // ficha (…/#zapatos-12), que abre esa prenda en la web. La direccion
+      // tiene que ser la publica: la de casa no la ve un movil de fuera.
+      var partes = ["Hola, me interesa esta prenda que he visto en la web:"];
+      if (d.que) partes.push("");
+      partes.push((d.que ? d.que.toUpperCase() : "") +
+                  (d.que && d.desc ? " — " : "") + (d.desc || ""));
+      partes.push("");
+      partes.push(SITIO_PUBLICO + "#" + d.id);
       waEl.href = "https://wa.me/34679168346?text=" +
-        encodeURIComponent("Hola, me interesa esta prenda que he visto en la web: " +
-                           enlaceFoto);
+        encodeURIComponent(partes.join("\n"));
       pintarMinis(); ir(0);
       ficha.showModal();
       buscarExtras(id, function (extras) {
