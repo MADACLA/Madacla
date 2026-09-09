@@ -125,6 +125,35 @@ a { color: var(--cacao); }
   border-bottom: 1px solid var(--lino);
 }
 
+/* La fila de apartados bajo el menu (Claudia, 2026-09-09): pequeña y
+   callada, como en Mango o Zara. En el movil se desliza con el dedo. */
+.barra__cats {
+  flex-basis: 100%;
+  display: flex; gap: var(--e-5); justify-content: center;
+  overflow-x: auto; scrollbar-width: none; -webkit-overflow-scrolling: touch;
+  margin-top: calc(var(--e-2) * -1);
+}
+.barra__cats::-webkit-scrollbar { display: none; }
+.barra__cats a {
+  flex: none;
+  font-size: .7rem; letter-spacing: .14em; text-transform: uppercase;
+  color: var(--taupe); text-decoration: none;
+  padding: 2px 0; border-bottom: 1px solid transparent;
+}
+.barra__cats a:hover { color: var(--oro-txt); border-bottom-color: var(--oro); }
+.barra__cats .solo-movil { display: none; }
+@media (max-width: 719px) {
+  /* En el movil, el menu de arriba se esconde y manda esta tira: logo y
+     una sola fila (Ropa · Bolsos · Zapatos · Bisuteria · Donde estamos ·
+     Instagram) que se desliza con el dedo. Dos filas de enlaces eran
+     demasiada cabecera para una pantalla de 390 px. */
+  /* .barra .menu y no .menu a secas: la regla general «.menu {display:flex}»
+     esta mas abajo en el fichero y, a igual peso, gana la ultima. */
+  .barra .menu { display: none; }
+  .barra__cats { justify-content: flex-start; gap: var(--e-4); margin-top: 0; }
+  .barra__cats .solo-movil { display: inline-block; }
+}
+
 .marca { text-decoration: none; color: inherit; line-height: 1.05; }
 .marca__nombre {
   display: block;
@@ -380,6 +409,30 @@ a { color: var(--cacao); }
   padding: var(--e-3) 0;
   background: var(--arena);
 }
+
+/* Las pastillas de subcategoria (Claudia, 2026-09-09), segunda fila dentro
+   de la tira pegajosa de filtros. En el movil se deslizan con el dedo. */
+.subfiltros {
+  flex-basis: 100%;
+  display: flex; gap: var(--e-2);
+  overflow-x: auto; scrollbar-width: none; -webkit-overflow-scrolling: touch;
+  padding: var(--e-2) 0 2px;
+}
+.subfiltros::-webkit-scrollbar { display: none; }
+.subfiltro {
+  flex: none;
+  font-size: .7rem;
+  min-height: 36px;
+  padding: 0 var(--e-4);
+  border: 1px solid transparent;
+  border-radius: 999px;
+  background: rgba(255, 255, 255, .55);
+  color: var(--taupe);
+  cursor: pointer;
+  transition: all .2s;
+}
+.subfiltro:hover { color: var(--oro-txt); border-color: var(--oro); }
+.subfiltro.is-activo { border-color: var(--cacao-700); color: var(--cacao-700); background: var(--crema); }
 
 /* El boton de «Ver mas prendas», centrado bajo la rejilla. */
 .rejilla__mas { display: flex; margin: var(--e-7) auto 0; }
