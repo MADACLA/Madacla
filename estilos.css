@@ -1111,6 +1111,20 @@ a { color: var(--cacao); }
   touch-action: none;   /* mientras esta ampliada, el dedo pasea la foto */
 }
 
+/* La cinta «Vendido» de la ficha (Claudia, 2026-09-10): grande y en
+   medio de la foto, misma pinta que la de la tarjeta. */
+.ficha__vendida {
+  position: absolute; left: 50%; top: 50%; transform: translate(-50%, -50%) rotate(-8deg);
+  z-index: 2; pointer-events: none;
+  padding: 14px 34px; border-radius: 999px;
+  background: var(--cacao); color: var(--crema);
+  font-family: var(--sans); font-size: 1.05rem; font-weight: 500;
+  letter-spacing: .34em; text-indent: .34em; text-transform: uppercase;
+  white-space: nowrap;
+  box-shadow: 0 10px 28px rgba(43, 33, 27, .35);
+}
+.ficha__vendida[hidden] { display: none; }
+
 /* El avisito de «toca para ampliar»: se va en cuanto amplia una vez. */
 .ficha__lupa {
   position: absolute; left: 50%; bottom: 10px; transform: translateX(-50%);
