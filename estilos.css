@@ -410,6 +410,30 @@ a { color: var(--cacao); }
   background: var(--arena);
 }
 
+/* El buscador del catalogo (Claudia, 2026-09-10): primera fila de la tira
+   pegajosa. Lupa dentro, sin bordes duros. */
+.buscar {
+  flex-basis: 100%;
+  display: flex; align-items: center; gap: var(--e-2);
+  min-height: 44px; padding: 0 var(--e-4);
+  border: 1px solid var(--lino); border-radius: 999px;
+  background: rgba(255, 255, 255, .6); color: var(--taupe);
+  margin-bottom: var(--e-2);
+}
+.buscar:focus-within { border-color: var(--oro); }
+.buscar input {
+  flex: 1; min-width: 0; border: 0; background: none; outline: none;
+  font: inherit; font-size: .9rem; color: var(--cacao);
+}
+.buscar input::placeholder { color: var(--taupe); opacity: .8; }
+.buscar input::-webkit-search-cancel-button { -webkit-appearance: none; }
+/* «Nuevo esta semana»: un punto dorado delante, es la novedad. */
+.filtro--nuevo::before {
+  content: ""; display: inline-block; width: 6px; height: 6px;
+  border-radius: 50%; background: var(--oro); margin-right: 8px; vertical-align: middle;
+}
+.filtro--nuevo[hidden] { display: none; }
+
 /* Las pastillas de subcategoria (Claudia, 2026-09-09), segunda fila dentro
    de la tira pegajosa de filtros. En el movil se deslizan con el dedo. */
 .subfiltros {
@@ -1041,14 +1065,18 @@ a { color: var(--cacao); }
   .pieza__halo { display: none; }
 }
 
+/* El nombre bajo la foto (Claudia, 2026-09-10): antes era «Ver de cerca»
+   en dorado cien veces; ahora «Vestido largo marron de punto», en una
+   linea, como en cualquier tienda. Sigue abriendo la ficha. */
 .pieza__ver {
-  font: inherit; font-size: .7rem; text-transform: uppercase; letter-spacing: .14em;
-  background: none; border: 0; padding: var(--e-1) 0 0; cursor: pointer;
-  color: var(--oro-txt);
-  border-bottom: 1px solid var(--oro);
-  transition: color .2s, border-color .2s;
+  font: inherit; font-size: .82rem; letter-spacing: .01em;
+  background: none; border: 0; padding: var(--e-2) 0 0; cursor: pointer;
+  color: var(--cacao); text-align: left;
+  display: block; max-width: 100%;
+  white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
+  transition: color .2s;
 }
-.pieza__ver:hover { color: var(--cacao); border-color: var(--cacao); }
+.pieza__ver:hover { color: var(--oro-txt); }
 
 /* --- La ventana --- */
 .ficha {
@@ -1111,17 +1139,18 @@ a { color: var(--cacao); }
   touch-action: none;   /* mientras esta ampliada, el dedo pasea la foto */
 }
 
-/* La cinta «Vendido» de la ficha (Claudia, 2026-09-10): grande y en
-   medio de la foto, misma pinta que la de la tarjeta. */
+/* «Vendido» en la ficha (Claudia, 2026-09-10): pastilla cacao ARRIBA DEL
+   TEXTO, no encima de la foto. Estuvo un rato en medio de la foto y ella lo
+   dijo claro: «si pones el vendido en medio, cuando le da a ver de cerca no
+   se ve bien el producto». La foto se deja limpia. */
 .ficha__vendida {
-  position: absolute; left: 50%; top: 50%; transform: translate(-50%, -50%) rotate(-8deg);
-  z-index: 2; pointer-events: none;
-  padding: 14px 34px; border-radius: 999px;
+  display: inline-block;
+  margin-bottom: var(--e-3);
+  padding: 8px 20px; border-radius: 999px;
   background: var(--cacao); color: var(--crema);
-  font-family: var(--sans); font-size: 1.05rem; font-weight: 500;
-  letter-spacing: .34em; text-indent: .34em; text-transform: uppercase;
+  font-family: var(--sans); font-size: .78rem; font-weight: 500;
+  letter-spacing: .3em; text-indent: .3em; text-transform: uppercase;
   white-space: nowrap;
-  box-shadow: 0 10px 28px rgba(43, 33, 27, .35);
 }
 .ficha__vendida[hidden] { display: none; }
 
@@ -1183,6 +1212,38 @@ a { color: var(--cacao); }
 .ficha__nombre { font-size: var(--t-3); margin-bottom: var(--e-3); }
 .ficha__desc { color: var(--taupe); margin: 0 0 var(--e-5); }
 .ficha__nota { font-size: .8rem; color: var(--taupe); margin: var(--e-3) 0 0; }
+/* Los botones de la ficha se quedan pegados abajo al bajar (2026-09-10). */
+.ficha__acciones {
+  position: sticky; bottom: 0; z-index: 2;
+  margin: 0 calc(-1 * var(--e-5)); padding: var(--e-3) var(--e-5);
+  background: linear-gradient(to top, var(--crema) 75%, rgba(250, 246, 240, 0));
+}
+.ficha__compartir {
+  display: block; margin-top: var(--e-2);
+  font: inherit; font-size: .8rem; letter-spacing: .06em;
+  background: none; border: 0; padding: 0; cursor: pointer;
+  color: var(--oro-txt); border-bottom: 1px solid var(--oro);
+}
+.ficha__compartir:hover { color: var(--cacao); border-color: var(--cacao); }
+/* «Mas como este»: cuatro miniaturas al final de la ficha. */
+.ficha__mas { margin-top: var(--e-6); }
+.ficha__mas[hidden] { display: none; }
+.ficha__mas-lista {
+  display: grid; grid-template-columns: repeat(4, 1fr); gap: var(--e-3);
+  margin-top: var(--e-3);
+}
+.ficha__mas-una {
+  font: inherit; background: none; border: 0; padding: 0; cursor: pointer;
+  color: var(--cacao); text-align: left;
+}
+.ficha__mas-una img {
+  width: 100%; aspect-ratio: 4 / 5; object-fit: cover;
+  border-radius: var(--radio); display: block;
+}
+.ficha__mas-una span {
+  display: block; margin-top: 6px; font-size: .72rem; line-height: 1.25;
+  overflow: hidden; display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical;
+}
 
 @media (min-width: 820px) {
   .ficha__cuerpo { grid-template-columns: 1.1fr 1fr; grid-template-rows: none; }
