@@ -800,10 +800,14 @@ a { color: var(--cacao); }
    con su etiqueta, un punto apagada y sin pulso, y luego el servidor la
    quita solo del catalogo. Etiqueta sobria: crema y cacao, nada de rojos
    de rebajas. --- */
-.pieza--vendida img { opacity: .55; filter: saturate(.35); }
+/* :not(.pieza__b): la segunda foto (la del hover) tambien es un img y estas
+   reglas le pisaban su opacity: 0. En las vendidas recientes con segunda
+   foto, la segunda (un GIF vacio con fondo lino) TAPABA la principal en el
+   movil: tarjetas beige sin foto (Claudia, 2026-09-10, captura). */
+.pieza--vendida img:not(.pieza__b) { opacity: .55; filter: saturate(.35); }
 /* Los primeros dias (Claudia, 2026-09-10) la vendida sigue a todo color y
    en su sitio: que se vea lo que vuela. Luego se apaga y baja al final. */
-.pieza--vendida-reciente img { opacity: 1; filter: none; }
+.pieza--vendida-reciente img:not(.pieza__b) { opacity: 1; filter: none; }
 /* Claudia (2026-09-01): «casi que no se ve, quiero que se vea más». De
    pildorita arriba a banda en medio de la foto: cacao con letra crema,
    como los botones de la web. El truco del margin-top en % (sobre el
