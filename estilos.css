@@ -1145,6 +1145,11 @@ a { color: var(--cacao); }
    se ve bien el producto». La foto se deja limpia. */
 .ficha__vendida {
   display: inline-block;
+  /* En el ordenador la columna del texto es un flex en columna y la
+     pastilla se estiraba de lado a lado: con esto se queda del ancho de
+     su palabra. */
+  align-self: flex-start;
+  width: fit-content;
   margin-bottom: var(--e-3);
   padding: 8px 20px; border-radius: 999px;
   background: var(--cacao); color: var(--crema);
