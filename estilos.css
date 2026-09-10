@@ -60,6 +60,12 @@
 [hidden] { display: none !important; }
 
 html { scroll-behavior: smooth; }
+/* La pagina solo va arriba y abajo (Claudia, 2026-09-10: «que no vaya para
+   los lados»). En iOS, con algo un pelin mas ancho que la pantalla, se
+   podia arrastrar de lado. */
+/* clip y no hidden: «hidden» convierte al body en caja de scroll y mata el
+   position: sticky de la cabecera (comprobado en captura). */
+html, body { overflow-x: clip; }
 
 body {
   margin: 0;
@@ -130,7 +136,7 @@ a { color: var(--cacao); }
 .barra__cats {
   flex-basis: 100%;
   display: flex; gap: var(--e-5); justify-content: center;
-  overflow-x: auto; scrollbar-width: none; -webkit-overflow-scrolling: touch;
+  overflow: hidden;          /* nada se desliza de lado (Claudia, 2026-09-10) */
   margin-top: calc(var(--e-2) * -1);
 }
 .barra__cats::-webkit-scrollbar { display: none; }
@@ -150,8 +156,12 @@ a { color: var(--cacao); }
   /* .barra .menu y no .menu a secas: la regla general «.menu {display:flex}»
      esta mas abajo en el fichero y, a igual peso, gana la ultima. */
   .barra .menu { display: none; }
-  .barra__cats { justify-content: flex-start; gap: var(--e-4); margin-top: 0; }
+  /* Cinco entradas que caben en 390 px sin deslizarse (Claudia: «que no
+     vaya para los lados»): Instagram se queda para su seccion de abajo. */
+  .barra__cats { justify-content: space-between; gap: var(--e-3); margin-top: 0; }
+  .barra__cats a { font-size: .66rem; letter-spacing: .1em; }
   .barra__cats .solo-movil { display: inline-block; }
+  .barra__cats .solo-movil--instagram { display: none; }
 }
 
 .marca { text-decoration: none; color: inherit; line-height: 1.05; }
@@ -405,9 +415,18 @@ a { color: var(--cacao); }
 .filtros {
   display: flex; flex-wrap: wrap; gap: var(--e-2);
   margin-bottom: var(--e-7);
-  position: sticky; top: var(--barra-alto, 68px); z-index: 40;
   padding: var(--e-3) 0;
   background: var(--arena);
+}
+/* Pegada arriba solo en pantallas grandes. En el movil (Claudia,
+   2026-09-10: «se queda ahi desplegado») ocupaba media pantalla al bajar:
+   buscador + seis botones + pastillas. Ahi manda la tira de la cabecera,
+   que siempre esta a la vista y filtra igual. */
+@media (min-width: 720px) {
+  .filtros { position: sticky; top: var(--barra-alto, 68px); z-index: 40; }
+}
+@media (max-width: 719px) {
+  .filtro { min-height: 38px; font-size: .68rem; padding: 0 var(--e-4); }
 }
 
 /* El buscador del catalogo (Claudia, 2026-09-10): primera fila de la tira
@@ -438,8 +457,7 @@ a { color: var(--cacao); }
    de la tira pegajosa de filtros. En el movil se deslizan con el dedo. */
 .subfiltros {
   flex-basis: 100%;
-  display: flex; gap: var(--e-2);
-  overflow-x: auto; scrollbar-width: none; -webkit-overflow-scrolling: touch;
+  display: flex; flex-wrap: wrap; gap: var(--e-2);   /* sin deslizar de lado */
   padding: var(--e-2) 0 2px;
 }
 .subfiltros::-webkit-scrollbar { display: none; }
@@ -481,7 +499,7 @@ a { color: var(--cacao); }
 
 .rejilla {
   display: grid;
-  grid-template-columns: repeat(2, 1fr);
+  grid-template-columns: repeat(2, minmax(0, 1fr));
   gap: var(--e-6) var(--e-4);
 }
 
@@ -620,7 +638,7 @@ a { color: var(--cacao); }
    ========================================================================== */
 
 @media (min-width: 720px) {
-  .rejilla { grid-template-columns: repeat(3, 1fr); gap: var(--e-7) var(--e-5); }
+  .rejilla { grid-template-columns: repeat(3, minmax(0, 1fr)); gap: var(--e-7) var(--e-5); }
   .aviso-pedido { grid-template-columns: 1fr auto; }
   .aviso-pedido .boton { justify-self: end; }
 }
@@ -655,7 +673,7 @@ a { color: var(--cacao); }
 }
 
 @media (min-width: 1100px) {
-  .rejilla { grid-template-columns: repeat(4, 1fr); }
+  .rejilla { grid-template-columns: repeat(4, minmax(0, 1fr)); }
 }
 
 /* ==========================================================================
@@ -805,7 +823,11 @@ a { color: var(--cacao); }
 }
 
 /* --- 5. Segunda foto al pasar el ratón (solo si existe el hueco -b) --- */
-.pieza { position: relative; }
+/* min-width: 0 y minmax(0, 1fr) en la rejilla (2026-09-10): con el nombre
+   bajo la foto en una sola linea, una columna «1fr» crecia para que
+   cupiera el nombre mas largo y la otra encogia: tarjetas desiguales en
+   el iPhone de Claudia. Asi las dos columnas miden lo mismo siempre. */
+.pieza { position: relative; min-width: 0; }
 .pieza__b {
   position: absolute; top: 0; left: 0;
   width: 100%; aspect-ratio: 4 / 5; object-fit: cover;
@@ -856,7 +878,7 @@ a { color: var(--cacao); }
 }
 
 /* --- "Acaba de llegar": mismas tarjetas que el catálogo, 2 → 4 columnas --- */
-.rejilla--novedades { grid-template-columns: repeat(2, 1fr); }
+.rejilla--novedades { grid-template-columns: repeat(2, minmax(0, 1fr)); }
 
 /* «Lo que has visto»: una fila que se desliza a un lado, como en las webs
    de moda. Asi no ocupa media pantalla aunque haya ocho. */
@@ -940,7 +962,7 @@ a { color: var(--cacao); }
 @media (min-width: 720px) {
   .confianza { grid-template-columns: repeat(3, 1fr); gap: var(--e-6); padding-block: var(--e-6); }
   .confianza li { justify-content: center; }
-  .rejilla--novedades { grid-template-columns: repeat(4, 1fr); }
+  .rejilla--novedades { grid-template-columns: repeat(4, minmax(0, 1fr)); }
   .categorias__rejilla { grid-template-columns: repeat(4, 1fr); gap: var(--e-5); }
   .pasos__lista { grid-template-columns: repeat(3, 1fr); gap: var(--e-7); }
 }
