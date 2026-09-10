@@ -759,6 +759,9 @@ a { color: var(--cacao); }
    quita solo del catalogo. Etiqueta sobria: crema y cacao, nada de rojos
    de rebajas. --- */
 .pieza--vendida img { opacity: .55; filter: saturate(.35); }
+/* Los primeros dias (Claudia, 2026-09-10) la vendida sigue a todo color y
+   en su sitio: que se vea lo que vuela. Luego se apaga y baja al final. */
+.pieza--vendida-reciente img { opacity: 1; filter: none; }
 /* Claudia (2026-09-01): «casi que no se ve, quiero que se vea más». De
    pildorita arriba a banda en medio de la foto: cacao con letra crema,
    como los botones de la web. El truco del margin-top en % (sobre el
