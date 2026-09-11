@@ -832,8 +832,12 @@ a { color: var(--cacao); }
    cupiera el nombre mas largo y la otra encogia: tarjetas desiguales en
    el iPhone de Claudia. Asi las dos columnas miden lo mismo siempre. */
 .pieza { position: relative; min-width: 0; }
+/* z-index 1, y las capas de encima (cinta «Vendido», etiqueta, pulso) a 2:
+   la segunda foto va DESPUES de ellas en el HTML y, al pasar el raton en
+   el ordenador, las tapaba: el «Vendido» no se veia hasta abrir la ficha
+   (Claudia, 2026-09-11). */
 .pieza__b {
-  position: absolute; top: 0; left: 0;
+  position: absolute; top: 0; left: 0; z-index: 1;
   width: 100%; aspect-ratio: 4 / 5; object-fit: cover;
   border-radius: var(--radio);
   opacity: 0;
@@ -844,6 +848,8 @@ a { color: var(--cacao); }
   .pieza.tiene-b:hover .pieza__b { opacity: 1; }
   .pieza.tiene-b:hover img:first-of-type { transform: none; }
 }
+
+.pieza__vendida, .pieza__se-vende, .pieza__halo { z-index: 2; }
 
 /* --- 6. Movimiento reducido: solo fades cortos, nada que se mueva --- */
 @media (prefers-reduced-motion: reduce) {
