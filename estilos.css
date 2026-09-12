@@ -908,34 +908,58 @@ a { color: var(--cacao); }
 .categorias__rejilla {
   display: grid; grid-template-columns: repeat(2, 1fr); gap: var(--e-4);
 }
+/* Las tarjetas de apartado son BOTONES, no productos (Claudia, 2026-09-12:
+   «cuando le pongo la web a las clientas dicen que no habían visto lo de
+   ropa, bolsos...»). Antes eran foto grande con la palabra encima, igual
+   que una tarjeta de producto, y pasaban desapercibidas. Ahora: tarjeta
+   arena con borde, la foto arriba y, DEBAJO y fuera de la foto, el nombre
+   grande, cuántas prendas hay y «Ver todo». Se lee como menú. */
 .categoria {
-  position: relative; display: block; overflow: hidden;
+  position: relative; display: flex; flex-direction: column;
+  overflow: hidden;
   border-radius: var(--radio);
-  text-decoration: none; color: var(--crema);
+  background: var(--arena);
+  border: 1px solid var(--lino);
+  text-decoration: none; color: var(--cacao);
   isolation: isolate;
+  transition: transform .5s var(--suave), box-shadow .5s var(--suave), border-color .3s;
 }
+.categoria__foto { display: block; overflow: hidden; }
 .categoria img {
-  width: 100%; aspect-ratio: 4 / 5; object-fit: cover;
+  width: 100%; aspect-ratio: 4 / 5; object-fit: cover; display: block;
   transition: transform .8s var(--suave);
 }
-.categoria::after {   /* velo suave para que el nombre se lea sobre cualquier foto */
-  content: ""; position: absolute; inset: 0;
-  background: linear-gradient(180deg, rgba(43,33,27,0) 45%, rgba(43,33,27,.55) 100%);
+.categoria__texto {
+  display: flex; flex-direction: column; gap: 2px;
+  padding: var(--e-4) var(--e-4) var(--e-5);
 }
 .categoria__nombre {
-  position: absolute; left: var(--e-5); right: var(--e-5); bottom: var(--e-5); z-index: 1;
   font-family: var(--serif); font-size: var(--t-2); font-weight: 500;
   letter-spacing: .01em; line-height: 1.1;
-  text-shadow: 0 1px 12px rgba(43,33,27,.35);
 }
-.categoria__nombre::after {   /* rayita dorada que crece al pasar el ratón */
+.categoria__cuenta {
+  font-size: .8rem; color: var(--taupe); letter-spacing: .04em;
+}
+.categoria__ver {
+  margin-top: var(--e-2);
+  font-size: .76rem; font-weight: 500; letter-spacing: .16em; text-transform: uppercase;
+  color: var(--oro-txt);
+}
+.categoria__ver::after {   /* rayita dorada que crece al pasar el ratón */
   content: ""; display: block; width: 32px; height: 1px;
   background: var(--oro); margin-top: var(--e-2);
   transition: width .5s var(--suave);
 }
 @media (hover: hover) and (pointer: fine) {
+  .categoria:hover { transform: translateY(-3px); box-shadow: 0 14px 30px rgba(43,33,27,.12); border-color: var(--oro); }
   .categoria:hover img { transform: scale(1.04); }
-  .categoria:hover .categoria__nombre::after { width: 64px; }
+  .categoria:hover .categoria__ver::after { width: 64px; }
+}
+/* En el móvil (dos columnas) la foto es más baja: que se vea de un vistazo
+   que hay cuatro apartados sin tener que bajar dos pantallas. */
+@media (max-width: 719px) {
+  .categoria img { aspect-ratio: 1 / 1; }
+  .categoria__nombre { font-size: var(--t-1); }
 }
 
 /* --- Cómo comprar en 3 pasos --- */
