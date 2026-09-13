@@ -958,6 +958,12 @@ a { color: var(--cacao); }
   .categoria img { aspect-ratio: 1 / 1; }
   .categoria__nombre { font-size: var(--t-1); }
 }
+/* Hombre (2026-09-13): que resalte entre los apartados de mujer. Borde
+   cacao y un «Para él» encima del nombre. Nada de fondos oscuros. */
+.categoria--hombre { border: 2px solid var(--cacao); }
+.categoria__para { font-size: .74rem; font-weight: 500; letter-spacing: .18em; text-transform: uppercase; color: var(--cacao); margin-bottom: 2px; }
+.barra__hombre, .filtro--hombre { font-weight: 600; color: var(--cacao); }
+[data-si-hay][hidden] { display: none !important; }
 
 /* --- Cómo comprar en 3 pasos --- */
 .pasos__lista {
@@ -995,6 +1001,8 @@ a { color: var(--cacao); }
   .confianza li { justify-content: center; }
   .rejilla--novedades { grid-template-columns: repeat(4, minmax(0, 1fr)); }
   .categorias__rejilla { grid-template-columns: repeat(4, 1fr); gap: var(--e-5); }
+  /* Con 5 o 6 apartados (pijamas, hombre), tres por fila: 4 + 2 dejaba dos sueltas. */
+  .categorias__rejilla--3 { grid-template-columns: repeat(3, 1fr); }
   .pasos__lista { grid-template-columns: repeat(3, 1fr); gap: var(--e-7); }
 }
 @media (min-width: 900px) {
