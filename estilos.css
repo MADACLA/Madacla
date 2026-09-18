@@ -1300,7 +1300,7 @@ a { color: var(--cacao); }
   /* Oscuro y grande (2026-09-18: «que se vea mas»). */
   align-self: flex-start;
   width: fit-content;
-  margin: calc(var(--e-3) * -1) 0 var(--e-3);
+  margin: calc(var(--e-3) * -1 + 10px) 0 var(--e-3);
   padding: 12px 22px;
   border-radius: var(--radio);
   background: var(--cacao);
