@@ -28,6 +28,11 @@
 
   /* --- DORADO --- */
   --oro:     #C0A06A;   /* dorado claro: líneas y adornos (NUNCA para letras) */
+  /* Rojo de aviso (Claudia, 2026-09-18: «lo de vendido en rojo, que se vea
+     un poquito más»). Granate oscuro, no el rojo chillón de las rebajas:
+     destaca sobre el beige y sigue siendo de la casa. Con letra crema pasa
+     de sobra el contraste. */
+  --rojo:    #A8241F;
   --oro-txt: #8A6A3A;   /* dorado oscuro: solo en rotulitos y títulos grandes */
 
   /* --- ESCALA DE LETRA (crece suave con la pantalla) --- */
@@ -816,7 +821,8 @@ a { color: var(--cacao); }
   position: absolute; left: 50%; top: 0; margin-top: 62.5%;
   transform: translate(-50%, -50%);
   padding: 9px 22px;
-  background: var(--cacao);
+  /* En rojo desde el 2026-09-18 (antes cacao): «que se vea un poquito más». */
+  background: var(--rojo);
   border-radius: 999px;
   color: var(--crema);
   font-size: .8rem; font-weight: 500;
@@ -825,6 +831,28 @@ a { color: var(--cacao); }
   box-shadow: 0 6px 18px rgba(43, 33, 27, .28);
   pointer-events: none;
 }
+
+/* «Se repone el jueves 24» (Claudia, 2026-09-18): justo debajo del VENDIDO.
+   Es lo que convierte un «qué pena» en «vuelvo el jueves»: va en crema con
+   letra cacao para que se lea sin robarle el golpe de vista al rojo. */
+.pieza__repone {
+  position: absolute; left: 50%; top: 0; margin-top: 62.5%;
+  transform: translate(-50%, 20px);
+  padding: 7px 16px;
+  background: var(--crema);
+  border: 1px solid var(--oro);
+  border-radius: 999px;
+  color: var(--cacao);
+  font-size: .72rem; font-weight: 500;
+  letter-spacing: .04em; text-transform: none;
+  white-space: nowrap;
+  box-shadow: 0 6px 16px rgba(43, 33, 27, .18);
+  pointer-events: none;
+  z-index: 2;
+}
+/* Vendida con reposición: la foto no se apaga aunque pasen los días. Si
+   vuelve el jueves, apagarla seria darla por perdida. */
+.pieza--vendida.tiene-repone img:not(.pieza__b) { opacity: 1; filter: none; }
 
 /* --- 5. Segunda foto al pasar el ratón (solo si existe el hueco -b) --- */
 /* min-width: 0 y minmax(0, 1fr) en la rejilla (2026-09-10): con el nombre
@@ -1246,12 +1274,27 @@ a { color: var(--cacao); }
   width: fit-content;
   margin-bottom: var(--e-3);
   padding: 8px 20px; border-radius: 999px;
-  background: var(--cacao); color: var(--crema);
+  background: var(--rojo); color: var(--crema);
   font-family: var(--sans); font-size: .78rem; font-weight: 500;
   letter-spacing: .3em; text-indent: .3em; text-transform: uppercase;
   white-space: nowrap;
 }
 .ficha__vendida[hidden] { display: none; }
+
+/* «Se repone el jueves 24» en la ficha: grande y claro, que es la razon por
+   la que la clienta vuelve (Claudia, 2026-09-18). */
+.ficha__repone {
+  align-self: flex-start;
+  width: fit-content;
+  margin: calc(var(--e-3) * -1) 0 var(--e-3);
+  padding: 10px 20px;
+  border: 1px solid var(--oro);
+  border-radius: var(--radio);
+  background: var(--crema);
+  color: var(--cacao);
+  font-family: var(--sans); font-size: 1rem; font-weight: 500;
+}
+.ficha__repone[hidden] { display: none; }
 
 /* El avisito de «toca para ampliar»: se va en cuanto amplia una vez. */
 .ficha__lupa {
