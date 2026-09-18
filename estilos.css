@@ -836,22 +836,29 @@ a { color: var(--cacao); }
    Es lo que convierte un «qué pena» en «vuelvo el jueves»: va en crema con
    letra cacao para que se lea sin robarle el golpe de vista al rojo. */
 .pieza__repone {
-  /* Abajo del todo de la foto (4:5 -> el borde inferior cae al 125% del
-     ancho): con las dos pastillas juntas en el centro no se veia el
-     producto. Asi el rojo da el golpe y la fecha se lee sin tapar nada. */
-  position: absolute; left: 50%; top: 0; margin-top: 125%;
-  transform: translate(-50%, calc(-100% - 12px));
-  padding: 7px 16px;
-  background: var(--crema);
-  border: 1px solid var(--oro);
-  border-radius: 999px;
-  color: var(--cacao);
-  font-size: .72rem; font-weight: 500;
-  letter-spacing: .04em; text-transform: none;
-  white-space: nowrap;
-  box-shadow: 0 6px 16px rgba(43, 33, 27, .18);
+  /* Banda oscura abajo de la foto (Claudia, 2026-09-18: «que se vea mas»).
+     Antes era una pastillita crema con letra pequeña. Cacao con letra
+     crema, de lado a lado, en dos lineas: «SE REPONE EL» y el dia grande. */
+  position: absolute; left: 8px; right: 8px; top: 0; margin-top: 125%;
+  transform: translateY(calc(-100% - 8px));
+  display: flex; flex-direction: column; align-items: center;
+  padding: 8px 6px 9px;
+  background: var(--cacao);
+  border-radius: calc(var(--radio) - 4px);
+  color: var(--crema);
+  text-align: center; line-height: 1.1;
+  box-shadow: 0 8px 20px rgba(43, 33, 27, .35);
   pointer-events: none;
   z-index: 2;
+}
+.pieza__repone small {
+  font-size: .62rem; font-weight: 500;
+  letter-spacing: .22em; text-indent: .22em; text-transform: uppercase;
+  opacity: .85;
+}
+.pieza__repone b {
+  font-family: var(--serif); font-weight: 600;
+  font-size: 1.45rem; letter-spacing: .01em;
 }
 /* Vendida con reposición: la foto no se apaga aunque pasen los días. Si
    vuelve el jueves, apagarla seria darla por perdida. */
@@ -1290,15 +1297,17 @@ a { color: var(--cacao); }
 /* «Se repone el jueves 24» en la ficha: grande y claro, que es la razon por
    la que la clienta vuelve (Claudia, 2026-09-18). */
 .ficha__repone {
+  /* Oscuro y grande (2026-09-18: «que se vea mas»). */
   align-self: flex-start;
   width: fit-content;
   margin: calc(var(--e-3) * -1) 0 var(--e-3);
-  padding: 10px 20px;
-  border: 1px solid var(--oro);
+  padding: 12px 22px;
   border-radius: var(--radio);
-  background: var(--crema);
-  color: var(--cacao);
-  font-family: var(--sans); font-size: 1rem; font-weight: 500;
+  background: var(--cacao);
+  color: var(--crema);
+  font-family: var(--serif); font-size: 1.6rem; font-weight: 600;
+  line-height: 1.1;
+  box-shadow: 0 8px 20px rgba(43, 33, 27, .25);
 }
 .ficha__repone[hidden] { display: none; }
 
