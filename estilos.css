@@ -836,8 +836,11 @@ a { color: var(--cacao); }
    Es lo que convierte un «qué pena» en «vuelvo el jueves»: va en crema con
    letra cacao para que se lea sin robarle el golpe de vista al rojo. */
 .pieza__repone {
-  position: absolute; left: 50%; top: 0; margin-top: 62.5%;
-  transform: translate(-50%, 20px);
+  /* Abajo del todo de la foto (4:5 -> el borde inferior cae al 125% del
+     ancho): con las dos pastillas juntas en el centro no se veia el
+     producto. Asi el rojo da el golpe y la fecha se lee sin tapar nada. */
+  position: absolute; left: 50%; top: 0; margin-top: 125%;
+  transform: translate(-50%, calc(-100% - 12px));
   padding: 7px 16px;
   background: var(--crema);
   border: 1px solid var(--oro);
@@ -853,6 +856,9 @@ a { color: var(--cacao); }
 /* Vendida con reposición: la foto no se apaga aunque pasen los días. Si
    vuelve el jueves, apagarla seria darla por perdida. */
 .pieza--vendida.tiene-repone img:not(.pieza__b) { opacity: 1; filter: none; }
+/* Con «Vendido» + «Se repone el jueves 24» ya hay dos etiquetas encima de
+   la foto: la de «El bolso» sobra y tapaba el producto (2026-09-18). */
+.pieza--vendida.tiene-repone .pieza__se-vende { display: none; }
 
 /* --- 5. Segunda foto al pasar el ratón (solo si existe el hueco -b) --- */
 /* min-width: 0 y minmax(0, 1fr) en la rejilla (2026-09-10): con el nombre
