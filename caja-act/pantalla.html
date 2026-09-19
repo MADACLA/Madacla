@@ -1,0 +1,755 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+<title>Caja · Madacla</title>
+<!-- La pantalla de la caja. Un solo fichero, sin librerias. Habla con
+     caja.py por /api/... Pensada para la ViewSonic de 22" tactil y para
+     Maricarmen, que no es de ordenadores: botones grandes, letra gorda,
+     un solo camino para cobrar. -->
+<style>
+  @font-face { font-family: "Jost"; font-weight: 300 700; src: url("fuentes/jost.woff2") format("woff2"); }
+  @font-face { font-family: "Cormorant Garamond"; font-weight: 600; src: url("fuentes/cormorant-garamond-600.woff2") format("woff2"); }
+  @font-face { font-family: "Cormorant Garamond"; font-weight: 700; src: url("fuentes/cormorant-garamond-700.woff2") format("woff2"); }
+
+  :root {
+    --crema: #FAF6F0; --arena: #F1E8DC; --lino: #E3D6C4; --nude: #E8D3CB;
+    --cacao: #2B211B; --cacao-700: #4A3A30; --taupe: #6E5F52; --oro: #C0A06A;
+    --chocolate: #3B2E26; --verde: #3E7A4A; --rojo: #A63D3D;
+  }
+  /* touch-action: nada de ampliar con dos dedos ni con doble toque (la
+     pantalla es tactil y Maricarmen toca dos veces sin querer) */
+  * { box-sizing: border-box; margin: 0; padding: 0; -webkit-tap-highlight-color: transparent; touch-action: pan-x pan-y; }
+  html, body { height: 100%; }
+  body {
+    background: var(--crema); color: var(--cacao);
+    font-family: "Jost", system-ui, sans-serif; font-weight: 500;
+    font-size: 22px; overflow: hidden; user-select: none;
+  }
+  button { font: inherit; color: inherit; border: 0; background: none; cursor: pointer; }
+  button:active { transform: scale(.98); }
+
+  /* ---------- cabecera ---------- */
+  .cabecera {
+    height: 84px; padding: 0 28px;
+    display: flex; align-items: center; gap: 22px;
+    border-bottom: 2px solid var(--lino); background: var(--crema);
+  }
+  .cabecera img { height: 46px; width: auto; }
+  .cabecera .que { font-family: "Cormorant Garamond", serif; font-weight: 600; font-size: 34px; letter-spacing: .02em; }
+  .cabecera .hora { margin-left: auto; font-size: 24px; font-weight: 600; font-variant-numeric: tabular-nums; }
+  .cabecera .aviso {
+    font-size: 17px; font-weight: 600; letter-spacing: .06em; text-transform: uppercase;
+    padding: 8px 14px; border-radius: 999px; background: var(--nude); color: var(--cacao);
+  }
+  .cabecera .aviso.bien { background: #DCEBDD; color: var(--verde); }
+  .cabecera button.aviso { cursor: pointer; }
+
+  /* ---------- cuerpo: izquierda cobrar, derecha ticket ---------- */
+  .cuerpo { height: calc(100% - 84px); display: grid; grid-template-columns: 1fr 520px; }
+  .cobrar { padding: 24px 28px; display: grid; grid-template-rows: auto 1fr; gap: 22px; min-height: 0; }
+
+  .familias { display: grid; grid-template-columns: repeat(4, 1fr); gap: 14px; }
+  .familia {
+    height: 92px; border-radius: 18px;
+    background: var(--arena); border: 3px solid var(--lino);
+    font-size: 27px; font-weight: 700; letter-spacing: .04em; text-transform: uppercase;
+  }
+  .familia.elegida { background: var(--cacao); color: var(--crema); border-color: var(--cacao); }
+
+  .precio { display: grid; grid-template-columns: 1fr 1fr; gap: 22px; min-height: 0; }
+  .teclado { display: grid; grid-template-columns: repeat(3, 1fr); grid-auto-rows: 1fr; gap: 12px; }
+  .tecla {
+    border-radius: 16px; background: #fff; border: 3px solid var(--lino);
+    font-size: 38px; font-weight: 600;
+  }
+  .tecla.borrar { font-size: 30px; background: var(--arena); }
+  .tecla.limpiar { font-size: 22px; font-weight: 700; letter-spacing: .06em; background: var(--arena); }
+
+  .escrito { display: flex; flex-direction: column; gap: 14px; min-height: 0; }
+  .pantallita {
+    flex: 1; border-radius: 18px; background: #fff; border: 3px solid var(--lino);
+    display: flex; flex-direction: column; justify-content: center; align-items: center; gap: 8px;
+    padding: 18px;
+  }
+  .pantallita .rotulo { font-size: 18px; font-weight: 600; letter-spacing: .12em; text-transform: uppercase; color: var(--taupe); }
+  .pantallita .cifra { font-size: 78px; font-weight: 700; font-variant-numeric: tabular-nums; line-height: 1; }
+  .pantallita .cifra.vacia { color: var(--lino); }
+  .pantallita .pista { font-size: 19px; color: var(--taupe); text-align: center; min-height: 1.4em; font-weight: 500; }
+  .pantallita.error { border-color: var(--rojo); animation: sacudir .35s; }
+  @keyframes sacudir { 25% { transform: translateX(-8px); } 75% { transform: translateX(8px); } }
+  .anadir {
+    height: 96px; border-radius: 18px; background: var(--oro); color: var(--cacao);
+    font-size: 28px; font-weight: 700; letter-spacing: .08em; text-transform: uppercase;
+  }
+  .anadir:disabled { opacity: .35; }
+
+  .ticket {
+    background: var(--arena); border-left: 2px solid var(--lino);
+    display: grid; grid-template-rows: auto 1fr auto auto; min-height: 0;
+  }
+  .ticket h2 { padding: 22px 26px 12px; font-size: 20px; font-weight: 700; letter-spacing: .12em; text-transform: uppercase; color: var(--taupe); }
+  .lineas { overflow-y: auto; padding: 0 26px; min-height: 0; }
+  .linea {
+    display: grid; grid-template-columns: 1fr auto auto; align-items: center; gap: 14px;
+    padding: 14px 0; border-bottom: 2px solid var(--lino); font-size: 24px; font-weight: 600;
+  }
+  .linea .imp { font-variant-numeric: tabular-nums; }
+  .linea .quitar { width: 52px; height: 52px; border-radius: 50%; background: #fff; border: 2px solid var(--lino); font-size: 26px; color: var(--taupe); }
+  .vacio { padding: 40px 0; text-align: center; color: var(--taupe); font-size: 21px; font-weight: 500; line-height: 1.5; }
+  .total { padding: 18px 26px; display: flex; justify-content: space-between; align-items: baseline; border-top: 3px solid var(--cacao); }
+  .total .r { font-size: 22px; font-weight: 700; letter-spacing: .12em; text-transform: uppercase; }
+  .total .v { font-size: 54px; font-weight: 700; font-variant-numeric: tabular-nums; }
+  .pagos { padding: 0 26px 22px; display: grid; gap: 12px; }
+  .pagar {
+    height: 92px; border-radius: 18px; font-size: 30px; font-weight: 700; letter-spacing: .1em; text-transform: uppercase;
+    background: var(--cacao); color: var(--crema);
+  }
+  .pagar.tarjeta { background: #fff; color: var(--cacao); border: 3px solid var(--cacao); }
+  /* «Se lo lleva a probar»: no es un cobro, va en arena, mas bajo. */
+  .pagar.prueba { height: 68px; font-size: 21px; background: var(--arena); color: var(--cacao); border: 3px solid var(--lino); }
+  .linea .de { display: block; font-size: 15px; font-weight: 500; color: var(--taupe); letter-spacing: .04em; }
+  /* la libreta */
+  .campo { width: 100%; height: 72px; border-radius: 16px; border: 3px solid var(--lino); background: #fff;
+           font: inherit; font-size: 26px; padding: 0 18px; color: var(--cacao); outline: none; }
+  .campo:focus { border-color: var(--cacao); }
+  .campo.chico { height: 56px; font-size: 20px; margin-top: 10px; }
+  .nombres { display: flex; flex-wrap: wrap; gap: 8px; margin: 12px 0 4px; max-height: 120px; overflow-y: auto; }
+  .nombres button { height: 44px; padding: 0 16px; border-radius: 999px; background: var(--arena); border: 2px solid var(--lino); font-size: 17px; font-weight: 600; }
+  .hoja { display: grid; grid-template-columns: 1fr auto; gap: 12px; align-items: center; padding: 14px 0; border-bottom: 2px solid var(--lino); font-size: 20px; }
+  .hoja .quien { font-weight: 700; font-size: 23px; }
+  .hoja .cuando { color: var(--taupe); font-size: 17px; font-weight: 500; }
+  .hoja .cuando.tarde { color: var(--rojo); font-weight: 700; }
+  .prenda { display: grid; grid-template-columns: 1fr auto auto; gap: 12px; align-items: center; padding: 12px 0; border-bottom: 2px solid var(--lino); font-size: 21px; font-weight: 600; }
+  .prenda.devuelta { color: var(--taupe); text-decoration: line-through; }
+  .prenda.vendida { color: var(--verde); }
+  .prenda .estado { font-size: 15px; font-weight: 600; letter-spacing: .04em; text-transform: uppercase; color: var(--taupe); text-decoration: none; }
+  .pagar:disabled { opacity: .3; }
+  .menores { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 10px; }
+  .menor { height: 60px; border-radius: 14px; background: #fff; border: 2px solid var(--lino); font-size: 15px; font-weight: 700; letter-spacing: .04em; text-transform: uppercase; color: var(--taupe); padding: 0 6px; }
+  .numero-grande { font-size: 44px; font-weight: 700; font-variant-numeric: tabular-nums; text-align: center; letter-spacing: .06em; min-height: 1.3em; margin: 8px 0 14px; }
+  .numero-grande.vacio { color: var(--lino); }
+
+  /* ---------- ventanas emergentes ---------- */
+  .velo { position: fixed; inset: 0; background: rgba(43,33,27,.55); display: none; align-items: center; justify-content: center; z-index: 10; }
+  .velo.abierto { display: flex; }
+  .ventana { background: var(--crema); border-radius: 26px; padding: 34px 38px; width: min(92vw, 720px); max-height: 92vh; overflow: auto; box-shadow: 0 30px 80px rgba(0,0,0,.35); }
+  .ventana h3 { font-family: "Cormorant Garamond", serif; font-weight: 700; font-size: 40px; margin-bottom: 8px; }
+  .ventana p { font-size: 22px; line-height: 1.45; color: var(--taupe); font-weight: 500; }
+  .ventana .grande { font-size: 60px; font-weight: 700; margin: 14px 0 4px; font-variant-numeric: tabular-nums; }
+  .ventana .botones { display: grid; gap: 12px; margin-top: 26px; }
+  .ventana .botones.dos { grid-template-columns: 1fr 1fr; }
+  .ventana .botones.dos .boton:last-child:nth-child(odd) { grid-column: 1 / -1; }
+  .boton { height: 84px; border-radius: 18px; font-size: 24px; font-weight: 700; letter-spacing: .06em; text-transform: uppercase; background: var(--cacao); color: var(--crema); }
+  .boton.claro { background: #fff; color: var(--cacao); border: 3px solid var(--cacao); }
+  .boton.suave { background: var(--arena); color: var(--cacao); border: 3px solid var(--lino); }
+  .boton.peligro { background: #fff; color: var(--rojo); border: 3px solid var(--rojo); }
+
+  /* el PIN */
+  .pin-cifras { display: flex; justify-content: center; gap: 18px; margin: 18px 0 22px; }
+  .pin-cifras span { width: 26px; height: 26px; border-radius: 50%; border: 3px solid var(--cacao); }
+  .pin-cifras span.llena { background: var(--cacao); }
+  .pin-teclado { display: grid; grid-template-columns: repeat(3, 1fr); gap: 12px; }
+  .pin-teclado .tecla { height: 84px; }
+
+  /* la previa del ticket (cuando no hay impresora, o para mirar) */
+  .papel { background: #fff; border: 2px solid var(--lino); border-radius: 12px; padding: 22px; margin-top: 18px;
+           font-family: "Courier New", monospace; font-size: 17px; white-space: pre; line-height: 1.35; color: #222; overflow-x: auto; }
+
+  /* la lista de tickets del dia */
+  .resumen { display: grid; grid-template-columns: repeat(3, 1fr); gap: 12px; margin: 16px 0 8px; }
+  .resumen div { background: var(--arena); border-radius: 14px; padding: 14px 16px; }
+  .resumen .r { font-size: 15px; font-weight: 700; letter-spacing: .1em; text-transform: uppercase; color: var(--taupe); }
+  .resumen .v { font-size: 30px; font-weight: 700; font-variant-numeric: tabular-nums; }
+  .lista { margin-top: 10px; border-top: 2px solid var(--lino); max-height: 34vh; overflow-y: auto; }
+  .fila { display: grid; grid-template-columns: 1fr auto auto auto; gap: 10px; align-items: center; padding: 10px 0; border-bottom: 2px solid var(--lino); font-size: 19px; }
+  .fila.anulado { color: var(--taupe); text-decoration: line-through; }
+  .fila .mini { height: 46px; padding: 0 14px; border-radius: 12px; background: #fff; border: 2px solid var(--lino); font-size: 15px; font-weight: 700; letter-spacing: .04em; text-transform: uppercase; }
+  .fila .mini.rojo { color: var(--rojo); border-color: var(--rojo); }
+
+  .toast { position: fixed; left: 50%; bottom: 28px; transform: translateX(-50%); background: var(--cacao); color: var(--crema);
+           padding: 16px 26px; border-radius: 999px; font-size: 20px; font-weight: 600; display: none; z-index: 20; }
+  .toast.ver { display: block; }
+</style>
+</head>
+<body>
+
+<header class="cabecera">
+  <img src="logo.png" alt="Madacla">
+  <span class="que">Caja</span>
+  <button class="aviso" id="avisoImpresora" title="Elegir impresora">Sin impresora</button>
+  <span class="hora" id="hora">--:--</span>
+</header>
+
+<main class="cuerpo">
+  <section class="cobrar">
+    <div class="familias" id="familias"></div>
+
+    <div class="precio">
+      <div class="teclado" id="teclado">
+        <button class="tecla" data-t="1">1</button><button class="tecla" data-t="2">2</button><button class="tecla" data-t="3">3</button>
+        <button class="tecla" data-t="4">4</button><button class="tecla" data-t="5">5</button><button class="tecla" data-t="6">6</button>
+        <button class="tecla" data-t="7">7</button><button class="tecla" data-t="8">8</button><button class="tecla" data-t="9">9</button>
+        <button class="tecla limpiar" data-t="C">Borrar todo</button><button class="tecla" data-t="0">0</button><button class="tecla" data-t=",">,</button>
+      </div>
+      <div class="escrito">
+        <div class="pantallita" id="pantallita">
+          <div class="rotulo">Precio</div>
+          <div class="cifra vacia" id="cifra">0,00 €</div>
+          <div class="pista" id="pista">Escribe el precio y toca la familia</div>
+        </div>
+        <button class="tecla borrar" id="retroceso" style="height:72px">⌫ &nbsp;Borrar una cifra</button>
+        <button class="anadir" id="anadir" disabled>Añadir al ticket</button>
+      </div>
+    </div>
+  </section>
+
+  <aside class="ticket">
+    <h2>Ticket en curso</h2>
+    <div class="lineas" id="lineas"><div class="vacio">Todavía no hay nada.<br>Escribe un precio y toca la familia.</div></div>
+    <div class="total"><span class="r">Total</span><span class="v" id="total">0,00 €</span></div>
+    <div class="pagos">
+      <button class="pagar" id="efectivo" disabled>Efectivo</button>
+      <button class="pagar tarjeta" id="tarjeta" disabled>Tarjeta</button>
+      <!-- La libreta de fiados (Claudia, 2026-09-16): se apuntan las prendas
+           como si fuera un ticket y, en vez de cobrar, «se lo lleva a probar». -->
+      <button class="pagar prueba" id="prueba" disabled>Se lo lleva a probar</button>
+      <div class="menores">
+        <button class="menor" id="vaciar">Vaciar ticket</button>
+        <button class="menor" id="ultimo">Último ticket</button>
+        <button class="menor" id="buscar">Buscar ticket</button>
+        <button class="menor" id="abrirCajon">Abrir cajón</button>
+        <button class="menor" id="verDia">Tickets de hoy</button>
+        <button class="menor" id="cierre">Cierre de caja</button>
+        <button class="menor" id="pruebas" style="grid-column: 1 / -1">Pruebas en casa</button>
+      </div>
+    </div>
+  </aside>
+</main>
+
+<div class="velo" id="velo"><div class="ventana" id="ventana"></div></div>
+<div class="toast" id="toast"></div>
+
+<script>
+(function () {
+  "use strict";
+  var $ = function (id) { return document.getElementById(id); };
+  var CFG = { familias: [], impresora: false };
+  var familia = null;          // la familia marcada
+  var texto = "";              // el precio que se esta tecleando, como texto ("19,95")
+  var lineas = [];             // [{familia, importe, de?, linea_id?}]  (de/linea_id: viene de la libreta)
+
+  // ---------- utilidades ----------
+  function euros(n) {
+    return n.toLocaleString("es-ES", { minimumFractionDigits: 2, maximumFractionDigits: 2 }) + " €";
+  }
+  function importeEscrito() {
+    if (!texto) return 0;
+    return Math.round(parseFloat(texto.replace(",", ".")) * 100) / 100 || 0;
+  }
+  function aviso(msg, ms) {
+    var t = $("toast"); t.textContent = msg; t.classList.add("ver");
+    clearTimeout(aviso._t); aviso._t = setTimeout(function () { t.classList.remove("ver"); }, ms || 2600);
+  }
+  function api(ruta, datos) {
+    var op = datos ? { method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify(datos) } : {};
+    return fetch(ruta, op).then(function (r) {
+      return r.json().then(function (j) { if (!r.ok) throw new Error(j.error || "fallo"); return j; });
+    });
+  }
+  function reloj() {
+    var d = new Date();
+    $("hora").textContent = d.toLocaleDateString("es-ES", { weekday: "long", day: "numeric", month: "long" }) +
+      "  " + d.toLocaleTimeString("es-ES", { hour: "2-digit", minute: "2-digit" });
+  }
+  setInterval(reloj, 15000); reloj();
+
+  // ---------- el precio que se teclea ----------
+  function pintarPrecio() {
+    var c = $("cifra");
+    c.textContent = (texto ? euros(importeEscrito()) : "0,00 €");
+    c.classList.toggle("vacia", !texto);
+    var listo = importeEscrito() > 0 && !!familia;
+    $("anadir").disabled = !listo;
+    $("pista").textContent = !texto ? "Escribe el precio y toca la familia"
+      : (!familia ? "Ahora toca la familia" : "Toca «Añadir al ticket» o Intro");
+  }
+  function tecla(t) {
+    if (t === "C") { texto = ""; }
+    else if (t === "⌫") { texto = texto.slice(0, -1); }
+    else if (t === ",") { if (!texto.includes(",")) texto = (texto || "0") + ","; }
+    else {
+      var partes = texto.split(",");
+      if (partes.length === 2 && partes[1].length >= 2) return;      // dos decimales y ya
+      if (partes[0].length >= 5 && partes.length === 1) return;      // nada de 100000
+      if (texto === "0" && t !== ",") texto = "";
+      texto += t;
+    }
+    pintarPrecio();
+  }
+  $("teclado").addEventListener("click", function (e) {
+    var b = e.target.closest("button"); if (b) tecla(b.dataset.t);
+  });
+  $("retroceso").addEventListener("click", function () { tecla("⌫"); });
+
+  // ---------- las familias ----------
+  function pintarFamilias() {
+    var f = $("familias"); f.innerHTML = "";
+    CFG.familias.forEach(function (nombre) {
+      var b = document.createElement("button");
+      b.className = "familia" + (familia === nombre ? " elegida" : "");
+      b.textContent = nombre;
+      b.addEventListener("click", function () { tocarFamilia(nombre); });
+      f.appendChild(b);
+    });
+  }
+  function tocarFamilia(nombre) {
+    familia = nombre; pintarFamilias();
+    if (importeEscrito() > 0) { anadir(); }     // precio ya escrito: entra directo
+    else { pintarPrecio(); }
+  }
+
+  // ---------- el ticket en curso ----------
+  function anadir() {
+    var imp = importeEscrito();
+    if (!(imp > 0)) { $("pantallita").classList.add("error"); setTimeout(function () { $("pantallita").classList.remove("error"); }, 400); return; }
+    if (!familia) { pintarPrecio(); return; }
+    lineas.push({ familia: familia, importe: imp });
+    texto = ""; familia = null;
+    pintarFamilias(); pintarPrecio(); pintarLineas();
+  }
+  $("anadir").addEventListener("click", anadir);
+
+  function pintarLineas() {
+    var c = $("lineas"); c.innerHTML = "";
+    if (!lineas.length) {
+      c.innerHTML = '<div class="vacio">Todavía no hay nada.<br>Escribe un precio y toca la familia.</div>';
+    }
+    lineas.forEach(function (l, i) {
+      var d = document.createElement("div"); d.className = "linea";
+      d.innerHTML = '<span>' + esc(l.familia) + (l.de ? '<span class="de">se lo llevó ' + esc(l.de) + '</span>' : '') +
+        '</span><span class="imp">' + euros(l.importe) + '</span>';
+      var q = document.createElement("button"); q.className = "quitar"; q.textContent = "×"; q.title = "Quitar";
+      q.addEventListener("click", function () { lineas.splice(i, 1); pintarLineas(); });
+      d.appendChild(q); c.appendChild(d);
+    });
+    var total = lineas.reduce(function (s, l) { return s + l.importe; }, 0);
+    $("total").textContent = euros(total);
+    $("efectivo").disabled = $("tarjeta").disabled = !lineas.length;
+    // Lo que ya viene de la libreta no se vuelve a apuntar en la libreta.
+    $("prueba").disabled = !lineas.length || lineas.some(function (l) { return l.linea_id; });
+  }
+  $("vaciar").addEventListener("click", function () {
+    if (!lineas.length) return;
+    ventana('<h3>¿Vaciar el ticket?</h3><p>Se quitan las ' + lineas.length + ' líneas. No se cobra nada.</p>',
+      [["Sí, vaciar", "peligro", function () { lineas = []; pintarLineas(); cerrar(); }], ["No", "suave", cerrar]]);
+  });
+
+  // ---------- cobrar ----------
+  function cobrar(pago) {
+    if (!lineas.length) return;
+    $("efectivo").disabled = $("tarjeta").disabled = true;
+    var deLibreta = lineas.filter(function (l) { return l.linea_id; }).map(function (l) { return l.linea_id; });
+    api("/api/venta", { lineas: lineas, pago: pago }).then(function (r) {
+      lineas = []; pintarLineas();
+      var t = r.ticket;
+      // Si algo venia de «se lo lleva a probar», se tacha en la libreta.
+      if (deLibreta.length) {
+        api("/api/prestamo/vendido", { linea_ids: deLibreta, ticket: t.numero }).then(cargarPruebas).catch(function () {});
+      }
+      var cuerpo = '<h3>Cobrado</h3><p>Ticket <b>' + t.numero + '</b> · ' + (pago === "efectivo" ? "Efectivo" : "Tarjeta") + '</p>' +
+        '<div class="grande">' + euros(t.total) + '</div>' +
+        (r.impreso ? '<p>Ticket impreso' + (pago === "efectivo" ? " y cajón abierto" : "") + '.</p>'
+                   : '<p>Sin impresora: el ticket queda guardado. Así saldría:</p><div class="papel">' + esc(r.texto) + '</div>');
+      ventana(cuerpo, [
+        ["Ticket regalo", "claro", function () { regalo(t.numero); }],
+        ["Siguiente venta", "", cerrar]
+      ], true);
+    }).catch(function (e) { aviso(e.message); pintarLineas(); });
+  }
+  $("efectivo").addEventListener("click", function () { cobrar("efectivo"); });
+  $("tarjeta").addEventListener("click", function () { cobrar("tarjeta"); });
+
+  function regalo(numero) {
+    api("/api/regalo", { numero: numero }).then(function (r) {
+      ventana('<h3>Ticket regalo</h3><p>Del ticket ' + numero + ', sin precios.</p>' +
+        (r.impreso ? '<p>Impreso.</p>' : '<div class="papel">' + esc(r.texto) + '</div>'),
+        [["Cerrar", "", cerrar]]);
+    }).catch(function (e) { aviso(e.message); });
+  }
+
+  // ---------- «se lo lleva a probar»: la libreta de fiados ----------
+  // Claudia (2026-09-16): «se lleva cuatro vestidos a probarselos en casa; mi
+  // madre apunta en una libreta los vestidos, el nombre y el precio; manana
+  // devuelve tres y paga el que se queda». Aqui: las prendas se apuntan como
+  // un ticket, se toca «Se lo lleva a probar», nombre, y listo. Luego, en
+  // «Pruebas en casa», se marca lo devuelto y lo que se queda pasa al ticket.
+  var cuantasPruebas = 0;
+  function cargarPruebas() {
+    return api("/api/prestamos").then(function (r) {
+      cuantasPruebas = r.abiertos.length;
+      $("pruebas").textContent = "Pruebas en casa" + (cuantasPruebas ? " · " + cuantasPruebas : "");
+      return r.abiertos;
+    }).catch(function () { return []; });
+  }
+  function hace(d) { return d === 0 ? "hoy" : d === 1 ? "ayer" : "hace " + d + " días"; }
+
+  $("prueba").addEventListener("click", function () {
+    if (!lineas.length) return;
+    api("/api/prestamos/nombres").then(function (r) {
+      var total = lineas.reduce(function (s, l) { return s + l.importe; }, 0);
+      var chips = r.nombres.map(function (n) { return '<button type="button" data-nombre="' + esc(n) + '">' + esc(n) + '</button>'; }).join("");
+      ventana('<h3>Se lo lleva a probar</h3><p>' + lineas.length + (lineas.length === 1 ? ' prenda' : ' prendas') + ' · ' + euros(total) +
+        '. Escribe el nombre de la clienta, o tócalo si ya ha venido otras veces.</p>' +
+        '<input class="campo" id="nombreClienta" placeholder="Nombre de la clienta" autocomplete="off">' +
+        (chips ? '<div class="nombres">' + chips + '</div>' : "") +
+        '<input class="campo chico" id="notaClienta" placeholder="Algo que apuntar (talla, color…), si quieres" autocomplete="off">',
+        [["Apuntar en la libreta", "", function () {
+          var nombre = $("nombreClienta").value.trim();
+          if (!nombre) { $("nombreClienta").focus(); aviso("Falta el nombre"); return; }
+          api("/api/prestamo/nuevo", { nombre: nombre, nota: $("notaClienta").value.trim(), lineas: lineas }).then(function (x) {
+            lineas = []; pintarLineas(); cargarPruebas();
+            ventana('<h3>Apuntado</h3><p><b>' + esc(x.prestamo.nombre) + '</b> se lleva ' + x.prestamo.lineas.length +
+              (x.prestamo.lineas.length === 1 ? ' prenda' : ' prendas') + ' por ' + euros(x.prestamo.pendiente) + '.</p>' +
+              (x.impreso ? '<p>Resguardo impreso para que se lo lleve.</p>' : '<p>Sin impresora: el resguardo sería este.</p><div class="papel">' + esc(x.texto) + '</div>'),
+              [["Siguiente", "", cerrar]]);
+          }).catch(function (e) { aviso(e.message); });
+        }], ["Cancelar", "suave", cerrar]], false, "dos");
+      var campo = $("nombreClienta");
+      campo.focus();
+      $("ventana").querySelectorAll("[data-nombre]").forEach(function (b) {
+        b.addEventListener("click", function () { campo.value = b.dataset.nombre; campo.focus(); });
+      });
+    });
+  });
+
+  $("pruebas").addEventListener("click", function () { listaPruebas(); });
+  function listaPruebas() {
+    cargarPruebas().then(function (abiertos) {
+      var filas = abiertos.slice().reverse().map(function (p) {
+        var fuera = p.lineas.filter(function (l) { return l.estado === "fuera"; }).length;
+        return '<div class="hoja"><span><span class="quien">' + esc(p.nombre) + '</span><br>' +
+          '<span class="cuando' + "" + '">' + hace(p.dias) + ' · ' + fuera + (fuera === 1 ? ' prenda' : ' prendas') + ' fuera · ' + euros(p.pendiente) + '</span></span>' +
+          '<button class="mini" data-hoja="' + p.id + '">Ver</button></div>';
+      }).join("");
+      ventana('<h3>Pruebas en casa</h3><p>Lo que se han llevado a probar y aún no han devuelto ni pagado.</p>' +
+        '<div class="lista" style="max-height:52vh">' + (filas || '<div class="vacio">No hay nada fuera. Todo devuelto o pagado.</div>') + '</div>',
+        [["Cerrar", "suave", cerrar]]);
+      $("ventana").querySelectorAll("[data-hoja]").forEach(function (b) {
+        b.addEventListener("click", function () { verHoja(parseInt(b.dataset.hoja, 10)); });
+      });
+    });
+  }
+
+  function verHoja(id) {
+    api("/api/prestamos?todos=1").then(function (r) {
+      var p = r.abiertos.concat(r.cerrados).filter(function (x) { return x.id === id; })[0];
+      if (!p) { aviso("Esa hoja ya no está"); listaPruebas(); return; }
+      var prendas = p.lineas.map(function (l) {
+        var clase = "prenda" + (l.estado === "devuelto" ? " devuelta" : l.estado === "vendido" ? " vendida" : "");
+        var accion = l.estado === "fuera" ? '<button class="mini" data-dev="' + l.id + '">Devuelve</button>'
+          : l.estado === "devuelto" ? '<span class="estado">devuelto · <button class="mini" data-des="' + l.id + '">deshacer</button></span>'
+          : '<span class="estado">pagado · ticket ' + esc(l.ticket || "") + '</span>';
+        return '<div class="' + clase + '"><span>' + esc(l.familia) + '</span><span class="imp">' + euros(l.importe) + '</span>' + accion + '</div>';
+      }).join("");
+      var fuera = p.lineas.filter(function (l) { return l.estado === "fuera"; });
+      ventana('<h3>' + esc(p.nombre) + '</h3><p>' + p.fecha.split("-").reverse().join("/") + ' · ' + hace(p.dias) +
+        (p.nota ? ' · ' + esc(p.nota) : "") + (p.estado === "cerrado" ? ' · <b>hoja cerrada</b>' : "") + '</p>' +
+        '<div style="margin-top:8px">' + prendas + '</div>' +
+        '<p style="margin-top:12px">Pendiente: <b>' + euros(p.pendiente) + '</b>. Toca «Devuelve» en lo que devuelve; lo que se queda, cóbralo.</p>',
+        [fuera.length ? ["Cobrar lo que se queda", "", function () {
+          // Al ticket en curso, marcado de donde viene; se cobra como siempre.
+          fuera.forEach(function (l) { lineas.push({ familia: l.familia, importe: l.importe, de: p.nombre, linea_id: l.id }); });
+          pintarLineas(); cerrar();
+          aviso("En el ticket. Cobra con Efectivo o Tarjeta; si algo lo devuelve, quítalo con la ×", 5000);
+        }] : null,
+         ["Imprimir resguardo", "claro", function () { api("/api/prestamo/imprimir", { id: p.id }).then(function (x) { aviso(x.impreso ? "Impreso" : "Sin impresora"); }); }],
+         ["Borrar esta hoja", "peligro", function () { pedirPin(function (pin) {
+           api("/api/prestamo/borrar", { id: p.id, pin: pin }).then(function () { aviso("Hoja borrada"); listaPruebas(); }).catch(function (e) { aviso(e.message); });
+         }); }],
+         ["Atrás", "suave", listaPruebas]].filter(Boolean), false, "dos");
+      var v = $("ventana");
+      v.querySelectorAll("[data-dev]").forEach(function (b) { b.addEventListener("click", function () {
+        api("/api/prestamo/linea", { linea_id: parseInt(b.dataset.dev, 10), estado: "devuelto" }).then(function () { verHoja(id); cargarPruebas(); }).catch(function (e) { aviso(e.message); });
+      }); });
+      v.querySelectorAll("[data-des]").forEach(function (b) { b.addEventListener("click", function () {
+        api("/api/prestamo/linea", { linea_id: parseInt(b.dataset.des, 10), estado: "fuera" }).then(function () { verHoja(id); cargarPruebas(); }).catch(function (e) { aviso(e.message); });
+      }); });
+    }).catch(function (e) { aviso(e.message); });
+  }
+
+  // ---------- ultimo ticket ----------
+  // Un ticket cualquiera, con sus precios: lo usan «Último ticket», «Buscar
+  // ticket» y el lector de codigos de barras.
+  function mostrarTicket(t, titulo) {
+    var estado = t.anulado_por ? '<p style="color:var(--rojo)">Anulado por el ' + t.anulado_por + '</p>' : "";
+    if (t.tipo === "anulacion") estado = '<p style="color:var(--rojo)">Es una anulación del ticket ' + t.anula_a + '</p>';
+    var lineas = t.lineas.map(function (l) {
+      return '<div class="linea"><span>' + esc(l.familia) + '</span><span class="imp">' + euros(l.importe) + '</span><span></span></div>';
+    }).join("");
+    ventana('<h3>' + titulo + '</h3><p><b>' + t.numero + '</b> · ' + t.fecha.split("-").reverse().join("/") + " " + t.hora.slice(0, 5) +
+      ' · ' + (t.pago === "efectivo" ? "Efectivo" : "Tarjeta") + '</p>' + estado +
+      '<div style="margin-top:10px">' + lineas + '</div><div class="grande">' + euros(t.total) + '</div>',
+      [["Ticket regalo", "claro", function () { regalo(t.numero); }],
+       ["Reimprimir", "claro", function () { api("/api/reimprimir", { numero: t.numero }).then(function (r) { aviso(r.impreso ? "Reimpreso" : "Sin impresora: no se puede reimprimir"); }); }],
+       (t.anulado_por || t.tipo !== "venta") ? null : ["Anular este ticket", "peligro", function () { pedirPin(function (pin) { anular(t.numero, pin); }); }],
+       ["Cerrar", "suave", cerrar]].filter(Boolean), false, "dos");
+  }
+  $("ultimo").addEventListener("click", function () {
+    api("/api/ultimo").then(function (t) {
+      if (!t) { aviso("Todavía no hay ningún ticket"); return; }
+      mostrarTicket(t, "Último ticket");
+    });
+  });
+  function buscarTicket(numero) {
+    api("/api/ticket?numero=" + encodeURIComponent(numero)).then(function (t) { mostrarTicket(t, "Ticket encontrado"); })
+      .catch(function (e) { aviso(e.message, 4000); });
+  }
+  $("buscar").addEventListener("click", function () { pedirNumero(buscarTicket); });
+  $("abrirCajon").addEventListener("click", function () {
+    pedirPin(function (pin) { api("/api/cajon", { pin: pin }).then(function (x) { cerrar(); aviso(x.abierto ? "Cajón abierto" : "Sin impresora: el cajón va enchufado a ella"); }); });
+  });
+
+  // ---------- el lector de codigos de barras ----------
+  // El lector escribe como un teclado, muy deprisa: «T2026000006» y Enter.
+  // La T avisa de que es el lector; mientras dura la rafaga no se deja que
+  // los numeros caigan en el precio.
+  var lector = { activo: false, buf: "", t: null };
+  function lectorFin() { lector.activo = false; lector.buf = ""; clearTimeout(lector.t); }
+  document.addEventListener("keydown", function (e) {
+    // Escribiendo en un campo (el nombre de la clienta): ni lector ni precio.
+    if (e.target && (e.target.tagName === "INPUT" || e.target.tagName === "TEXTAREA")) return;
+    if (!lector.activo) {
+      if (e.key === "T" || e.key === "t") {
+        lector.activo = true; lector.buf = "";
+        // si el lector no manda Enter al final, a los 900 ms se busca igual
+        lector.t = setTimeout(function () { var n = lector.buf; lectorFin(); if (n.length >= 10) buscarTicket(n); }, 900);
+        e.preventDefault(); e.stopImmediatePropagation();
+      }
+      return;
+    }
+    e.preventDefault(); e.stopImmediatePropagation();
+    if (/^[0-9]$/.test(e.key)) { lector.buf += e.key; if (lector.buf.length > 12) lectorFin(); return; }
+    if (e.key === "Enter" || e.key === "Tab") { var n = lector.buf; lectorFin(); if (n.length >= 6) buscarTicket(n); return; }
+    if (e.key === "Shift") return;
+    lectorFin();
+  }, true);
+
+  function anular(numero, pin) {
+    ventana('<h3>¿Anular el ticket ' + numero + '?</h3><p>Se crea un ticket de anulación con las mismas líneas en negativo. El original no se borra: queda anulado.</p>',
+      [["Sí, anular", "peligro", function () {
+        api("/api/anular", { numero: numero, pin: pin }).then(function (r) {
+          ventana('<h3>Anulado</h3><p>Ticket de anulación <b>' + r.ticket.numero + '</b>.</p>' +
+            (r.impreso ? "" : '<div class="papel">' + esc(r.texto) + '</div>'), [["Cerrar", "", cerrar]]);
+        }).catch(function (e) { aviso(e.message); cerrar(); });
+      }], ["No", "suave", cerrar]]);
+  }
+
+  // ---------- tickets de hoy / cierre ----------
+  $("verDia").addEventListener("click", function () { pedirPin(function (pin) { verDia(pin); }); });
+  function verDia(pin) {
+    api("/api/dia?pin=" + pin).then(function (r) {
+      var filas = r.tickets.slice().reverse().map(function (t) {
+        var clase = "fila" + (t.anulado_por || t.tipo === "anulacion" ? " anulado" : "");
+        var acciones = t.tipo === "venta" && !t.anulado_por
+          ? '<button class="mini" data-regalo="' + t.numero + '">Regalo</button><button class="mini" data-re="' + t.numero + '">Imprimir</button><button class="mini rojo" data-anular="' + t.numero + '">Anular</button>'
+          : '<span></span><span></span><span></span>';
+        return '<div class="' + clase + '"><span><b>' + t.numero + '</b> · ' + t.hora.slice(0, 5) + ' · ' + (t.pago === "efectivo" ? "Efectivo" : "Tarjeta") +
+          (t.tipo === "anulacion" ? " · anula " + t.anula_a : "") + ' · <b>' + euros(t.total) + '</b></span>' + acciones + '</div>';
+      }).join("");
+      var cuerpo = '<h3>Hoy</h3><p>' + r.fecha.split("-").reverse().join("/") + (r.cerrado ? ' · <b>caja cerrada a las ' + r.cierre_hora.slice(0, 5) + '</b>' : "") + '</p>' +
+        '<div class="resumen"><div><div class="r">Efectivo</div><div class="v">' + euros(r.efectivo) + '</div></div>' +
+        '<div><div class="r">Tarjeta</div><div class="v">' + euros(r.tarjeta) + '</div></div>' +
+        '<div><div class="r">Total</div><div class="v">' + euros(r.total) + '</div></div></div>' +
+        '<p>' + r.ventas + (r.ventas === 1 ? ' venta' : ' ventas') + (r.anulaciones ? ", " + r.anulaciones + (r.anulaciones === 1 ? " anulación" : " anulaciones") : "") + '</p>' +
+        '<div class="lista">' + (filas || '<div class="vacio">Sin tickets todavía.</div>') + '</div>';
+      ventana(cuerpo, [
+        ["Excel del mes", "claro", function () {
+          api("/api/exportar", { pin: pin }).then(function (x) { aviso("Guardado en copias/" + (x.drive ? " y en Drive" : ""), 4000); });
+        }],
+        ["Abrir cajón", "claro", function () { api("/api/cajon", { pin: pin }).then(function (x) { aviso(x.abierto ? "Cajón abierto" : "Sin impresora: el cajón va enchufado a ella"); }); }],
+        ["Cerrar", "suave", cerrar]
+      ], false, "dos");
+      var v = $("ventana");
+      v.querySelectorAll("[data-regalo]").forEach(function (b) { b.addEventListener("click", function () { regalo(b.dataset.regalo); }); });
+      v.querySelectorAll("[data-re]").forEach(function (b) { b.addEventListener("click", function () { api("/api/reimprimir", { numero: b.dataset.re }).then(function (x) { aviso(x.impreso ? "Reimpreso" : "Sin impresora"); }); }); });
+      v.querySelectorAll("[data-anular]").forEach(function (b) { b.addEventListener("click", function () { anular(b.dataset.anular, pin); }); });
+    }).catch(function (e) { aviso(e.message); cerrar(); });
+  }
+
+  $("cierre").addEventListener("click", function () {
+    pedirPin(function (pin) {
+      api("/api/dia?pin=" + pin).then(function (r) {
+        if (r.cerrado) {
+          ventana('<h3>Ya está cerrada</h3><p>La caja de hoy se cerró a las ' + r.cierre_hora.slice(0, 5) + '.</p>',
+            [["Imprimir el resumen otra vez", "claro", function () {
+              api("/api/cierre/imprimir", { pin: pin }).then(function (x) {
+                if (x.impreso) { cerrar(); aviso("Resumen impreso"); }
+                else { ventana('<h3>Resumen del día</h3><p>No se pudo imprimir: ' + esc(x.aviso) + '.</p><div class="papel">' + esc(x.texto) + '</div>', [["Cerrar", "", cerrar]]); }
+              }).catch(function (e) { aviso(e.message); });
+            }], ["Cerrar", "", cerrar]]);
+          return;
+        }
+        ventana('<h3>Cierre de caja</h3><p>Se apunta lo de hoy y se hace la copia de seguridad.</p>' +
+          '<div class="resumen"><div><div class="r">Efectivo</div><div class="v">' + euros(r.efectivo) + '</div></div>' +
+          '<div><div class="r">Tarjeta</div><div class="v">' + euros(r.tarjeta) + '</div></div>' +
+          '<div><div class="r">Total</div><div class="v">' + euros(r.total) + '</div></div></div>',
+          [["Cerrar la caja de hoy", "", function () {
+            api("/api/cierre", { pin: pin }).then(function (x) {
+              ventana('<h3>Caja cerrada</h3><p>' + (x.impreso ? "Resumen del día impreso. " : "No se pudo imprimir el resumen (" + esc(x.aviso) + "). ") +
+                'Copia de seguridad ' + (x.copia.drive ? "hecha y subida a Drive" : "hecha en este ordenador") + '.</p><div class="papel">' + esc(x.texto) + '</div>',
+                [["Cerrar", "", cerrar]]);
+            }).catch(function (e) { aviso(e.message); cerrar(); });
+          }], ["Todavía no", "suave", cerrar]]);
+      }).catch(function (e) { aviso(e.message); });
+    });
+  });
+
+  // ---------- pedir un numero de ticket con teclado en pantalla ----------
+  function pedirNumero(luego) {
+    var num = "";
+    function pintar() {
+      var v = $("ventana");
+      v.innerHTML = '<h3>Buscar ticket</h3><p>Escribe el número del ticket (vale solo el final: el 6 para el 2026-000006). O pásalo por el lector.</p>' +
+        '<div class="numero-grande' + (num ? "" : " vacio") + '">' + (num || "0") + '</div>' +
+        '<div class="pin-teclado">' + "123456789".split("").map(function (n) { return '<button class="tecla" data-p="' + n + '">' + n + '</button>'; }).join("") +
+        '<button class="tecla limpiar" data-p="X">Cancelar</button><button class="tecla" data-p="0">0</button><button class="tecla borrar" data-p="B">⌫</button></div>' +
+        '<div class="botones"><button class="boton" data-p="OK">Buscar</button></div>';
+      v.querySelectorAll("[data-p]").forEach(function (b) {
+        b.addEventListener("click", function () {
+          var p = b.dataset.p;
+          if (p === "X") { cerrar(); return; }
+          if (p === "B") { num = num.slice(0, -1); pintar(); return; }
+          if (p === "OK") { if (num) luego(num); return; }
+          if (num.length < 10) { num += p; pintar(); }
+        });
+      });
+      $("velo").classList.add("abierto");
+    }
+    pintar();
+  }
+
+  // ---------- ventanas ----------
+  function esc(s) { return String(s).replace(/[&<>]/g, function (c) { return { "&": "&amp;", "<": "&lt;", ">": "&gt;" }[c]; }); }
+  function ventana(html, botones, anchaDos, disposicion) {
+    var v = $("ventana");
+    v.innerHTML = html;
+    var caja = document.createElement("div");
+    caja.className = "botones " + (disposicion || (anchaDos ? "dos" : ""));
+    botones.forEach(function (b) {
+      var el = document.createElement("button");
+      el.className = "boton " + (b[1] || "");
+      el.textContent = b[0];
+      el.addEventListener("click", b[2]);
+      caja.appendChild(el);
+    });
+    v.appendChild(caja);
+    $("velo").classList.add("abierto");
+  }
+  function cerrar() { $("velo").classList.remove("abierto"); }
+
+  function pedirPin(luego) {
+    var pin = "";
+    function pintar() {
+      var puntos = [0, 1, 2, 3].map(function (i) { return '<span class="' + (i < pin.length ? "llena" : "") + '"></span>'; }).join("");
+      var v = $("ventana");
+      v.innerHTML = '<h3>PIN</h3><p>Escribe los 4 números.</p><div class="pin-cifras">' + puntos + '</div>' +
+        '<div class="pin-teclado">' + "123456789".split("").map(function (n) { return '<button class="tecla" data-p="' + n + '">' + n + '</button>'; }).join("") +
+        '<button class="tecla limpiar" data-p="X">Cancelar</button><button class="tecla" data-p="0">0</button><button class="tecla borrar" data-p="B">⌫</button></div>';
+      v.querySelectorAll("[data-p]").forEach(function (b) {
+        b.addEventListener("click", function () {
+          var p = b.dataset.p;
+          if (p === "X") { cerrar(); return; }
+          if (p === "B") { pin = pin.slice(0, -1); pintar(); return; }
+          if (pin.length >= 4) return;
+          pin += p; pintar();
+          if (pin.length === 4) {
+            api("/api/pin", { pin: pin }).then(function (r) {
+              if (r.ok) { luego(pin); } else { aviso("PIN incorrecto"); pin = ""; pintar(); }
+            });
+          }
+        });
+      });
+      $("velo").classList.add("abierto");
+    }
+    pintar();
+  }
+
+  // ---------- la impresora: se elige tocando la pastilla de arriba ----------
+  function pintarImpresora(hay) {
+    var a = $("avisoImpresora");
+    a.classList.toggle("bien", !!hay);
+    a.textContent = hay ? "Impresora lista" : "Sin impresora · ticket a mano";
+  }
+  $("avisoImpresora").addEventListener("click", function () { pedirPin(function (pin) { ajustesImpresora(pin); }); });
+  function ajustesImpresora(pin) {
+    api("/api/impresoras").then(function (r) {
+      var lista = r.impresoras.map(function (n) {
+        var es = n === r.elegida;
+        return '<button class="boton ' + (es ? "" : "claro") + '" data-imp="' + esc(n) + '">' + esc(n) + (es ? " ✓" : "") + '</button>';
+      }).join("");
+      ventana('<h3>Impresora de tickets</h3><p>Toca la impresora que quieres usar. La oscura es la que está en uso.</p>' +
+        '<div class="botones">' + (lista || '<p>Windows todavía no tiene ninguna impresora.</p>') +
+        '<button class="boton ' + (r.elegida ? "claro" : "") + '" data-imp="">Sin impresora · ticket en pantalla' + (r.elegida ? "" : " ✓") + '</button></div>',
+        [["Imprimir prueba y abrir cajón", "claro", function () {
+          api("/api/prueba", { pin: pin }).then(function (x) { aviso(x.impreso ? "Enviado a la impresora" : "No se pudo: " + x.aviso, 4500); });
+        }], ["Cerrar", "suave", cerrar]], false, "dos");
+      $("ventana").querySelectorAll("[data-imp]").forEach(function (b) {
+        b.addEventListener("click", function () {
+          api("/api/ajustes", { pin: pin, impresora: b.dataset.imp }).then(function (x) {
+            pintarImpresora(x.impresora); aviso(x.impresora ? "Impresora: " + x.impresora : "Sin impresora"); ajustesImpresora(pin);
+          }).catch(function (e) { aviso(e.message); });
+        });
+      });
+    }).catch(function (e) { aviso(e.message); });
+  }
+
+  // ---------- que la pantalla no se amplie ni se encoja por accidente ----------
+  document.addEventListener("wheel", function (e) { if (e.ctrlKey) e.preventDefault(); }, { passive: false });
+  document.addEventListener("gesturestart", function (e) { e.preventDefault(); });
+  document.addEventListener("dblclick", function (e) { e.preventDefault(); });
+  document.addEventListener("keydown", function (e) {
+    if ((e.ctrlKey || e.metaKey) && ["+", "-", "=", "0", "Add", "Subtract"].indexOf(e.key) !== -1) e.preventDefault();
+  });
+
+  // ---------- teclado fisico, por si prefiere teclear ----------
+  document.addEventListener("keydown", function (e) {
+    if ($("velo").classList.contains("abierto")) { if (e.key === "Escape") cerrar(); return; }
+    if (/^[0-9]$/.test(e.key)) tecla(e.key);
+    else if (e.key === "," || e.key === ".") tecla(",");
+    else if (e.key === "Backspace") tecla("⌫");
+    else if (e.key === "Escape") tecla("C");
+    else if (e.key === "Enter") anadir();
+  });
+
+  // ---------- arranque ----------
+  // ---------- se actualiza sola ----------
+  // Cada 30 s le dice al programa si esta en reposo (nada a medio cobrar).
+  // Si el programa tiene una version mas nueva que la de esta pantalla, la
+  // pantalla se recarga sola, pero solo en reposo.
+  var VERSION_PANTALLA = null;
+  function enReposo() {
+    return !lineas.length && !texto && !$("velo").classList.contains("abierto");
+  }
+  function latido() {
+    fetch("/api/latido", { method: "POST", headers: { "Content-Type": "application/json" },
+                           body: JSON.stringify({ reposo: enReposo() }) })
+      .then(function (r) { return r.json(); })
+      .then(function (x) {
+        if (VERSION_PANTALLA !== null && x.version !== VERSION_PANTALLA && enReposo()) location.reload();
+      })
+      .catch(function () {});   // reiniciandose: no pasa nada, el siguiente latido ya contesta
+  }
+  setInterval(latido, 30000);
+
+  api("/api/config").then(function (c) {
+    VERSION_PANTALLA = c.version;
+    CFG = c; pintarFamilias(); pintarPrecio(); pintarLineas();
+    pintarImpresora(c.impresora);
+    cargarPruebas();
+  }).catch(function () { aviso("No encuentro el programa de la caja (caja.py)"); });
+})();
+</script>
+</body>
+</html>
