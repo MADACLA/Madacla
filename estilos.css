@@ -1235,6 +1235,17 @@ a { color: var(--cacao); }
   display: grid; grid-template-rows: auto auto;
   max-height: calc(100dvh - 2 * var(--e-4));
   overflow: auto;
+  /* Que NADA de dentro pueda ensanchar la ficha (Claudia, 2026-09-20: en
+     el movil, la prenda de 9 fotos salia cortada por la derecha y con una
+     franja crema a la izquierda). En una rejilla, un hijo mide por lo
+     menos lo que su contenido, y la tira de miniaturas (9 x 56 px = 592)
+     estiraba la columna mas alla de la pantalla. Con `min-width: 0` la
+     tira se queda dentro y se pasea con el dedo. */
+  max-width: 100%;
+}
+.ficha__cuerpo > *, .ficha__galeria, .ficha__visor, .ficha__minis, .ficha__texto {
+  min-width: 0;
+  max-width: 100%;
 }
 
 .ficha__cerrar {
@@ -1352,8 +1363,13 @@ a { color: var(--cacao); }
 .ficha__minis {
   display: flex; gap: var(--e-2); padding: var(--e-3); margin: 0;
   list-style: none; overflow-x: auto;
+  /* Con muchas fotos se pasea con el dedo; nunca ensancha la ficha. */
+  min-width: 0; max-width: 100%;
+  -webkit-overflow-scrolling: touch;
+  scrollbar-width: none;
   background: var(--arena);
 }
+.ficha__minis::-webkit-scrollbar { display: none; }
 .ficha__minis button {
   width: 56px; height: 70px; padding: 0; border: 0; cursor: pointer;
   border-radius: 4px; overflow: hidden; opacity: .55; flex: none;
