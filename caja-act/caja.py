@@ -152,6 +152,23 @@ CREATE TABLE IF NOT EXISTS prestamo_lineas (
     estado      TEXT NOT NULL DEFAULT 'fuera' CHECK (estado IN ('fuera', 'devuelto', 'vendido')),
     ticket      TEXT
 );
+-- LOS CHEQUES REGALO (2026-09-23). Claudia: «que haya algo que no puedan
+-- imprimir o fotocopiar, porque pueden enganarme». El cheque de papel va
+-- NUMERADO; aqui se apunta a quien se le vendio y por cuanto, y al traerlo
+-- se marca gastado. Una fotocopia trae el mismo numero: al buscarlo sale
+-- «ya se gasto», y si el numero no esta, es falso.
+CREATE TABLE IF NOT EXISTS cheques (
+    id       INTEGER PRIMARY KEY,
+    numero   TEXT NOT NULL UNIQUE,
+    fecha    TEXT NOT NULL,
+    hora     TEXT NOT NULL,
+    importe  REAL NOT NULL,
+    para     TEXT NOT NULL DEFAULT '',
+    departe  TEXT NOT NULL DEFAULT '',
+    estado   TEXT NOT NULL DEFAULT 'vendido' CHECK (estado IN ('vendido', 'gastado')),
+    gastado  TEXT,
+    nota     TEXT NOT NULL DEFAULT ''
+);
 -- Nada de esto se toca nunca: ni borrar ni editar. Un error se arregla con
 -- un ticket de anulacion, no reescribiendo la historia.
 CREATE TRIGGER IF NOT EXISTS tickets_no_borrar BEFORE DELETE ON tickets
@@ -535,6 +552,99 @@ def imprimir_resguardo(p: dict) -> dict:
 
 # ---------------------------------------------------------------------------
 # COPIAS DE SEGURIDAD
+# ---------------------------------------------------------------------------
+# LOS CHEQUES REGALO
+# ---------------------------------------------------------------------------
+
+def _numero_cheque(numero) -> str:
+    """El numero tal y como va impreso: cuatro cifras (0007)."""
+    digitos = "".join(c for c in str(numero or "") if c.isdigit())
+    if not digitos:
+        raise ValueError("Falta el número del cheque")
+    return f"{int(digitos):04d}"
+
+
+def vender_cheque(numero, importe, para: str = "", departe: str = "",
+                  nota: str = "") -> dict:
+    """Se vende un cheque de papel: se apunta su numero y su importe."""
+    numero = _numero_cheque(numero)
+    importe = redondear(importe)
+    if importe <= 0:
+        raise ValueError("Pon el importe del cheque")
+    ahora = datetime.now()
+    with _cerrojo_db, conectar() as con:
+        ya = con.execute("SELECT estado, fecha FROM cheques WHERE numero = ?",
+                         (numero,)).fetchone()
+        if ya:
+            dia = "/".join(reversed((ya["fecha"] or "").split("-")))
+            raise ValueError(f"El cheque {numero} ya está apuntado "
+                             f"(vendido el {dia}). Usa otro número.")
+        con.execute(
+            "INSERT INTO cheques (numero, fecha, hora, importe, para, departe, nota) "
+            "VALUES (?,?,?,?,?,?,?)",
+            (numero, ahora.strftime("%Y-%m-%d"), ahora.strftime("%H:%M:%S"), importe,
+             str(para or "").strip()[:80], str(departe or "").strip()[:80],
+             str(nota or "").strip()[:200]))
+    return buscar_cheque(numero)
+
+
+def buscar_cheque(numero) -> dict | None:
+    numero = _numero_cheque(numero)
+    with conectar() as con:
+        c = con.execute("SELECT * FROM cheques WHERE numero = ?", (numero,)).fetchone()
+    return dict(c) if c else None
+
+
+def gastar_cheque(numero, nota: str = "") -> dict:
+    """La clienta lo trae y se lo gasta. Si ya estaba gastado, se avisa: eso
+    es justo lo que pasa con una fotocopia."""
+    numero = _numero_cheque(numero)
+    c = buscar_cheque(numero)
+    if not c:
+        raise ValueError(f"El cheque {numero} NO está en la lista. "
+                         "Ojo: puede ser falso.")
+    if c["estado"] == "gastado":
+        cuando = (c["gastado"] or "").split(" ")[0].split("-")[::-1]
+        raise ValueError(f"El cheque {numero} YA SE GASTÓ"
+                         + (f" el {'/'.join(cuando)}" if cuando and cuando[0] else "")
+                         + ". Si te traen otro igual, es una copia.")
+    ahora = datetime.now().strftime("%Y-%m-%d %H:%M")
+    with _cerrojo_db, conectar() as con:
+        con.execute("UPDATE cheques SET estado = 'gastado', gastado = ?, "
+                    "nota = CASE WHEN ? <> '' THEN ? ELSE nota END WHERE numero = ?",
+                    (ahora, str(nota or "").strip()[:200],
+                     str(nota or "").strip()[:200], numero))
+    return buscar_cheque(numero)
+
+
+def desgastar_cheque(numero) -> dict:
+    """Deshacer, por si se marca sin querer."""
+    numero = _numero_cheque(numero)
+    with _cerrojo_db, conectar() as con:
+        con.execute("UPDATE cheques SET estado = 'vendido', gastado = NULL "
+                    "WHERE numero = ?", (numero,))
+    c = buscar_cheque(numero)
+    if not c:
+        raise ValueError(f"El cheque {numero} no está en la lista.")
+    return c
+
+
+def listar_cheques() -> dict:
+    with conectar() as con:
+        filas = con.execute("SELECT * FROM cheques ORDER BY numero").fetchall()
+    cheques = [dict(f) for f in filas]
+    sin_gastar = [c for c in cheques if c["estado"] == "vendido"]
+    return {"cheques": cheques, "sin_gastar": len(sin_gastar),
+            "pendiente": redondear(sum(c["importe"] for c in sin_gastar))}
+
+
+def borrar_cheque(numero) -> None:
+    """Se borra del todo (con PIN): para cuando se apunta uno mal."""
+    numero = _numero_cheque(numero)
+    with _cerrojo_db, conectar() as con:
+        con.execute("DELETE FROM cheques WHERE numero = ?", (numero,))
+
+
 # ---------------------------------------------------------------------------
 
 def carpeta_drive() -> Path | None:
@@ -973,6 +1083,18 @@ class Manejador(BaseHTTPRequestHandler):
                                    "cerrados": listar_prestamos(False) if q.get("todos") else []})
         if u.path == "/api/prestamos/nombres":
             return self.json(200, {"nombres": nombres_prestamos()})
+        # --- los cheques regalo ---
+        if u.path == "/api/cheques":
+            return self.json(200, listar_cheques())
+        if u.path == "/api/cheque":
+            try:
+                c = buscar_cheque(q.get("numero", ""))
+            except ValueError as fallo:
+                return self.json(400, {"error": str(fallo)})
+            if not c:
+                return self.json(404, {"error": "Ese número NO está en la lista. "
+                                                "Ojo: puede ser falso."})
+            return self.json(200, c)
         if u.path == "/api/ultimo":
             with conectar() as con:
                 t = con.execute("SELECT numero FROM tickets WHERE tipo='venta' "
@@ -1066,6 +1188,27 @@ class Manejador(BaseHTTPRequestHandler):
                 if not p:
                     return self.json(404, {"error": "Esa hoja ya no esta"})
                 return self.json(200, imprimir_resguardo(p))
+            # --- los cheques regalo ---
+            if u.path == "/api/cheque/vender":
+                c = vender_cheque(d.get("numero", ""), d.get("importe", 0),
+                                  d.get("para", ""), d.get("departe", ""),
+                                  d.get("nota", ""))
+                apuntar(f"[cheque] vendido el Nº {c['numero']} por {euros(c['importe'])}")
+                return self.json(200, {"cheque": c})
+            if u.path == "/api/cheque/gastar":
+                c = gastar_cheque(d.get("numero", ""), d.get("nota", ""))
+                apuntar(f"[cheque] gastado el Nº {c['numero']} ({euros(c['importe'])})")
+                return self.json(200, {"cheque": c})
+            if u.path == "/api/cheque/deshacer":
+                c = desgastar_cheque(d.get("numero", ""))
+                apuntar(f"[cheque] vuelve a estar sin gastar el Nº {c['numero']}")
+                return self.json(200, {"cheque": c})
+            if u.path == "/api/cheque/borrar":
+                if not pin_ok(d.get("pin")):
+                    return self.json(403, {"error": "PIN incorrecto"})
+                borrar_cheque(d.get("numero", ""))
+                apuntar(f"[cheque] borrado el Nº {d.get('numero')}")
+                return self.json(200, {"ok": True})
             if u.path == "/api/prestamo/borrar":
                 if not pin_ok(d.get("pin")):
                     return self.json(403, {"error": "PIN incorrecto"})

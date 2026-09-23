@@ -223,6 +223,10 @@
         <button class="menor" id="verDia">Tickets de hoy</button>
         <button class="menor" id="cierre">Cierre de caja</button>
         <button class="menor" id="pruebas" style="grid-column: 1 / -1">Pruebas en casa</button>
+        <!-- Cheques regalo (Claudia, 2026-09-23): el cheque de papel va
+             numerado; aqui se apunta y se marca gastado, y una fotocopia
+             canta sola porque su numero ya esta gastado. -->
+        <button class="menor" id="cheques" style="grid-column: 1 / -1">Cheques regalo</button>
       </div>
     </div>
   </aside>
@@ -478,6 +482,100 @@
       }); });
     }).catch(function (e) { aviso(e.message); });
   }
+
+  // ---------- cheques regalo ----------
+  // El cheque de papel lleva su numero impreso (Nº 0007). Aqui se apunta
+  // cuando se vende y se marca cuando lo traen. Si alguien fotocopia uno,
+  // al buscarlo pone «YA SE GASTÓ»: es la trampa.
+  var cuantosCheques = 0;
+  function cargarCheques() {
+    return api("/api/cheques").then(function (r) {
+      cuantosCheques = r.sin_gastar;
+      $("cheques").textContent = "Cheques regalo" + (cuantosCheques ? " · " + cuantosCheques : "");
+      return r;
+    }).catch(function () { return { cheques: [], sin_gastar: 0, pendiente: 0 }; });
+  }
+
+  function fechaCorta(f) { return (f || "").split(" ")[0].split("-").reverse().join("/"); }
+
+  function pantallaCheques() {
+    cargarCheques().then(function (r) {
+      var filas = r.cheques.slice().reverse().map(function (c) {
+        var gastado = c.estado === "gastado";
+        return '<div class="hoja"><span><span class="quien">Nº ' + esc(c.numero) + ' · ' + euros(c.importe) + '</span><br>' +
+          '<span class="cuando">' + (gastado ? 'gastado el ' + fechaCorta(c.gastado) : 'sin gastar · vendido el ' + fechaCorta(c.fecha)) +
+          (c.para ? ' · para ' + esc(c.para) : "") + '</span></span>' +
+          '<button class="mini" data-cheque="' + esc(c.numero) + '">Ver</button></div>';
+      }).join("");
+      ventana('<h3>Cheques regalo</h3>' +
+        '<p>Si te traen un cheque, escribe su número y míralo antes de aceptarlo.</p>' +
+        '<input class="campo" id="numCheque" placeholder="Número del cheque (0007)" inputmode="numeric" autocomplete="off">' +
+        '<p style="margin-top:10px">Sin gastar: <b>' + r.sin_gastar + '</b> · ' + euros(r.pendiente) + '</p>' +
+        '<div class="lista" style="max-height:38vh">' + (filas || '<div class="vacio">Todavía no has vendido ningún cheque.</div>') + '</div>',
+        [["Buscar este número", "", function () { verCheque($("numCheque").value); }],
+         ["Vender un cheque", "claro", function () { venderCheque($("numCheque").value); }],
+         ["Cerrar", "suave", cerrar]], false, "dos");
+      $("numCheque").focus();
+      $("ventana").querySelectorAll("[data-cheque]").forEach(function (b) {
+        b.addEventListener("click", function () { verCheque(b.dataset.cheque); });
+      });
+    });
+  }
+
+  function venderCheque(numero) {
+    ventana('<h3>Vender un cheque regalo</h3>' +
+      '<p>Coge un cheque de papel, mira el número que lleva impreso y apúntalo aquí con el importe que te paguen.</p>' +
+      '<input class="campo" id="vNum" placeholder="Número del cheque (0007)" inputmode="numeric" autocomplete="off" value="' + esc(numero || "") + '">' +
+      '<input class="campo" id="vImp" placeholder="Importe en euros (50)" inputmode="decimal" autocomplete="off">' +
+      '<input class="campo chico" id="vPara" placeholder="Para quién es (si quieres)" autocomplete="off">' +
+      '<input class="campo chico" id="vDe" placeholder="Quién lo compra (si quieres)" autocomplete="off">' +
+      '<p style="margin-top:8px">Acuérdate de cobrarlo también en el ticket, como una venta normal.</p>',
+      [["Apuntar el cheque", "", function () {
+        var imp = Math.round(parseFloat(($("vImp").value || "").replace(",", ".")) * 100) / 100;
+        if (!imp || imp <= 0) { $("vImp").focus(); aviso("Falta el importe"); return; }
+        api("/api/cheque/vender", { numero: $("vNum").value, importe: imp,
+                                    para: $("vPara").value.trim(), departe: $("vDe").value.trim() })
+          .then(function (x) {
+            aviso("Cheque Nº " + x.cheque.numero + " apuntado");
+            cargarCheques(); pantallaCheques();
+          }).catch(function (e) { aviso(e.message, 5000); });
+      }], ["Atrás", "suave", pantallaCheques]], false, "dos");
+    $("vNum").focus();
+  }
+
+  function verCheque(numero) {
+    api("/api/cheque?numero=" + encodeURIComponent(numero || "")).then(function (c) {
+      var gastado = c.estado === "gastado";
+      ventana('<h3>Cheque Nº ' + esc(c.numero) + '</h3>' +
+        '<div class="grande">' + euros(c.importe) + '</div>' +
+        '<p style="text-align:center;color:' + (gastado ? 'var(--rojo)' : 'inherit') + '"><b>' +
+        (gastado ? 'YA SE GASTÓ el ' + fechaCorta(c.gastado) : 'Sin gastar: vale') + '</b></p>' +
+        '<p>Vendido el ' + fechaCorta(c.fecha) + (c.para ? ' · para ' + esc(c.para) : "") +
+        (c.departe ? ' · de parte de ' + esc(c.departe) : "") + '</p>' +
+        (gastado ? '<p>Si te traen otro con este mismo número, es una copia.</p>' : ""),
+        [gastado ? ["Estaba mal: aún no se ha gastado", "claro", function () {
+            api("/api/cheque/deshacer", { numero: c.numero }).then(function () { verCheque(c.numero); }).catch(function (e) { aviso(e.message); });
+          }]
+         : ["Lo gasta ahora", "", function () {
+            api("/api/cheque/gastar", { numero: c.numero }).then(function () {
+              aviso("Cheque Nº " + c.numero + " marcado como gastado");
+              cargarCheques(); pantallaCheques();
+            }).catch(function (e) { aviso(e.message, 5000); });
+          }],
+         ["Borrar este cheque", "peligro", function () { pedirPin(function (pin) {
+            api("/api/cheque/borrar", { numero: c.numero, pin: pin })
+              .then(function () { aviso("Borrado"); pantallaCheques(); })
+              .catch(function (e) { aviso(e.message); });
+          }); }],
+         ["Atrás", "suave", pantallaCheques]], false, "dos");
+    }).catch(function (e) {
+      ventana('<h3>Cuidado</h3><p style="color:var(--rojo)"><b>' + esc(e.message) + '</b></p>' +
+        '<p>Un cheque de verdad siempre está en esta lista. Si no está, no lo aceptes sin preguntar.</p>',
+        [["Atrás", "suave", pantallaCheques]]);
+    });
+  }
+
+  $("cheques").addEventListener("click", function () { pantallaCheques(); });
 
   // ---------- ultimo ticket ----------
   // Un ticket cualquiera, con sus precios: lo usan «Último ticket», «Buscar
@@ -748,6 +846,7 @@
     CFG = c; pintarFamilias(); pintarPrecio(); pintarLineas();
     pintarImpresora(c.impresora);
     cargarPruebas();
+    cargarCheques();
   }).catch(function () { aviso("No encuentro el programa de la caja (caja.py)"); });
 })();
 </script>
