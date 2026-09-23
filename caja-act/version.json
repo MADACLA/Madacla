@@ -1,8 +1,8 @@
 {
-  "version": 2,
+  "version": 3,
   "ficheros": {
-    "caja.py": "d5475c65f82d233b3038ebc84f5f3c9770443756e77a509f5a289e8fb1c1da43",
-    "pantalla.html": "277429b6079cda297ba943692475f74459b3c156c92468a255dbc9dd949b0465",
+    "caja.py": "7bfbc7dc7a0a50f8d7007bd8aeebbf2d6e02baa56252426b91ff57099f509580",
+    "pantalla.html": "8c8fcbcb878f8262f322295fc21020258ac5951d734ac3ad448f24efef4d37e5",
     "logo.png": "a4c72c9ac69d3ae05ba2cb5e833f0ddf9adc28fc10b4b4ba4d6b85614f760f54",
     "logo-ticket.bin": "e62c4abf25986292d12715231f3b2bd43c012bab632d1fdb7a54572514bed032"
   }
