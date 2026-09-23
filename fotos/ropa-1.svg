@@ -1,6 +1,0 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 900 1100" width="900" height="1100" role="img" aria-label="Ropa">
-  <rect width="900" height="1100" fill="#B5A18C"/>
-  <rect x="22" y="22" width="856" height="1056" rx="6" fill="none" stroke="#FAF6F0" stroke-opacity=".5"/>
-  <text x="50%" y="47%" text-anchor="middle" font-family="Georgia, serif" font-size="30" fill="#FAF6F0" fill-opacity=".95">Ropa</text>
-  <text x="50%" y="47%" dy="34" text-anchor="middle" font-family="Helvetica, Arial, sans-serif" font-size="12" letter-spacing="4" fill="#FAF6F0" fill-opacity=".65">FOTO DE MUESTRA</text>
-</svg>
