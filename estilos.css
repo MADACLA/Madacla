@@ -430,8 +430,31 @@ a { color: var(--cacao); }
 @media (min-width: 720px) {
   .filtros { position: sticky; top: var(--barra-alto, 68px); z-index: 40; }
 }
+/* La tira de apartados del catalogo. Claudia (2026-09-29): «a las clientas
+   les cuesta ver lo de las categorias, y en el movil todo se come mucho el
+   espacio». En el movil los botones NO se apilan (eran seis filas mas las
+   pastillas: media pantalla): van en una sola fila que se desliza con el
+   dedo, como Zara o Mango. En escritorio siguen envolviendose. */
+.filtros__tira { flex-basis: 100%; display: flex; flex-wrap: wrap; gap: var(--e-2); }
+
 @media (max-width: 719px) {
-  .filtro { min-height: 38px; font-size: .68rem; padding: 0 var(--e-4); }
+  .filtro { min-height: 36px; font-size: .66rem; padding: 0 var(--e-3); }
+  .filtros { margin-bottom: var(--e-5); padding: var(--e-2) 0; }
+  .filtros__tira,
+  .subfiltros {
+    flex-wrap: nowrap;
+    overflow-x: auto;
+    scrollbar-width: none;
+    -webkit-overflow-scrolling: touch;
+    /* De borde a borde de la pantalla, que se vea que hay mas a la derecha. */
+    margin-inline: calc(-1 * var(--e-4));
+    padding-inline: var(--e-4);
+  }
+  .filtros__tira::-webkit-scrollbar,
+  .subfiltros::-webkit-scrollbar { display: none; }
+  .filtro, .subfiltro { flex: none; white-space: nowrap; }
+  .subfiltros { padding-top: var(--e-2); padding-bottom: 2px; }
+  .buscar { min-height: 40px; margin-bottom: var(--e-2); }
 }
 
 /* El buscador del catalogo (Claudia, 2026-09-10): primera fila de la tira
