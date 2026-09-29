@@ -50,16 +50,19 @@
          estamos» e «Instagram», que en escritorio se ocultan (ya estan en
          el menu). -->
   <nav class="barra__cats" aria-label="Apartados">
+    <!-- El orden lo dio Claudia (2026-09-29): ropa, bolsos y complementos,
+         zapatos, bisuteria, bando, ropa interior de mujer y de hombre.
+         Pijamas y «hombre» van detras, y solo si hay algo publicado. -->
     <a href="#catalogo" data-filtro="ropa">Ropa</a>
-    <a href="#catalogo" data-filtro="bolsos">Bolsos</a>
+    <a href="#catalogo" data-filtro="bolsos">Bolsos y complementos</a>
     <a href="#catalogo" data-filtro="zapatos">Zapatos</a>
     <a href="#catalogo" data-filtro="bisuteria">Bisutería</a>
     <!-- Bando de la Huerta (2026-09-22): «Bando» donde el nombre largo no cabe. -->
     <a href="#catalogo" data-filtro="bando" data-si-hay="bando">Bando</a>
+    <a href="#catalogo" data-filtro="interior" data-si-hay="interior">Ropa interior mujer</a>
+    <a href="#catalogo" data-filtro="interiorhombre" data-si-hay="interiorhombre">Ropa interior hombre</a>
     <a href="#catalogo" data-filtro="pijamas" data-si-hay="pijamas">Pijamas</a>
-    <a href="#catalogo" data-filtro="interior" data-si-hay="interior">Ropa interior</a>
     <a href="#catalogo" data-filtro="hombre" data-si-hay="hombre">Hombre</a>
-    <a href="#catalogo" data-filtro="interiorhombre" data-si-hay="interiorhombre">Interior hombre</a>
     <a href="#visitanos" class="solo-movil">Dónde estamos</a>
     <a href="https://instagram.com/maricarmennortes_" target="_blank" rel="noopener" class="solo-movil solo-movil--instagram">Instagram</a>
   </nav>
@@ -280,18 +283,25 @@
         <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><circle cx="11" cy="11" r="7"/><path d="M20 20l-3.5-3.5"/></svg>
         <input id="buscar" type="search" placeholder="Busca: vestido negro, bandolera…" autocomplete="off" aria-label="Buscar en el catálogo">
       </label>
-      <button class="filtro is-activo" data-cat="todo">Todo</button>
-      <!-- Lo subido en los ultimos 7 dias. Solo se ve si hay algo. -->
-      <button class="filtro filtro--nuevo" data-cat="nuevo" hidden>Nuevo esta semana</button>
-      <button class="filtro" data-cat="ropa">Ropa</button>
-      <button class="filtro" data-cat="bolsos">Bolsos</button>
-      <button class="filtro" data-cat="zapatos">Zapatos</button>
-      <button class="filtro" data-cat="bisuteria">Bisutería</button>
-      <button class="filtro" data-cat="bando" data-si-hay="bando">Bando</button>
-      <button class="filtro" data-cat="pijamas" data-si-hay="pijamas">Pijamas y casa</button>
-      <button class="filtro" data-cat="interior" data-si-hay="interior">Ropa interior</button>
-      <button class="filtro" data-cat="hombre" data-si-hay="hombre">Hombre</button>
-      <button class="filtro" data-cat="interiorhombre" data-si-hay="interiorhombre">Interior hombre</button>
+      <!-- Claudia (2026-09-29): «a las clientas les cuesta ver lo de las
+           categorias; en el movil todo se come mucho el espacio». Los
+           botones ya no se apilan en seis filas: van en UNA tira que se
+           desliza con el dedo, como en Zara o Mango. En escritorio siguen
+           como estaban. El orden es el que ella pidio. -->
+      <div class="filtros__tira" id="filtros-tira">
+        <button class="filtro is-activo" data-cat="todo">Todo</button>
+        <!-- Lo subido en los ultimos 7 dias. Solo se ve si hay algo. -->
+        <button class="filtro filtro--nuevo" data-cat="nuevo" hidden>Nuevo esta semana</button>
+        <button class="filtro" data-cat="ropa">Ropa</button>
+        <button class="filtro" data-cat="bolsos">Bolsos y complementos</button>
+        <button class="filtro" data-cat="zapatos">Zapatos</button>
+        <button class="filtro" data-cat="bisuteria">Bisutería</button>
+        <button class="filtro" data-cat="bando" data-si-hay="bando">Bando</button>
+        <button class="filtro" data-cat="interior" data-si-hay="interior">Ropa interior mujer</button>
+        <button class="filtro" data-cat="interiorhombre" data-si-hay="interiorhombre">Ropa interior hombre</button>
+        <button class="filtro" data-cat="pijamas" data-si-hay="pijamas">Pijamas y casa</button>
+        <button class="filtro" data-cat="hombre" data-si-hay="hombre">Hombre</button>
+      </div>
       <!-- Las pastillas de subcategoria (Todo · Vestidos · Camisetas...):
            las pinta el JS segun el apartado elegido, solo las que tengan
            3 productos o mas. -->

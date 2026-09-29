@@ -440,8 +440,11 @@ a { color: var(--cacao); }
 @media (max-width: 719px) {
   .filtro { min-height: 36px; font-size: .66rem; padding: 0 var(--e-3); }
   .filtros { margin-bottom: var(--e-5); padding: var(--e-2) 0; }
-  .filtros__tira,
-  .subfiltros {
+  /* Con `.filtros` delante a proposito: la regla suelta de `.subfiltros`
+     esta mas abajo en el fichero y, sin esto, gana ella y las pastillas
+     vuelven a apilarse en tres filas. */
+  .filtros .filtros__tira,
+  .filtros .subfiltros {
     flex-wrap: nowrap;
     overflow-x: auto;
     scrollbar-width: none;
@@ -450,10 +453,10 @@ a { color: var(--cacao); }
     margin-inline: calc(-1 * var(--e-4));
     padding-inline: var(--e-4);
   }
-  .filtros__tira::-webkit-scrollbar,
-  .subfiltros::-webkit-scrollbar { display: none; }
+  .filtros .filtros__tira::-webkit-scrollbar,
+  .filtros .subfiltros::-webkit-scrollbar { display: none; }
   .filtro, .subfiltro { flex: none; white-space: nowrap; }
-  .subfiltros { padding-top: var(--e-2); padding-bottom: 2px; }
+  .filtros .subfiltros { padding-top: var(--e-2); padding-bottom: 2px; }
   .buscar { min-height: 40px; margin-bottom: var(--e-2); }
 }
 
