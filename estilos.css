@@ -1919,3 +1919,11 @@ a { color: var(--cacao); }
 }
 .avisos__boton::before { content: "🔔"; margin-right: 8px; }
 .avisos__boton:hover { background: var(--crema); border-color: var(--cacao-700); }
+
+/* A quien ya nos tiene en la pantalla de inicio se le enseña en un cuadro,
+   no de pasada: es la que de verdad puede recibir avisos (2026-09-30). */
+.avisos--destacado {
+  background: var(--arena); border: 1px solid var(--lino);
+  padding: var(--e-4); margin-top: var(--e-4);
+}
+.avisos--destacado .avisos__boton { margin-top: var(--e-3); }
