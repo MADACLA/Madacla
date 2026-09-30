@@ -1904,3 +1904,18 @@ a { color: var(--cacao); }
   .ponme__caja { transition: opacity .2s linear; transform: none; }
   .ponme--fuera .ponme__caja { transform: none; }
 }
+
+/* Avisos de novedades al móvil (Claudia, 2026-09-29). Va debajo de
+   «Todo lo que hay ahora en la tienda», sin gritar: quien lo quiera lo ve,
+   y a quien no le interese no le estorba. */
+.avisos { margin-top: var(--e-3); }
+.avisos__texto { font-size: .82rem; color: var(--taupe); }
+.avisos__boton {
+  font-family: var(--sans); font-size: .72rem; letter-spacing: .14em;
+  text-transform: uppercase; color: var(--cacao-700);
+  min-height: 40px; padding: 0 var(--e-5);
+  border: 1px solid var(--oro); border-radius: 999px;
+  background: rgba(255, 255, 255, .6); cursor: pointer; transition: all .2s;
+}
+.avisos__boton::before { content: "🔔"; margin-right: 8px; }
+.avisos__boton:hover { background: var(--crema); border-color: var(--cacao-700); }
