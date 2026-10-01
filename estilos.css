@@ -960,6 +960,15 @@ a { color: var(--cacao); }
   pointer-events: none;
 }
 @media (max-width: 719px) { .pieza__cartel { font-size: .6rem; padding: 5px 9px; } }
+/* El de TALLAS, en rojo (Claudia, 2026-10-01: «que sea en rojo, que se vea
+   desde fuera»). Granate de la casa con letra crema: se lee sobre
+   cualquier foto y canta mucho más que el crema con filo dorado. */
+.pieza__cartel--rojo, .ficha__cartel--rojo {
+  background: var(--rojo);
+  border-color: var(--rojo);
+  color: var(--crema);
+  font-weight: 600;
+}
 /* En la ficha, el mismo cartelito sobre la foto grande. */
 .ficha__cartel {
   position: absolute; top: var(--e-4); right: var(--e-4);
