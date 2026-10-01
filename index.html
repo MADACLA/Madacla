@@ -2754,6 +2754,13 @@
         var encima = foto.cloneNode(false);
         encima.className = (foto.className + " entrando").trim();
         encima.removeAttribute("style");
+        // El zoom lentisimo de la de debajo esta a mitad de camino: si la
+        // nueva entra a tamaño 1, al quitarse la de arriba la foto «salta»
+        // y parece que se reencuadra sola (Claudia, 2026-10-01). Se le
+        // copia el zoom exacto que tiene la de debajo AHORA.
+        var ahora = getComputedStyle(foto);
+        if (ahora.scale && ahora.scale !== "none") encima.style.scale = ahora.scale;
+        else if (ahora.transform && ahora.transform !== "none") encima.style.transform = ahora.transform;
         if (cual.srcset) encima.srcset = cual.srcset; else encima.removeAttribute("srcset");
         encima.src = cual.src;
         encima.alt = cual.alt || "";

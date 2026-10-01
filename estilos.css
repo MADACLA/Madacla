@@ -731,17 +731,19 @@ a { color: var(--cacao); }
   to { opacity: 1; transform: none; }
 }
 
-/* El escaparate: las fotos van apareciendo una detrás de otra y respiran
-   con un zoom lentísimo QUE NO PARA (Claudia, 2026-08-31: «como Bershka»).
-   El retardo negativo desacompasa los tres huecos: cada uno va a su ritmo. */
+/* El escaparate: las fotos van apareciendo una detrás de otra.
+   TENÍAN un zoom lentísimo que no paraba («como Bershka», 2026-08-31),
+   pero se quitó el 2026-10-01: Claudia veía que la foto nueva entraba y
+   «al segundo se encuadraba bien». Era eso: la de debajo estaba a mitad
+   de su zoom y, al relevarse, la imagen daba un salto. Ahora las fotos
+   están quietas y solo se funden al cambiar; el movimiento lo pone el
+   fundido y el parallax al bajar. */
 .js .escaparate__foto img {
   opacity: 0;
-  animation: foto-entra .9s ease-out calc(var(--i, 0) * 110ms) forwards,
-             foto-vive 18s ease-in-out calc(var(--i, 0) * -6s) infinite alternate;
+  animation: foto-entra .9s ease-out calc(var(--i, 0) * 110ms) forwards;
 }
 .js .escaparate__foto:first-child img {
-  animation: foto-entra 1.2s ease-out forwards,
-             foto-vive 18s ease-in-out infinite alternate;
+  animation: foto-entra 1.2s ease-out forwards;
 }
 /* Cuando el JS empieza a rotar las fotos, quita foto-entra (su fill
    forwards clavaba la opacidad y el fundido no podía con él) y deja el
@@ -749,12 +751,10 @@ a { color: var(--cacao); }
    y los mismos números, así el navegador no la reinicia y no da saltos. */
 .js .escaparate__foto img.vive {
   opacity: 1;
-  animation: foto-vive 18s ease-in-out calc(var(--i, 0) * -6s) infinite alternate;
+  animation: none;
   transition: opacity .85s var(--suave);
 }
-.js .escaparate__foto:first-child img.vive {
-  animation: foto-vive 18s ease-in-out infinite alternate;
-}
+.js .escaparate__foto:first-child img.vive { animation: none; }
 .js .escaparate__foto img.vive.se-va { opacity: 0; }
 
 /* El relevo de las fotos del escaparate (Claudia, 2026-10-01: «cuando
@@ -767,12 +767,18 @@ a { color: var(--cacao); }
 .js .escaparate__foto img.entrando {
   position: absolute; inset: 0;
   width: 100%; height: 100%; object-fit: cover; object-position: center 40%;
-  opacity: 0; scale: 1.045;
-  transition: opacity 1.15s var(--suave), scale 1.6s var(--suave);
+  opacity: 0;
+  transition: opacity 1.15s var(--suave);
   will-change: opacity;
   animation: none;                  /* el vaiven lo lleva la de debajo */
 }
-.js .escaparate__foto img.entrando.puesta { opacity: 1; scale: 1; }
+.js .escaparate__foto img.entrando.puesta { opacity: 1; }
+/* OJO: la foto que entra NO lleva zoom propio. Claudia (2026-10-01):
+   «¿por qué se ponen y al segundo se encuadran bien? ponlo ya encuadrado».
+   Entraba un poco mas grande y se asentaba, y ademas la de debajo esta a
+   mitad de su zoom lentisimo: al quitarse la de arriba, saltaba. Ahora el
+   JS le copia a la de arriba el zoom EXACTO que tiene la de debajo en ese
+   momento, asi que entra ya encuadrada y al relevarse no se mueve nada. */
 @keyframes foto-entra { to { opacity: 1; } }
 @keyframes foto-vive { from { scale: 1; } to { scale: 1.055; } }
 
@@ -818,24 +824,24 @@ a { color: var(--cacao); }
 
 @supports (animation-timeline: view()) {
   .escaparate__foto:first-child img {
-    animation-name: foto-entra, foto-vive, foto-parallax;
-    animation-duration: 1.2s, 18s, auto;
-    animation-timing-function: ease-out, ease-in-out, linear;
-    animation-iteration-count: 1, infinite, 1;
-    animation-direction: normal, alternate, normal;
-    animation-fill-mode: forwards, none, both;
-    animation-timeline: auto, auto, view();
-    animation-range: normal, normal, exit 0% exit 100%;
-  }
-  .js .escaparate__foto:first-child img.vive {
-    animation-name: foto-vive, foto-parallax;
-    animation-duration: 18s, auto;
-    animation-timing-function: ease-in-out, linear;
-    animation-iteration-count: infinite, 1;
-    animation-direction: alternate, normal;
-    animation-fill-mode: none, both;
+    animation-name: foto-entra, foto-parallax;
+    animation-duration: 1.2s, auto;
+    animation-timing-function: ease-out, linear;
+    animation-iteration-count: 1, 1;
+    animation-direction: normal, normal;
+    animation-fill-mode: forwards, both;
     animation-timeline: auto, view();
     animation-range: normal, exit 0% exit 100%;
+  }
+  .js .escaparate__foto:first-child img.vive {
+    animation-name: foto-parallax;
+    animation-duration: auto;
+    animation-timing-function: linear;
+    animation-iteration-count: 1;
+    animation-direction: normal;
+    animation-fill-mode: both;
+    animation-timeline: view();
+    animation-range: exit 0% exit 100%;
   }
   .siempre__fondo {
     animation: fondo-parallax linear both;
