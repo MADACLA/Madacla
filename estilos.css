@@ -308,6 +308,8 @@ a { color: var(--cacao); }
   border: 0; background: none; cursor: pointer;
   overflow: hidden;
   border-radius: var(--radio);
+  /* Para que la foto que entra se pueda poner ENCIMA de la que sale. */
+  position: relative;
 }
 .escaparate__foto img {
   width: 100%; height: 100%;
@@ -754,6 +756,23 @@ a { color: var(--cacao); }
   animation: foto-vive 18s ease-in-out infinite alternate;
 }
 .js .escaparate__foto img.vive.se-va { opacity: 0; }
+
+/* El relevo de las fotos del escaparate (Claudia, 2026-10-01: «cuando
+   cambian está como en blanco unos segundos; ponme una transición más
+   chula»). Antes la foto se desvanecía del todo, se cambiaba el src y
+   volvía a aparecer: entre medias se veía el fondo crema casi dos
+   segundos. Ahora la nueva se dibuja ENCIMA, ya descargada, y entra
+   fundiéndose con un empujoncito de zoom; la de debajo no se mueve hasta
+   que la de arriba está puesta, así que no hay hueco en blanco. */
+.js .escaparate__foto img.entrando {
+  position: absolute; inset: 0;
+  width: 100%; height: 100%; object-fit: cover; object-position: center 40%;
+  opacity: 0; scale: 1.045;
+  transition: opacity 1.15s var(--suave), scale 1.6s var(--suave);
+  will-change: opacity;
+  animation: none;                  /* el vaiven lo lleva la de debajo */
+}
+.js .escaparate__foto img.entrando.puesta { opacity: 1; scale: 1; }
 @keyframes foto-entra { to { opacity: 1; } }
 @keyframes foto-vive { from { scale: 1; } to { scale: 1.055; } }
 
@@ -960,6 +979,7 @@ a { color: var(--cacao); }
   }
   .js .revela { transform: none; transition-duration: .2s; transition-delay: 0s; }
   .js .escaparate__foto img.vive { animation: none; opacity: 1; transition: none; }
+  .js .escaparate__foto img.entrando { transition: none; scale: 1; opacity: 1; }
   .baja__hilo::after { animation: none; opacity: 0; }
   .baja__punta { animation: none; }
   .cinta__pista { animation: none; }
