@@ -961,12 +961,17 @@ a { color: var(--cacao); }
 }
 @media (max-width: 719px) { .pieza__cartel { font-size: .6rem; padding: 5px 9px; } }
 /* El de TALLAS, en rojo (Claudia, 2026-10-01: «que sea en rojo, que se vea
-   desde fuera»). Granate de la casa con letra crema: se lee sobre
-   cualquier foto y canta mucho más que el crema con filo dorado. */
+   desde fuera»). Primero se hizo rojo macizo, pero ella misma lo cazó: era
+   igual que el de VENDIDO, «y vendido interesa»; lo quiere «en un tono más
+   claro, a modo un poco translúcido». Así que: cristal crema con las
+   letras en rojo y un filo rojo fino. Se sigue viendo de lejos, pero el
+   VENDIDO —rojo macizo— sigue mandando. */
 .pieza__cartel--rojo, .ficha__cartel--rojo {
-  background: var(--rojo);
-  border-color: var(--rojo);
-  color: var(--crema);
+  background: rgba(250, 246, 240, .78);
+  -webkit-backdrop-filter: blur(3px);
+  backdrop-filter: blur(3px);
+  border-color: rgba(168, 36, 31, .55);
+  color: var(--rojo);
   font-weight: 600;
 }
 /* En la ficha, el mismo cartelito sobre la foto grande. */
