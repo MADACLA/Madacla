@@ -1110,6 +1110,28 @@ a { color: var(--cacao); }
 .paso p { margin: 0; color: var(--taupe); font-size: var(--t--1); }
 .pasos__boton { margin-top: var(--e-7); }
 
+/* --- Envíos (Claudia, 2026-10-01) --- */
+/* La franja fina de arriba del todo: que se vea al entrar que se envía. */
+.franja-envios {
+  display: block; padding: 7px var(--margen);
+  background: var(--arena); border-bottom: 1px solid var(--lino);
+  color: var(--cacao); text-align: center; text-decoration: none;
+  font-size: .72rem; letter-spacing: .12em; text-transform: uppercase;
+}
+.franja-envios:hover { background: var(--lino); }
+/* «Envíos y devoluciones»: dato a la izquierda, explicación a la derecha. */
+.envios__lista { margin: 0; display: grid; gap: var(--e-5); max-width: 62rem; }
+.envios__lista > div { padding-top: var(--e-4); border-top: 1px solid var(--oro); }
+.envios__lista dt {
+  font-family: var(--serif); font-size: var(--t-1); color: var(--cacao);
+  margin-bottom: var(--e-1);
+}
+.envios__lista dd { margin: 0; color: var(--taupe); }
+.envios__lista b { color: var(--cacao); font-weight: 500; }
+@media (min-width: 720px) {
+  .envios__lista > div { display: grid; grid-template-columns: 14rem 1fr; gap: var(--e-5); }
+}
+
 /* --- Botón flotante de WhatsApp (verde oficial, logo sin recolorear) --- */
 .flotante {
   position: fixed; right: var(--e-5); bottom: var(--e-5); z-index: 60;
@@ -1901,6 +1923,12 @@ a { color: var(--cacao); }
 
 /* El boton de guardar de la ficha, debajo del de WhatsApp. */
 .ficha__guardar { width: 100%; margin-top: var(--e-3); cursor: pointer; }
+/* «Comprar» y «Pregúntame» uno al lado del otro (2026-10-01). */
+.ficha__dos { display: grid; grid-template-columns: 1fr 1.6fr; gap: var(--e-3); }
+.ficha__dos .boton { padding: 0 var(--e-3); text-align: center; line-height: 1.25; }
+.ficha__comprar[hidden] { display: none; }
+.ficha__dos:has(.ficha__comprar[hidden]) { grid-template-columns: 1fr; }
+.ficha__nota a { color: var(--cacao); }
 .ficha__guardar.is-dentro {
   background: var(--arena); border-color: var(--oro); color: var(--cacao);
 }
