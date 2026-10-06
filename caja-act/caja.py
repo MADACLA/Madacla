@@ -44,7 +44,7 @@ from datetime import datetime, date
 from http.server import ThreadingHTTPServer, BaseHTTPRequestHandler
 from pathlib import Path
 from urllib.parse import urlparse, parse_qs
-from urllib.request import urlopen
+from urllib.request import Request, urlopen
 
 AQUI = Path(__file__).resolve().parent
 CONFIG = AQUI / "config.json"
@@ -584,6 +584,126 @@ def hacer_copia() -> dict:
     apuntar(f"[copia] {destino.name}" + (" + Drive" if en_drive else " (Drive no configurado)"))
     return {"ok": True, "fichero": destino.name, "drive": en_drive,
             "cuando": datetime.now().strftime("%H:%M")}
+
+
+# ---------------------------------------------------------------------------
+# RESCATE DE LAS HOJAS DE «SE LO LLEVA A PROBAR» (2026-10-06)
+#
+# Claudia: «mi madre me manda una foto: en Pruebas en casa pone que no hay
+# nada fuera, y ella tiene cosas apuntadas. Como ya no lo hace en la
+# libreta, ha perdido esa lista». Su madre esta sola en la tienda y no va a
+# poder hacer pasos en el ordenador, asi que lo hace la caja sola al
+# arrancar, por el mismo camino con el que se actualiza.
+#
+# QUE HACE Y QUE NO:
+#   - Compara las hojas de ahora con las de las copias de copias/.
+#   - Si en una copia hay hojas ABIERTAS que aqui ya no estan (alguien las
+#     borro), las devuelve: solo toca `prestamos` y `prestamo_lineas`, y
+#     antes guarda una copia del fichero entero.
+#   - Lo que esta CERRADO no se toca NUNCA: puede estar cerrado con razon
+#     (devuelto o pagado de verdad). Eso solo se cuenta en el informe.
+#   - Manda un informe a la torre de Claudia por la Tailscale. Si no llega,
+#     da igual: queda apuntado en registro-caja.txt.
+#   - Todo va en un hilo y entre try/except: si algo falla, la caja arranca
+#     igual y se puede cobrar como siempre.
+# ---------------------------------------------------------------------------
+TORRE = os.environ.get("CAJA_TORRE", "http://100.94.102.78:8790/buzon/caja-aviso")
+
+
+def _hojas(ruta: Path) -> list[dict]:
+    con = sqlite3.connect(f"file:{ruta}?mode=ro", uri=True)
+    con.row_factory = sqlite3.Row
+    try:
+        return [dict(f) for f in con.execute(
+            "SELECT id, fecha, hora, nombre, nota, estado, cerrado FROM prestamos")]
+    finally:
+        con.close()
+
+
+def _llave(h: dict) -> tuple:
+    return (h["fecha"], h["hora"], (h["nombre"] or "").strip().lower())
+
+
+def revisar_pruebas() -> dict:
+    """Mira si faltan hojas y, si se borraron, las devuelve."""
+    if not DB.exists() or not COPIAS.exists():
+        return {"ok": False, "motivo": "sin base o sin copias"}
+    ahora = _hojas(DB)
+    tengo = {_llave(h) for h in ahora}
+    abiertas = [h for h in ahora if h["estado"] == "abierto"]
+    cerradas = [h for h in ahora if h["estado"] != "abierto"]
+
+    mejor, faltan = None, []
+    for copia in sorted(COPIAS.glob("ventas-*.sqlite"), reverse=True):
+        try:
+            viejas = [h for h in _hojas(copia)
+                      if h["estado"] == "abierto" and _llave(h) not in tengo]
+        except Exception:
+            continue
+        if len(viejas) > len(faltan):
+            mejor, faltan = copia, viejas
+
+    informe = {"version": VERSION, "cuando": datetime.now().isoformat(timespec="seconds"),
+               "abiertas": len(abiertas), "cerradas": len(cerradas),
+               "faltan": len(faltan), "copia": mejor.name if mejor else None,
+               "ultimas_cerradas": [
+                   {"fecha": h["fecha"], "nombre": h["nombre"], "cerrado": h["cerrado"]}
+                   for h in sorted(cerradas, key=lambda x: x["cerrado"] or "",
+                                   reverse=True)[:10]],
+               "recuperadas": []}
+
+    if faltan and mejor:
+        respaldo = DATOS / f"ventas-antes-del-rescate-{datetime.now():%Y%m%d-%H%M%S}.sqlite"
+        shutil.copy2(DB, respaldo)
+        vieja = sqlite3.connect(f"file:{mejor}?mode=ro", uri=True)
+        vieja.row_factory = sqlite3.Row
+        with _cerrojo_db, conectar() as con:
+            for h in faltan:
+                lineas = vieja.execute(
+                    "SELECT orden, familia, importe, estado, ticket FROM prestamo_lineas "
+                    "WHERE prestamo_id = ? ORDER BY orden", (h["id"],)).fetchall()
+                cur = con.execute(
+                    "INSERT INTO prestamos (fecha, hora, nombre, nota, estado, cerrado) "
+                    "VALUES (?,?,?,?,?,?)",
+                    (h["fecha"], h["hora"], h["nombre"], h["nota"], h["estado"], h["cerrado"]))
+                for l in lineas:
+                    con.execute(
+                        "INSERT INTO prestamo_lineas (prestamo_id, orden, familia, "
+                        "importe, estado, ticket) VALUES (?,?,?,?,?,?)",
+                        (cur.lastrowid, l["orden"], l["familia"], l["importe"],
+                         l["estado"], l["ticket"]))
+                informe["recuperadas"].append(f"{h['fecha']} {h['nombre']}")
+        vieja.close()
+        informe["respaldo"] = respaldo.name
+        apuntar(f"[rescate] devueltas {len(faltan)} hoja(s) desde {mejor.name}")
+    else:
+        apuntar(f"[rescate] nada que devolver (abiertas {len(abiertas)}, "
+                f"cerradas {len(cerradas)})")
+    return informe
+
+
+def contar_a_la_torre(informe: dict) -> None:
+    try:
+        datos = json.dumps(informe, ensure_ascii=False).encode("utf-8")
+        peticion = Request(TORRE, data=datos, method="PUT",
+                           headers={"Content-Type": "application/json"})
+        with urlopen(peticion, timeout=15) as r:
+            r.read()
+        apuntar("[rescate] informe mandado a la torre")
+    except Exception as fallo:
+        apuntar(f"[rescate] no he podido avisar a la torre: {fallo}")
+
+
+def rescate_al_arrancar() -> None:
+    """Se lanza en un hilo: la caja no espera a esto para abrir."""
+    def ronda():
+        time.sleep(8)          # que la caja abra primero
+        try:
+            informe = revisar_pruebas()
+            contar_a_la_torre(informe)
+        except Exception as fallo:
+            apuntar(f"[rescate] fallo: {fallo}")
+    threading.Thread(target=ronda, daemon=True).start()
 
 
 ULTIMA_COPIA: dict = {}
@@ -1299,6 +1419,7 @@ def main() -> None:
         return
     quitar_marca_de_internet()
     preparar_db()
+    rescate_al_arrancar()      # 2026-10-06: las hojas de «probar en casa»
     vigilar_copias()
     vigilar_actualizaciones()
     puerto = int(CFG.get("puerto", 8791))
