@@ -143,6 +143,13 @@ CREATE TABLE IF NOT EXISTS prestamos (
     estado    TEXT NOT NULL DEFAULT 'abierto' CHECK (estado IN ('abierto', 'cerrado')),
     cerrado   TEXT
 );
+-- La papelera de las hojas borradas (2026-10-06): borrar no pierde nada.
+CREATE TABLE IF NOT EXISTS prestamos_papelera (
+    id      INTEGER PRIMARY KEY,
+    cuando  TEXT NOT NULL,
+    nombre  TEXT NOT NULL DEFAULT '',
+    datos   TEXT NOT NULL
+);
 CREATE TABLE IF NOT EXISTS prestamo_lineas (
     id          INTEGER PRIMARY KEY,
     prestamo_id INTEGER NOT NULL REFERENCES prestamos(id) ON DELETE CASCADE,
@@ -478,7 +485,20 @@ def vender_lineas(linea_ids: list, ticket: str) -> list[int]:
 
 
 def borrar_prestamo(pid: int) -> None:
+    """Borra una hoja, pero GUARDANDO UNA COPIA en la papelera.
+
+    Claudia (2026-10-06), despues del susto de las hojas desaparecidas:
+    «no puede pasar otra vez». El boton de borrar sigue igual de facil,
+    pero ya no se pierde nada: la hoja entera (con sus prendas) se guarda
+    en `prestamos_papelera` y de ahi se puede recuperar.
+    """
+    hoja = leer_prestamo(pid)
     with _cerrojo_db, conectar() as con:
+        if hoja:
+            con.execute(
+                "INSERT INTO prestamos_papelera (cuando, nombre, datos) VALUES (?,?,?)",
+                (datetime.now().isoformat(timespec="seconds"),
+                 hoja.get("nombre", ""), json.dumps(hoja, ensure_ascii=False)))
         con.execute("DELETE FROM prestamo_lineas WHERE prestamo_id = ?", (pid,))
         con.execute("DELETE FROM prestamos WHERE id = ?", (pid,))
 
@@ -694,13 +714,25 @@ def contar_a_la_torre(informe: dict) -> None:
         apuntar(f"[rescate] no he podido avisar a la torre: {fallo}")
 
 
+MARCA_RESCATE = DATOS / "rescate-hecho.txt"
+
+
 def rescate_al_arrancar() -> None:
-    """Se lanza en un hilo: la caja no espera a esto para abrir."""
+    """Se lanza en un hilo: la caja no espera a esto para abrir.
+
+    SOLO UNA VEZ. Si se repitiera en cada arranque, una hoja borrada a
+    proposito volveria a aparecer cada mañana, que es justo lo contrario de
+    lo que se quiere. Para eso esta ya la papelera.
+    """
+    if MARCA_RESCATE.exists():
+        return
     def ronda():
         time.sleep(8)          # que la caja abra primero
         try:
             informe = revisar_pruebas()
             contar_a_la_torre(informe)
+            MARCA_RESCATE.write_text(
+                datetime.now().isoformat(timespec="seconds"), encoding="utf-8")
         except Exception as fallo:
             apuntar(f"[rescate] fallo: {fallo}")
     threading.Thread(target=ronda, daemon=True).start()

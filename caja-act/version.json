@@ -1,7 +1,7 @@
 {
-  "version": 4,
+  "version": 5,
   "ficheros": {
-    "caja.py": "8712b339ea5e75c19c01f0ec85c8e03d99e977c6596c86096782d9eb09f1b9f9",
+    "caja.py": "805ab4d9747256b760935d4bca08a9da4f6609a28d6d3d0d65c9fd7bdf3131c0",
     "pantalla.html": "8c8fcbcb878f8262f322295fc21020258ac5951d734ac3ad448f24efef4d37e5",
     "logo.png": "a4c72c9ac69d3ae05ba2cb5e833f0ddf9adc28fc10b4b4ba4d6b85614f760f54",
     "logo-ticket.bin": "e62c4abf25986292d12715231f3b2bd43c012bab632d1fdb7a54572514bed032"
