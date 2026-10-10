@@ -78,7 +78,7 @@ body {
   color: var(--cacao);
   font-family: var(--sans);
   font-size: var(--t-0);
-  font-weight: 300;
+  font-weight: 400;
   line-height: 1.6;
   -webkit-font-smoothing: antialiased;
 }
@@ -111,7 +111,7 @@ a { color: var(--cacao); }
   font-family: var(--sans);
   text-transform: uppercase;
   letter-spacing: .14em;
-  font-weight: 400;
+  font-weight: 500;
 }
 
 /* Enlace de accesibilidad: solo se ve al navegar con el teclado */
@@ -370,7 +370,7 @@ a { color: var(--cacao); }
 
 .entradilla {
   font-size: var(--t-1);
-  font-weight: 300;
+  font-weight: 400;
   line-height: 1.5;
   color: var(--taupe);
   max-width: 40ch;
@@ -556,7 +556,7 @@ a { color: var(--cacao); }
    Se deja la regla por si algún día vuelve un título a la tarjeta. */
 .pieza h3 {
   font-family: var(--sans);
-  font-size: var(--t--1); font-weight: 400;
+  font-size: var(--t--1); font-weight: 500;
   letter-spacing: 0;
   margin: var(--e-3) 0 0;
 }
@@ -807,7 +807,7 @@ a { color: var(--cacao); }
 }
 .cinta__texto {
   font-family: var(--sans);
-  font-size: .72rem; font-weight: 400;
+  font-size: .72rem; font-weight: 500;
   text-transform: uppercase; letter-spacing: .24em;
   color: var(--taupe);
   padding-right: var(--e-6);
@@ -1724,7 +1724,7 @@ a { color: var(--cacao); }
   align-items: center;
   font-family: var(--sans);
   font-size: clamp(.86rem, .78rem + .4vw, 1.05rem);
-  font-weight: 400;
+  font-weight: 500;
   text-transform: uppercase;
   letter-spacing: .22em;
   color: var(--crema);
