@@ -525,28 +525,55 @@ a { color: var(--cacao); }
 .regalo-cabecera { display: none; }
 #catalogo.en-regalo { background: var(--nude); }
 #catalogo.en-regalo .regalo-cabecera {
-  display: block;
-  text-align: center;
-  max-width: 760px;
-  margin: var(--e-6) auto var(--e-7);
-  padding: var(--e-6) var(--e-5);
-  color: #F7EBD9;
-  background: linear-gradient(165deg, #7B1623 0%, #5E0F18 100%);
-  border: 1px solid rgba(216,185,120,.55);
-  border-radius: 20px;
-  box-shadow: 0 20px 44px rgba(70,18,24,.26);
+  display: block; max-width: 760px; margin: var(--e-6) auto var(--e-7);
 }
 .lazo { display: block; color: #D8B978; }
-.lazo--grande { width: 62px; margin: 0 auto var(--e-3); }
-.lazo--chico  { width: 40px; }
-.regalo-cabecera__titulo {
-  font-family: var(--serif); font-weight: 600;
-  font-size: var(--t-4); line-height: 1; margin: 0; color: #F7EBD9;
+.lazo--chico { width: 40px; }
+
+/* La PORTADA del apartado: un regalo envuelto — cinta granate en cruz con
+   «MADACLA» grabado, lazo, etiqueta de la tienda y «Ideas de regalo» con
+   brillo dorado (Claudia 2026-11-24). */
+.regalo-cover {
+  position: relative; overflow: hidden;
+  border-radius: 20px; border: 1px solid var(--lino);
+  background: radial-gradient(130% 120% at 72% 16%, #FCF8F2 0%, #F1E7DB 100%);
+  box-shadow: 0 18px 40px rgba(90,40,45,.14);
+  aspect-ratio: 16 / 11; min-height: 230px;
 }
-.regalo-cabecera__sub {
-  color: #EACBA2; font-size: var(--t-0);
-  margin: var(--e-3) 0 0; letter-spacing: .02em;
+.regalo-cover__cinta { position: absolute; overflow: hidden; background: linear-gradient(90deg, #5a0f17, #7a1c28 50%, #5a0f17); }
+.regalo-cover__cinta--v { top: -3%; bottom: -3%; left: 25%; width: 52px; box-shadow: 7px 0 16px rgba(60,10,15,.18), -7px 0 16px rgba(60,10,15,.18); }
+.regalo-cover__cinta--h { left: -3%; right: -3%; top: 39%; height: 52px; background: linear-gradient(180deg, #5a0f17, #7a1c28 50%, #5a0f17); box-shadow: 0 7px 16px rgba(60,10,15,.18), 0 -7px 16px rgba(60,10,15,.18); }
+.graba {
+  color: rgba(255,228,230,.17); text-transform: uppercase; letter-spacing: .34em;
+  font-family: var(--sans); font-weight: 600; font-size: 13px; white-space: nowrap;
+  text-shadow: 0 1px 0 rgba(0,0,0,.28);
 }
+.regalo-cover__cinta--h .graba { position: absolute; top: 50%; left: 4%; transform: translateY(-50%); }
+.regalo-cover__cinta--v .graba { position: absolute; left: 50%; top: 6%; transform: translateX(-50%); writing-mode: vertical-rl; }
+.regalo-cover__lazo { position: absolute; left: calc(25% + 26px); top: calc(39% + 26px); width: 168px; transform: translate(-50%, -52%); filter: drop-shadow(0 7px 11px rgba(60,10,15,.3)); }
+.regalo-cover__tag {
+  position: absolute; left: calc(25% + 26px); top: 39%; transform: translate(-6px, 36px) rotate(-7deg);
+  background: #FBF7F1; border: 1px solid var(--lino); border-radius: 5px 11px 11px 5px;
+  padding: 9px 14px; box-shadow: 0 9px 18px rgba(60,20,25,.2);
+  display: flex; flex-direction: column; gap: 3px;
+}
+.tag-linea { display: flex; align-items: baseline; gap: 7px; font-family: var(--serif); }
+.tag-linea > span { font-family: var(--sans); font-size: 11px; color: var(--taupe); text-transform: uppercase; letter-spacing: .14em; }
+.tag-linea b { font-size: 18px; color: #7B1623; }
+.tag-linea i { font-size: 15px; color: #7B1623; }
+.regalo-cover__titulo {
+  position: absolute; right: 5%; bottom: 7%; margin: 0; text-align: right;
+  font-family: var(--serif); font-weight: 600; line-height: .92; font-size: clamp(30px, 6.2vw, 50px);
+}
+.brillo {
+  background: linear-gradient(100deg, #7B1623 0%, #7B1623 40%, #E8C987 50%, #7B1623 60%, #7B1623 100%);
+  background-size: 250% 100%;
+  -webkit-background-clip: text; background-clip: text;
+  color: transparent; -webkit-text-fill-color: transparent;
+  animation: regalo-brillo 4s linear infinite;
+}
+@keyframes regalo-brillo { to { background-position: -250% 0; } }
+@media (prefers-reduced-motion: reduce) { .brillo { animation: none; color: #7B1623; -webkit-text-fill-color: #7B1623; } }
 .regalo-portada {
   display: grid; grid-template-columns: 1fr 1fr;
   gap: var(--e-4); margin-top: var(--e-6);
@@ -576,7 +603,10 @@ a { color: var(--cacao); }
   .regalo-portada { grid-template-columns: 1fr; gap: var(--e-3); }
   .regalo-tile { aspect-ratio: auto; padding: var(--e-5) var(--e-4); }
   .lazo--chico { width: 34px; }
-  #catalogo.en-regalo .regalo-cabecera { padding: var(--e-5) var(--e-4); }
+  .regalo-cover { aspect-ratio: 1 / 1; }
+  .regalo-cover__lazo { width: 132px; }
+  .regalo-cover__titulo { left: auto; right: 5%; bottom: 7%; width: 56%; font-size: clamp(25px, 8vw, 33px); line-height: 1.0; }
+  .regalo-cover__tag { transform: translate(-10px, 30px) rotate(-7deg) scale(.92); }
 }
 
 /* El boton de «Ver mas prendas», centrado bajo la rejilla. */
