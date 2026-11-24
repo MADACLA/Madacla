@@ -272,6 +272,16 @@ a { color: var(--cacao); }
 
 .boton--fuerte { background: var(--cacao-700); border-color: var(--cacao-700); color: var(--crema); }
 .boton--fuerte:hover { background: var(--cacao); border-color: var(--cacao); color: var(--crema); }
+/* Botón festivo de portada «Ideas de regalo · Navidad» (Claudia 2026-11-24):
+   granate con lazo dorado, a todo el ancho debajo de «Ver novedades». */
+.boton--regalo {
+  flex-basis: 100%;
+  display: inline-flex; align-items: center; justify-content: center; gap: .55em;
+  background: linear-gradient(165deg, #7B1623 0%, #5E0F18 100%);
+  border-color: #7B1623; color: #F7EBD9;
+}
+.boton--regalo:hover { background: #8d1b2a; border-color: #8d1b2a; color: #fff; transform: translateY(-1px); }
+.boton--regalo .lazo--btn { width: 22px; color: #D8B978; }
 
 /* ============ PORTADA ============ */
 
