@@ -574,9 +574,17 @@ a { color: var(--cacao); }
 }
 @keyframes regalo-brillo { to { background-position: -250% 0; } }
 @media (prefers-reduced-motion: reduce) { .brillo { animation: none; color: #7B1623; -webkit-text-fill-color: #7B1623; } }
+.regalo-pincha {
+  text-align: center; margin: var(--e-4) 0 var(--e-3);
+  font-family: var(--sans); font-size: .78rem; letter-spacing: .14em;
+  text-transform: uppercase; color: var(--oro-txt);
+}
+.regalo-pincha .flecha { display: inline-block; margin-left: 4px; animation: pincha-bounce 1.5s ease-in-out infinite; }
+@keyframes pincha-bounce { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(4px); } }
+@media (prefers-reduced-motion: reduce) { .regalo-pincha .flecha { animation: none; } }
 .regalo-portada {
   display: grid; grid-template-columns: 1fr 1fr;
-  gap: var(--e-4); margin-top: var(--e-6);
+  gap: var(--e-4); margin-top: 0;
 }
 .regalo-tile {
   appearance: none; -webkit-appearance: none; cursor: pointer;
@@ -604,12 +612,13 @@ a { color: var(--cacao); }
 /* En el movil, los dos cuadros se apilan (grandes y faciles de tocar). */
 @media (max-width: 560px) {
   .regalo-portada { grid-template-columns: 1fr; gap: var(--e-3); }
-  .regalo-tile { aspect-ratio: auto; padding: var(--e-5) var(--e-4); }
+  .regalo-tile { aspect-ratio: auto; padding: var(--e-4); }
   .lazo--chico { width: 34px; }
-  .regalo-cover { aspect-ratio: 1 / 1; }
-  .regalo-cover__lazo { width: 132px; }
-  .regalo-cover__titulo { left: auto; right: 5%; bottom: 7%; width: 56%; font-size: clamp(25px, 8vw, 33px); line-height: 1.0; }
-  .regalo-cover__tag { transform: translate(-10px, 30px) rotate(-7deg) scale(.92); }
+  .regalo-cover { aspect-ratio: 16 / 9; min-height: 0; }
+  .regalo-cover__lazo { width: 92px; transform: translate(-50%, -48%); }
+  .regalo-cover__cinta--v .graba, .regalo-cover__cinta--h .graba { font-size: 11px; letter-spacing: .2em; }
+  .regalo-cover__titulo { left: auto; right: 5%; bottom: 9%; width: 52%; font-size: clamp(21px, 6.6vw, 29px); line-height: 1.0; }
+  .regalo-cover__tag { transform: translate(-4px, 24px) rotate(-7deg) scale(.8); }
 }
 
 /* El boton de «Ver mas prendas», centrado bajo la rejilla. */
