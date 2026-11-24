@@ -276,12 +276,45 @@ a { color: var(--cacao); }
    granate con lazo dorado, a todo el ancho debajo de «Ver novedades». */
 .boton--regalo {
   flex-basis: 100%;
-  display: inline-flex; align-items: center; justify-content: center; gap: .55em;
+  position: relative; overflow: hidden;
+  display: inline-flex; align-items: center; justify-content: center;
   background: linear-gradient(165deg, #7B1623 0%, #5E0F18 100%);
   border-color: #7B1623; color: #F7EBD9;
 }
 .boton--regalo:hover { background: #8d1b2a; border-color: #8d1b2a; color: #fff; transform: translateY(-1px); }
 .boton--regalo .lazo--btn { width: 22px; color: #D8B978; }
+.regalo__txt { position: relative; z-index: 2; display: inline-flex; align-items: center; gap: .55em; }
+/* Brillo festivo del botón de regalo (Claudia 2026-11-24: «¿puedes hacer que
+   brille? con purpurina o algo»). Purpurina dorada que titila + un destello
+   que cruza. 0 KB; sin movimiento con prefers-reduced-motion (brillo estático). */
+.regalo__sparkle, .regalo__sheen { position: absolute; pointer-events: none; }
+.regalo__sparkle {
+  inset: 0; z-index: 1;
+  background-image:
+    radial-gradient(2px 2px at 9% 32%, #FBEFC8, transparent 60%),
+    radial-gradient(1.5px 1.5px at 21% 70%, #F3D68E, transparent 60%),
+    radial-gradient(1.5px 1.5px at 33% 22%, #F6E0AA, transparent 60%),
+    radial-gradient(2.5px 2.5px at 47% 58%, #FBEFC8, transparent 60%),
+    radial-gradient(1.5px 1.5px at 59% 28%, #F3D68E, transparent 60%),
+    radial-gradient(2px 2px at 71% 66%, #F6E0AA, transparent 60%),
+    radial-gradient(1.5px 1.5px at 84% 38%, #FBEFC8, transparent 60%),
+    radial-gradient(1.5px 1.5px at 93% 64%, #F3D68E, transparent 60%),
+    radial-gradient(1.5px 1.5px at 40% 84%, #F6E0AA, transparent 60%),
+    radial-gradient(1.5px 1.5px at 64% 86%, #FBEFC8, transparent 60%);
+  animation: regalo-purpurina 2.6s ease-in-out infinite;
+}
+.regalo__sheen {
+  top: -25%; bottom: -25%; left: -45%; width: 36%; z-index: 3;
+  transform: skewX(-20deg);
+  background: linear-gradient(90deg, transparent, rgba(255,248,228,.6), transparent);
+  animation: regalo-destello 5s ease-in-out infinite;
+}
+@keyframes regalo-purpurina { 0%, 100% { opacity: .4; } 50% { opacity: 1; } }
+@keyframes regalo-destello { 0% { left: -45%; } 55% { left: 112%; } 100% { left: 112%; } }
+@media (prefers-reduced-motion: reduce) {
+  .regalo__sparkle { animation: none; opacity: .6; }
+  .regalo__sheen { display: none; }
+}
 
 /* ============ PORTADA ============ */
 
