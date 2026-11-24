@@ -710,9 +710,21 @@
          ese apartado (el JS pone .en-regalo en #catalogo). Va FUERA del bloque
          CATALOGO para que servidor.py no la borre al regenerar. -->
     <div class="regalo-cabecera" id="regalo-cabecera">
-      <p class="sobretitulo">Para ella · Para él</p>
+      <svg class="lazo lazo--grande" viewBox="0 0 80 60" aria-hidden="true"><g fill="currentColor"><path d="M38 26C24 10 8 12 8 24c0 10 16 10 30 4Z"/><path d="M42 26c14-16 30-14 30-2 0 10-16 10-30 4Z"/><path d="M38 30 27 53l11-7Z"/><path d="M42 30 53 53 42 46Z"/><ellipse cx="40" cy="28" rx="6" ry="7"/></g></svg>
       <p class="regalo-cabecera__titulo">Ideas de regalo</p>
-      <p class="regalo-cabecera__sub">Cosas bonitas para regalar (o regalarte). Te lo envolvemos.</p>
+      <p class="regalo-cabecera__sub">Para ella · Para él — te lo envolvemos para Navidad</p>
+      <div class="regalo-portada">
+        <button type="button" class="regalo-tile" data-genero="mujer">
+          <svg class="lazo lazo--chico" viewBox="0 0 80 60" aria-hidden="true"><g fill="currentColor"><path d="M38 26C24 10 8 12 8 24c0 10 16 10 30 4Z"/><path d="M42 26c14-16 30-14 30-2 0 10-16 10-30 4Z"/><path d="M38 30 27 53l11-7Z"/><path d="M42 30 53 53 42 46Z"/><ellipse cx="40" cy="28" rx="6" ry="7"/></g></svg>
+          <span class="regalo-tile__titulo">Ideas de mujer</span>
+          <span class="regalo-tile__num"></span>
+        </button>
+        <button type="button" class="regalo-tile" data-genero="hombre">
+          <svg class="lazo lazo--chico" viewBox="0 0 80 60" aria-hidden="true"><g fill="currentColor"><path d="M38 26C24 10 8 12 8 24c0 10 16 10 30 4Z"/><path d="M42 26c14-16 30-14 30-2 0 10-16 10-30 4Z"/><path d="M38 30 27 53l11-7Z"/><path d="M42 30 53 53 42 46Z"/><ellipse cx="40" cy="28" rx="6" ry="7"/></g></svg>
+          <span class="regalo-tile__titulo">Ideas de hombre</span>
+          <span class="regalo-tile__num"></span>
+        </button>
+      </div>
     </div>
 
     <!-- CATALOGO:INICIO (lo escribe solo servidor.py: no tocar a mano) -->
@@ -5121,12 +5133,34 @@
     return pieza.dataset.cat === "hombre" ? "hombre" : "mujer";
   }
 
-  // Las pastillas del apartado regalo: solo «Para ella» y «Para él».
+  // Elegir mujer/hombre (o "" = todo) en «Ideas de regalo»: filtra por genero y
+  // sincroniza los dos cuadros grandes con las pastillas pequeñas.
+  function elegirRegalo(clave) {
+    subActual = clave;
+    mostradas = TANDA;
+    document.querySelectorAll(".regalo-tile").forEach(function (t) {
+      t.classList.toggle("is-activo", t.dataset.genero === clave);
+    });
+    if (subfiltros) Array.prototype.forEach.call(subfiltros.children, function (o) {
+      o.classList.toggle("is-activo", (o.dataset.clave || "") === clave);
+    });
+    pintarCatalogo();
+  }
+
+  // Las pastillas del apartado regalo: solo «Para ella» y «Para él». Y de paso
+  // pone el numero de ideas en los dos cuadros grandes.
   function pintarPastillasRegalo() {
     var cuenta = { mujer: 0, hombre: 0 };
     piezas.forEach(function (pieza) {
       if (!esDeApartado(pieza, "regalo")) return;
       cuenta[generoRegalo(pieza)]++;
+    });
+    document.querySelectorAll(".regalo-tile").forEach(function (t) {
+      var n = cuenta[t.dataset.genero] || 0;
+      var num = t.querySelector(".regalo-tile__num");
+      if (num) num.textContent = n + (n === 1 ? " idea" : " ideas");
+      t.hidden = n === 0;
+      t.classList.toggle("is-activo", t.dataset.genero === subActual);
     });
     var claves = ["mujer", "hombre"].filter(function (g) { return cuenta[g] > 0; });
     if (claves.length < 2) { subfiltros.hidden = true; return; }
@@ -5134,16 +5168,10 @@
     [""].concat(claves).forEach(function (clave) {
       var b = document.createElement("button");
       b.type = "button";
+      b.dataset.clave = clave;
       b.className = "subfiltro" + (clave === subActual ? " is-activo" : "");
       b.textContent = clave ? NOMBRE[clave] + " (" + cuenta[clave] + ")" : "Todo";
-      b.addEventListener("click", function () {
-        subActual = clave;
-        mostradas = TANDA;
-        Array.prototype.forEach.call(subfiltros.children, function (o) {
-          o.classList.toggle("is-activo", o === b);
-        });
-        pintarCatalogo();
-      });
+      b.addEventListener("click", function () { elegirRegalo(clave); });
       subfiltros.appendChild(b);
     });
     subfiltros.hidden = false;
@@ -5189,6 +5217,13 @@
     boton.addEventListener("click", function () { filtrar(boton.dataset.cat); });
   });
   filtrar("todo");   // al abrir: si no hay nada, que ya se vea el aviso
+
+  // Los dos cuadros de «Ideas de regalo» filtran por genero (toque de nuevo = Todo).
+  document.querySelectorAll(".regalo-tile").forEach(function (t) {
+    t.addEventListener("click", function () {
+      elegirRegalo(t.classList.contains("is-activo") ? "" : t.dataset.genero);
+    });
+  });
 
   // La tira de filtros se queda pegada justo debajo de la barra de arriba.
   // La barra mide distinto en cada movil (en los estrechos el menu cae a
