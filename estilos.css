@@ -509,6 +509,32 @@ a { color: var(--cacao); }
 .subfiltro:hover { color: var(--oro-txt); border-color: var(--oro); }
 .subfiltro.is-activo { border-color: var(--cacao-700); color: var(--cacao-700); background: var(--crema); }
 
+/* ===== «Ideas de regalo»: apartado resaltado (Claudia 2026-11-24) =====
+   Al mirar ese apartado, el JS pone .en-regalo en #catalogo: fondo blush
+   (distinto del arena normal) y una cabecera propia. */
+.regalo-cabecera { display: none; }
+#catalogo.en-regalo { background: var(--nude); }
+#catalogo.en-regalo .regalo-cabecera {
+  display: block;
+  text-align: center;
+  max-width: 48ch;
+  margin: var(--e-6) auto var(--e-7);
+}
+.regalo-cabecera .sobretitulo { margin-bottom: var(--e-2); }
+.regalo-cabecera__titulo {
+  font-family: var(--serif);
+  font-weight: 600;
+  font-size: var(--t-3);
+  line-height: 1.05;
+  color: var(--cacao);
+  margin: 0;
+}
+.regalo-cabecera__sub {
+  color: var(--taupe);
+  font-size: var(--t-0);
+  margin: var(--e-3) 0 0;
+}
+
 /* El boton de «Ver mas prendas», centrado bajo la rejilla. */
 .rejilla__mas { display: flex; margin: var(--e-7) auto 0; }
 
