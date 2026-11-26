@@ -1,0 +1,17 @@
+{
+  "name": "Madacla · By Casa Rosendo",
+  "short_name": "Madacla",
+  "description": "Ropa, bolsos, zapatos y bisutería en Santomera (Murcia).",
+  "lang": "es",
+  "start_url": "./",
+  "scope": "./",
+  "display": "standalone",
+  "orientation": "portrait",
+  "background_color": "#FAF6F0",
+  "theme_color": "#FAF6F0",
+  "icons": [
+    { "src": "fotos/icono-madacla-192.png", "sizes": "192x192", "type": "image/png" },
+    { "src": "fotos/icono-madacla-512.png", "sizes": "512x512", "type": "image/png" },
+    { "src": "fotos/icono-madacla-mascara.png", "sizes": "1024x1024", "type": "image/png", "purpose": "maskable" }
+  ]
+}
