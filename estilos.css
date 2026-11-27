@@ -1133,7 +1133,42 @@ a { color: var(--cacao); }
   pointer-events: none; z-index: 3;
 }
 
-.pieza__vendida, .pieza__se-vende, .pieza__halo, .pieza__cartel { z-index: 2; }
+.pieza__vendida, .pieza__se-vende, .pieza__halo, .pieza__cartel, .pieza__nuevo { z-index: 2; }
+
+/* Etiqueta NUEVO (Claudia, 2026-11-27): «en dorado, con purpurina», a la
+   derecha, 5 días. Fondo dorado con brillitos y un destello que pasa; la
+   letra va en cacao, nunca dorada (el dorado no se lee en pequeño). Si la
+   prenda lleva además cartelito (tallas, reposición...), el cartelito baja
+   un poco para no pisarse. */
+.pieza__nuevo {
+  position: absolute; top: var(--e-3); right: var(--e-3);
+  padding: 6px 13px 5px;
+  border-radius: 999px;
+  color: var(--cacao);
+  font-size: .68rem; font-weight: 600;
+  letter-spacing: .2em; text-transform: uppercase; line-height: 1.25;
+  background:
+    radial-gradient(circle at 18% 30%, rgba(255,255,255,.95) 0 1px, transparent 1.6px),
+    radial-gradient(circle at 63% 72%, rgba(255,255,255,.9) 0 1px, transparent 1.6px),
+    radial-gradient(circle at 82% 25%, rgba(255,255,255,.85) 0 .8px, transparent 1.4px),
+    radial-gradient(circle at 40% 60%, rgba(255,250,225,.9) 0 .8px, transparent 1.4px),
+    linear-gradient(110deg, #C9A259 0%, #F3DFA2 35%, #D9B76E 55%, #F6E7B8 75%, #C9A259 100%);
+  background-size: 9px 9px, 11px 11px, 7px 7px, 13px 13px, 220% 100%;
+  border: 1px solid rgba(255,255,255,.7);
+  box-shadow: 0 4px 14px rgba(43, 33, 27, .22), inset 0 0 6px rgba(255,255,255,.45);
+  pointer-events: none;
+  animation: nuevo-brilla 3.2s ease-in-out infinite;
+}
+@keyframes nuevo-brilla {
+  0%, 100% { background-position: 0 0, 0 0, 0 0, 0 0, 0% 0; }
+  50% { background-position: 3px 2px, -2px 3px, 2px -2px, -3px -1px, 100% 0; }
+}
+.pieza__nuevo ~ .pieza__cartel { top: calc(var(--e-3) + 32px); }
+@media (max-width: 719px) {
+  .pieza__nuevo { font-size: .6rem; padding: 5px 10px 4px; }
+  .pieza__nuevo ~ .pieza__cartel { top: calc(var(--e-3) + 28px); }
+}
+@media (prefers-reduced-motion: reduce) { .pieza__nuevo { animation: none; } }
 
 /* --- 6. Movimiento reducido: solo fades cortos, nada que se mueva --- */
 @media (prefers-reduced-motion: reduce) {
